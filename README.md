@@ -23,6 +23,7 @@
      - Github para versionamento
      - Google cloud 
      - Cloud SQL Server
+     - Redis
      <br />
 
   2. Backend
