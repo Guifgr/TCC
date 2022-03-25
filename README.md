@@ -21,14 +21,14 @@
   1. Infra
      - Deploy na nuvem com Github Actions
      - Github para versionamento
-     - Google cloud 
-     - Cloud SQL Server
+     - Azure
+     - SQL Server
      - Redis
      <br />
 
   2. Backend
      - .Net 6
-     - Google functions
+     - Azure functions
      <br />
 
   3. Frontend
