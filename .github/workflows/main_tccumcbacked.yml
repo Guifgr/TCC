@@ -16,15 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
-
-      - name: Change Folder
+      - name: Show Folders
         run: ls
         
+      - name: Show Folders
+        run: cd ./backend
+      
+      - name: Show Folders
+        run: ls
+      
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
