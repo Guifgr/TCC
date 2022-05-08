@@ -1,5 +1,11 @@
-import React, { Fragment, Outlet } from "react";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import React, { Fragment } from "react";
+import {
+    BrowserRouter,
+    Route,
+    Routes,
+    Navigate,
+    Outlet,
+} from "react-router-dom";
 import { isAuthenticated } from "./services/auth";
 import Login from "./pages/loginPage";
 import NavBar from "./Components/navbar";
