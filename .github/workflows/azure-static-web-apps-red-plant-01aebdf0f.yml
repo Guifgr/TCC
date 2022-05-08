@@ -20,7 +20,6 @@ jobs:
     name: Build and Deploy Job
 
     steps:
-      - working-directory: ./frontend
       - uses: actions/checkout@v2
 
         with:
@@ -38,7 +37,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
 
           action: "upload"
-
+          cwd: '$(Agent.BuildDirectory)/FrontEnd/bin'
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
 
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
