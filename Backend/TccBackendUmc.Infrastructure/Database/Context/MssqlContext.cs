@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Configuration;
 using TccBackendUmc.Domain.Models;
 
 namespace TccBackendUmc.Infrastructure.Database.Context
@@ -24,9 +23,9 @@ namespace TccBackendUmc.Infrastructure.Database.Context
         {
             if (!optionsBuilder.IsConfigured ||
                 (!optionsBuilder.Options.Extensions.OfType<RelationalOptionsExtension>().Any(ext =>
-                    !string.IsNullOrEmpty(ext.ConnectionString) || ext.Connection != null) &&
-                !optionsBuilder.Options.Extensions.Any(ext =>
-                    ext is not RelationalOptionsExtension && ext is not CoreOptionsExtension)))
+                     !string.IsNullOrEmpty(ext.ConnectionString) || ext.Connection != null) &&
+                 !optionsBuilder.Options.Extensions.Any(ext =>
+                     ext is not RelationalOptionsExtension && ext is not CoreOptionsExtension)))
             {
                 optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DATA_BASE") ?? string.Empty);
             }
