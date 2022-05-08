@@ -28,18 +28,10 @@ namespace TccBackendUmc.Infrastructure.Database.Context
                 !optionsBuilder.Options.Extensions.Any(ext =>
                     ext is not RelationalOptionsExtension && ext is not CoreOptionsExtension)))
             {
-                optionsBuilder.UseSqlServer(GetConnectionString("MssqlConnection"));
+                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DATA_BASE") ?? string.Empty);
             }
 
             base.OnConfiguring(optionsBuilder);
-        }
-
-        private static string GetConnectionString(string connectionStringName)
-        {
-            var configurationBuilder =
-                new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false);
-            var configuration = configurationBuilder.Build();
-            return configuration.GetConnectionString(connectionStringName);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
