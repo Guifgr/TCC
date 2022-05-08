@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Change Folder
-        run: cd .\Backend\TccBackendUmc.Api
+        run: cd .\Backend
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
