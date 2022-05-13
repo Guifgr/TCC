@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using TccBackendUmc.Domain.Enums;
 using TccBackendUmc.Domain.Models;
 
 namespace TccBackendUmc.Infrastructure.Database.Context
 {
-    public class MssqlContext : DbContext
+    public class TccContext : DbContext
     {
-        public MssqlContext()
+        public TccContext()
         {
         }
 
-        public MssqlContext(DbContextOptions<MssqlContext> options) :
+        public TccContext(DbContextOptions<TccContext> options) :
             base(options)
         {
         }
@@ -39,8 +40,21 @@ namespace TccBackendUmc.Infrastructure.Database.Context
             {
                 entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
                 entity.HasIndex(e => e.Guid).IsUnique();
+                
             });
-
+            
+            modelBuilder.Entity<Clinic>(entity =>
+            {
+                entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
+                entity.HasIndex(e => e.Guid).IsUnique();
+            });
+            
+            modelBuilder.Entity<Professional>(entity =>
+            {
+                entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
+                entity.HasIndex(e => e.Guid).IsUnique();
+            });
+            
             base.OnModelCreating(modelBuilder);
         }
     }

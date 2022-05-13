@@ -1,4 +1,4 @@
-﻿namespace TccBackendUmc.Application.DTO.Response.User;
+﻿namespace TccBackendUmc.Application.DTO.Users.Response;
 
 public class CreateUserResponseDto
 {

@@ -2,7 +2,7 @@
 using MailKit.Security;
 using MimeKit;
 using TccBackendUmc.Domain.Models;
-using TccBackendUmc.Infrastructure.IRepository;
+using TccBackendUmc.Infrastructure.Interfaces;
 
 namespace TccBackendUmc.Infrastructure.Repository;
 

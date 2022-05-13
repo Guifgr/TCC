@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TccBackendUmc.Application.DTO.Request;
+namespace TccBackendUmc.Application.DTO.Login.Request;
 
 public class FirstLoginRequestDto
 {

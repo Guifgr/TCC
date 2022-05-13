@@ -11,7 +11,7 @@ using TccBackendUmc.Infrastructure.Database.Context;
 
 namespace TccBackendUmc.Infrastructure.Migrations
 {
-    [DbContext(typeof(MssqlContext))]
+    [DbContext(typeof(TccContext))]
     [Migration("20220507202350_initial")]
     partial class initial
     {

@@ -10,7 +10,7 @@ using TccBackendUmc.Infrastructure.Database.Context;
 
 namespace TccBackendUmc.Infrastructure.Migrations
 {
-    [DbContext(typeof(MssqlContext))]
+    [DbContext(typeof(TccContext))]
     partial class MssqlContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -80,20 +80,30 @@ namespace TccBackendUmc.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PermissionLevelEnum")
+                    b.Property<string>("Whatsapp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("WorkingHoursId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("Guid")
+                        .IsUnique();
+
+                    b.HasIndex("WorkingHoursId");
 
                     b.ToTable("Clinics");
                 });
@@ -116,7 +126,9 @@ namespace TccBackendUmc.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -124,14 +136,17 @@ namespace TccBackendUmc.Infrastructure.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PermissionLevelEnum")
-                        .HasColumnType("int");
+                    b.Property<string>("ProfessionalDoc")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.HasIndex("ClinicId");
+
+                    b.HasIndex("Guid")
+                        .IsUnique();
 
                     b.ToTable("Professionals");
                 });
@@ -147,10 +162,14 @@ namespace TccBackendUmc.Infrastructure.Migrations
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClinicId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Cnpj")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cpf")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -167,17 +186,44 @@ namespace TccBackendUmc.Infrastructure.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PermissionLevelEnum")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("ClinicId");
+
                     b.HasIndex("Guid")
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TccBackendUmc.Domain.Models.WorkingHours", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Close")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Open")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkingHours");
                 });
 
             modelBuilder.Entity("TccBackendUmc.Domain.Models.Clinic", b =>
@@ -186,7 +232,13 @@ namespace TccBackendUmc.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("TccBackendUmc.Domain.Models.WorkingHours", "WorkingHours")
+                        .WithMany()
+                        .HasForeignKey("WorkingHoursId");
+
                     b.Navigation("Address");
+
+                    b.Navigation("WorkingHours");
                 });
 
             modelBuilder.Entity("TccBackendUmc.Domain.Models.Professional", b =>
@@ -208,11 +260,17 @@ namespace TccBackendUmc.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("TccBackendUmc.Domain.Models.Clinic", null)
+                        .WithMany("Owners")
+                        .HasForeignKey("ClinicId");
+
                     b.Navigation("Address");
                 });
 
             modelBuilder.Entity("TccBackendUmc.Domain.Models.Clinic", b =>
                 {
+                    b.Navigation("Owners");
+
                     b.Navigation("Professionals");
                 });
 #pragma warning restore 612, 618

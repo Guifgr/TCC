@@ -1,4 +1,4 @@
-﻿namespace TccBackendUmc.Application.DTO.Request;
+﻿namespace TccBackendUmc.Application.DTO;
 
 public class AddressDto
 {

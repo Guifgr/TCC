@@ -1,6 +1,4 @@
-﻿using TccBackendUmc.Domain.Models;
-
-namespace TccBackendUmc.Infrastructure.IRepository;
+﻿namespace TccBackendUmc.Infrastructure.Interfaces;
 
 public interface IMailSender
 {

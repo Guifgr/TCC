@@ -1,22 +1,23 @@
-﻿using TccBackendUmc.Domain.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using TccBackendUmc.Domain.Exceptions;
 using TccBackendUmc.Domain.Models;
 using TccBackendUmc.Infrastructure.Database.Context;
-using TccBackendUmc.Infrastructure.IRepository;
+using TccBackendUmc.Infrastructure.Interfaces;
 
 namespace TccBackendUmc.Infrastructure.Repository;
 
 public class UserRepository : IUserRepository
 {
-    private readonly MssqlContext _mssqlContext;
+    private readonly TccContext _tccContext;
 
-    public UserRepository(MssqlContext mssqlContext)
+    public UserRepository(TccContext tccContext)
     {
-        _mssqlContext = mssqlContext;
+        _tccContext = tccContext;
     }
 
-    public User GetUserByCredentials(string email, string password)
+    public async Task<User> GetUserByCredentials(string email, string password)
     {
-        var result = _mssqlContext.Users.FirstOrDefault(u =>
+        var result = await _tccContext.Users.FirstOrDefaultAsync(u =>
             u.Email == email
         );
         if (result == null)
@@ -27,18 +28,6 @@ public class UserRepository : IUserRepository
         return result;
     }
 
-    public void SaveLastAccess(User user, DateTime date)
-    {
-        var result = _mssqlContext.Users.FirstOrDefault(u => u.Id == user.Id);
-
-        if (result == null)
-        {
-            throw new NotFoundException("Usuário não encontrado");
-        }
-
-        _mssqlContext.SaveChanges();
-    }
-
     public void VerifyUserPassword(string password, User user)
     {
         if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
@@ -47,9 +36,9 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public User GetUserById(int id)
+    public async Task<User> GetUserById(int id)
     {
-        var user = _mssqlContext.Users.FirstOrDefault(u => u.Id == id);
+        var user = await _tccContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         if (user == default)
         {
             throw new NotFoundException("Usuário não encontrado");
@@ -60,8 +49,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User> CreateUser(User user)
     {
-        await _mssqlContext.Users.AddAsync(user);
-        await _mssqlContext.SaveChangesAsync();
+        await _tccContext.Users.AddAsync(user);
+        await _tccContext.SaveChangesAsync();
         return user;
     }
 }

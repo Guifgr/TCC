@@ -1,9 +1,10 @@
 ﻿namespace TccBackendUmc.Domain.Enums
 {
-    public enum PermissionLevelEnum
+    public enum Role
     {
         Admin,
         Clinic,
-        User,
+        Professional,
+        User
     }
 }

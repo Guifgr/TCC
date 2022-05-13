@@ -1,5 +1,5 @@
-﻿using TccBackendUmc.Application.DTO.Request.Users;
-using TccBackendUmc.Application.DTO.Response.User;
+﻿using TccBackendUmc.Application.DTO.Users.Request;
+using TccBackendUmc.Application.DTO.Users.Response;
 
 namespace TccBackendUmc.Application.Interfaces;
 

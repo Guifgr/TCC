@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using TccBackendUmc.Application.DTO.Request.Users;
-using TccBackendUmc.Application.DTO.Response.User;
+using TccBackendUmc.Application.DTO.Users.Request;
+using TccBackendUmc.Application.DTO.Users.Response;
 using TccBackendUmc.Application.Interfaces;
 using TccBackendUmc.Domain.Models;
-using TccBackendUmc.Infrastructure.IRepository;
+using TccBackendUmc.Infrastructure.Interfaces;
 
 namespace TccBackendUmc.Application.Service;
 

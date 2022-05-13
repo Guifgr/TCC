@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TccBackendUmc.Application.DTO.Request;
-using TccBackendUmc.Application.DTO.Response;
+using TccBackendUmc.Application.DTO.Login.Request;
+using TccBackendUmc.Application.DTO.Login.Response;
 using TccBackendUmc.Application.Interfaces;
 
 namespace TccBackendUmc.Api.Controllers;
@@ -18,14 +18,26 @@ public class AuthController : Controller
     }
 
     /// <summary>
-    /// Login using email and password
+    /// User Login using email and password
     /// </summary>
     /// <param name="model">Email and password</param>
     /// <returns>JWT, Expire date, Permission</returns>
     [AllowAnonymous]
     [HttpPost]
-    public LoginResponseDto Login([FromBody] LoginRequestDto model)
+    public async Task<LoginResponseDto> UserLogin([FromBody] UserLoginRequestDto model)
     {
-        return _authService.Login(model);
+        return await _authService.UserLogin(model);
+    }
+    
+    /// <summary>
+    /// Clinic Login using email and password
+    /// </summary>
+    /// <param name="model">Email and password</param>
+    /// <returns>JWT, Expire date, Permission</returns>
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task<LoginResponseDto> ClinicLogin([FromBody] ClincLoginRequestDto model)
+    {
+        return await _authService.ClinicLogin(model);
     }
 }
