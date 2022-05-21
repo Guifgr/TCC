@@ -47,9 +47,15 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public Task<User?> GetUserByEmail(string userDtoEmail)
+    public Task<User> GetUserByEmail(string userDtoEmail)
     {
         return _tccContext.Users.FirstOrDefaultAsync(x => x.Email == userDtoEmail);
+    }
+
+    public async Task ChangePasswordUser(string newPassword, User user)
+    {
+        user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+        await _tccContext.SaveChangesAsync();
     }
 
     public async Task<User> CreateUser(User user)

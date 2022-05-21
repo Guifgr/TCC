@@ -1,4 +1,5 @@
-﻿using TccUmc.Application.DTO.Request;
+﻿using System.ComponentModel.DataAnnotations;
+using TccUmc.Application.DTO.Request;
 using TccUmc.Application.DTO.Response;
 using TccUmc.Application.IService;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,7 @@ public class AuthController : Controller
     /// <returns>JWT, Expire date, Permission</returns>
     [AllowAnonymous]
     [HttpPost]
-    public Task<LoginResponseDto> Login([FromBody] LoginRequestDto model)
+    public Task<LoginResponseDto> Login([Required][FromBody] LoginRequestDto model)
     {
         return _userService.LoginAsync(model);
     }

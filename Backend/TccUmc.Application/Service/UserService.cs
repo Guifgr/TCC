@@ -13,16 +13,19 @@ public class UserService : IUserService
 {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
+    private readonly IResetPassword _resetPassword;
     private readonly IMailSender _mailSender;
 
     public UserService(
         IMapper mapper,
         IUserRepository userRepository,
-        IMailSender mailSender)
+        IMailSender mailSender, 
+        IResetPassword resetPassword)
     {
         _mapper = mapper;
         _userRepository = userRepository;
         _mailSender = mailSender;
+        _resetPassword = resetPassword;
     }
 
     public async Task<CreateUserResponseDto> CreateUser(CreateUserDto userDto)
@@ -47,14 +50,32 @@ public class UserService : IUserService
         };
     }
 
-    public async Task ChangePasswordUser(UpdateUserPasswordDto userDto)
+    public async Task RequestChangePasswordUser(RequestUpdateUserPasswordDto userDto)
     {
         var user = await _userRepository.GetUserByEmail(userDto.Email);
         if (user == null)
         {
             throw new NotFoundException("Email não cadastrado");
         }
-        var token = Guid.NewGuid().ToString();
-        await _mailSender.SentMailResetPassword(user.Email, token);
+        var resetPasswordToken = await _resetPassword.CreateResetPasswordToken(user);
+        await _mailSender.SentMailResetPassword(user.Email, resetPasswordToken.Token);
+    }
+
+    public async Task ChangePasswordUser(UpdateUserPasswordDto userDto)
+    {
+        var user = await _userRepository.GetUserByEmail(userDto.Email);
+        if (user == default)
+        {
+            throw new NotFoundException("Email não cadastrado");
+        }
+        
+        var resetToken = await _resetPassword.GetResetPasswordToken(user, userDto.Token);
+        if (resetToken == default || resetToken.ExpirationDate < DateTime.Now)
+        {
+            throw new NotFoundException("Token inválido");
+        }
+        
+        await _userRepository.ChangePasswordUser(userDto.NewPassword, user);
+        await _resetPassword.RevokeResetPasswordToken(user, userDto.Token);
     }
 }

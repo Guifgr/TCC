@@ -8,5 +8,6 @@ public interface IUserRepository
     void VerifyUserPassword(string password, User user);
     Task<User> CreateUser(User user);
     Task<User> GetUserById(int id);
-    Task<User?> GetUserByEmail(string userDtoEmail);
+    Task<User> GetUserByEmail(string userDtoEmail);
+    Task ChangePasswordUser(string newPassword, User user);
 }

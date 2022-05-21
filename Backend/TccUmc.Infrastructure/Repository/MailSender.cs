@@ -11,22 +11,18 @@ namespace TccUmc.Infrastructure.Repository;
 public class MailSender : IMailSender
 {
     private readonly IConfiguration _configuration;
-    private readonly string _mailSender;
-    private readonly string _mailSenderPassword;
 
     public MailSender(IConfiguration configuration)
     {
         _configuration = configuration;
-        _mailSender = EnvironmentVariableExtension.GetEnvironmentVariable<string>("", "MAILSERVER:MAIL_SENDER");
-        _mailSenderPassword = EnvironmentVariableExtension.GetEnvironmentVariable<string>("", "MAILSERVER:MAIL_SENDER_PASSWORD");
     }
     
-    public async Task<bool> SentMailResetPassword(string email, string token)
+    public async Task SentMailResetPassword(string email, string token)
     {
         var emailText = $"https://Tcc.guifgr.com/definirSenha?token={HttpUtility.HtmlEncode(token)}\n";
         var message = new MimeMessage();
         
-        message.From.Add(new MailboxAddress("TCC UMC", _mailSender));
+        message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));
         message.To.Add(MailboxAddress.Parse(email));
 
         message.Subject = "Resetar sua senha TCC UMC";
@@ -35,21 +31,22 @@ public class MailSender : IMailSender
             Text = "Clique abaixo para definir senha\n" + emailText
         };
 
-        return await MailSmtp(emailText, message);
+        await MailSmtp(emailText, message);
     }
 
-    private async Task<bool> MailSmtp(string emailText, MimeMessage message)
+    private async Task MailSmtp(string emailText, MimeMessage message)
     {
         var client = new MailKit.Net.Smtp.SmtpClient();
-        var configs = _configuration.GetSection("MAILSERVER");
-
-        var host = configs.GetValue<string>("SERVER_SMTP");
-        var port = configs.GetValue<int>("SERVER_PORT_SMTP");
+        
+        var host = Environment.GetEnvironmentVariable("SERVER_SMTP")??"";
+        var port = int.Parse(Environment.GetEnvironmentVariable("SERVER_PORT_SMTP")??"");
+        var mailSender = Environment.GetEnvironmentVariable("MAIL_SENDER")??"";
+        var mailSenderPassword = Environment.GetEnvironmentVariable("MAIL_SENDER_PASSWORD")??"";
 
         try
         {
             await client.ConnectAsync(host, port, SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(_mailSender, _mailSenderPassword);
+            await client.AuthenticateAsync(mailSender, mailSenderPassword);
             await client.SendAsync(message);
             Console.WriteLine(emailText);
         }
@@ -62,7 +59,5 @@ public class MailSender : IMailSender
             await client.DisconnectAsync(true);
             client.Dispose();
         }
-
-        return true;
     }
 }   

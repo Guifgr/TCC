@@ -8,6 +8,9 @@ import {
 } from "react-router-dom";
 import { isAuthenticated } from "./services/auth";
 import Login from "./pages/loginPage";
+import RequestChangePassword from "./pages/RequestChangePassword";
+import ChangePassword from "./pages/ChangePassword";
+import CreateAccount from "./pages/CreateAccount";
 import NavBar from "./Components/navbar";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -25,6 +28,9 @@ const AppRoutes = () => (
             <NavBar />
             <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="/redefinir-senha" element={<RequestChangePassword />} />
+                <Route path="/definir-senha" element={<ChangePassword />} />
+                <Route path="/criar-conta" element={<CreateAccount />} />
 
                 <Route exact path="/" element={<PrivateRoute />}>
                     <Route path="/services" element={<h1>TESTE</h1>} />

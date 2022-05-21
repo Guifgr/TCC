@@ -4,5 +4,5 @@ namespace TccUmc.Infrastructure.IRepository;
 
 public interface IMailSender
 {
-    Task<bool> SentMailResetPassword(string email, string token);
+    Task SentMailResetPassword(string email, string token);
 }

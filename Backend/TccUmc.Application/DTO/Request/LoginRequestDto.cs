@@ -4,6 +4,10 @@ namespace TccUmc.Application.DTO.Request;
 
 public class LoginRequestDto
 {
-    [Required] public string Email { get; set; } = string.Empty;
-    [Required] public string Password { get; set; } = string.Empty;
+    [Required] [EmailAddress] public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(50)]
+    [MinLength(8)]
+    public string Password { get; set; } = string.Empty;
 }

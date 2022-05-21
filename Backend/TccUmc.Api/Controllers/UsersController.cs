@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Users.Request;
 using TccUmc.Application.DTO.Users.Response;
@@ -24,7 +25,7 @@ public class UsersController : Controller
     /// <returns>User Guid and user email</returns>
     [AllowAnonymous]
     [HttpPost]
-    public async Task<CreateUserResponseDto> CreateAccount([FromBody] CreateUserDto userDto)
+    public async Task<CreateUserResponseDto> CreateAccount([Required][FromBody] CreateUserDto userDto)
     {
         return await _userService.CreateUser(userDto);
     }
@@ -35,11 +36,25 @@ public class UsersController : Controller
     /// <param name="userDto">User Information</param>
     /// <returns>User email</returns>
     [AllowAnonymous]
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
-    public async Task<IActionResult> ChangePasswordAccount([FromBody] UpdateUserPasswordDto userDto)
+    public async Task<IActionResult> RequestChangePasswordAccount([Required][FromBody] RequestUpdateUserPasswordDto userDto)
+    {
+        await _userService.RequestChangePasswordUser(userDto);
+        return Ok("Senha enviada para o email cadastrado");
+    }
+    
+    /// <summary>
+    /// Change password
+    /// </summary>
+    /// <param name="userDto">User Information</param>
+    /// <returns>User email</returns>
+    [AllowAnonymous]
+    //[ApiExplorerSettings(IgnoreApi = true)]
+    [HttpPost]
+    public async Task<IActionResult> ChangePasswordAccount([Required][FromBody] UpdateUserPasswordDto userDto)
     {
         await _userService.ChangePasswordUser(userDto);
-        return Ok("Senha enviada para o email cadastrado");
+        return Ok("Senha alterada com sucesso");
     }
 }

@@ -1,13 +1,13 @@
 const prod = {
-  url: {
-    route: 'http://10.0.0.33/Sync.TCE.API/scgas-tce-sync/api/v1/',
-    Hub: 'http://10.0.0.33/Sync.TCE.API/hubs/ScGasHub',
-  },
-}
+    url: {
+        route: "https://tccumcbacked.azurewebsites.net/",
+        Hub: "https://tccumcbacked.azurewebsites.net/hubs/TccHub",
+    },
+};
 const dev = {
-  url: {
-    route: 'http://localhost:55587/scgas-tce-sync/api/v1/',
-    Hub: 'http://localhost:55587/hubs/ScGasHub',
-  },
-}
-export default process.env.NODE_ENV === 'development' ? dev : prod
+    url: {
+        route: "https://localhost:7233",
+        Hub: "https://localhost:7233/hubs/TccHub",
+    },
+};
+export default process.env.NODE_ENV === "development" ? dev : prod;

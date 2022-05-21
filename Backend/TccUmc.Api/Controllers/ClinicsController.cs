@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Clinic.Request;
 using TccUmc.Application.DTO.Clinic.Response;
@@ -23,7 +24,7 @@ public class ClinicController : Controller
     /// <param name="clinicDto">Clinic data</param>
     /// <returns>Clinic resumed data</returns>
     [HttpPut]
-    public async Task<CreateClinicResponseDto> UpdateClinicData([FromBody] UpdateClinicDto
+    public async Task<CreateClinicResponseDto> UpdateClinicData([Required][FromBody] UpdateClinicDto
         clinicDto)
     {
         return await _clinicService.UpdateClinic(clinicDto);
@@ -35,7 +36,7 @@ public class ClinicController : Controller
     /// <param name="clinicDto">Clinic data</param>
     /// <returns>Clinic resumed data</returns>
     [HttpPatch]
-    public async Task<CreateClinicResponseDto> UpdateClinicWorkingHours([FromBody] UpdateClinicWorkingHoursDto
+    public async Task<CreateClinicResponseDto> UpdateClinicWorkingHours([Required][FromBody] UpdateClinicWorkingHoursDto
         clinicDto)
     {
         return await _clinicService.UpdateClinicWorkingHours(clinicDto);
