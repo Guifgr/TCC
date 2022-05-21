@@ -1,0 +1,23 @@
+using AutoMapper;
+using TccUmc.Application.DTO;
+using TccUmc.Application.DTO.Clinic.Request;
+using TccUmc.Application.DTO.Clinic.Response;
+using TccUmc.Application.DTO.Users.Request;
+using TccUmc.Domain.Models;
+
+namespace TccUmc.Application.Profiles;
+
+public class ModelProfile : Profile
+{
+    public ModelProfile()
+    {
+        CreateMap<CreateUserDto, User>();
+        CreateMap<AddressDto, Address>();
+        CreateMap<Clinic, CreateClinicResponseDto>();
+        CreateMap<CreateClinicDto, Clinic>();
+        CreateMap<Clinic, UpdateClinicDto>();
+        CreateMap<UpdateClinicDto, Clinic>();
+        CreateMap<WorkingHoursDto, WorkingHours>();
+        CreateMap<WorkingHours, WorkingHoursDto>();
+    }
+}
