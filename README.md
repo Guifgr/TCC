@@ -1,16 +1,16 @@
 # TCC UMC
 
-## Projeto de gerenciamento de clinicas odontológicas
+## Projeto de gerenciamento de clínicas odontológicas
 
 - ### A ideia
-  1. Facilitar a gestão de clinicas usando ferramentas para autmatizar processos que muitas vezes: 
+  1. Facilitar a gestão de clínicas usando ferramentas para automatizar processos que muitas vezes: 
      - Consomem tempo desnecessário 
      - São repetitivos 
      - Uma vez iniciado por alguém é extramente dificil de passar para um terceiro continuar
      <br />
 
   2. Tudo no tempo do cliente
-     - Agenda online para verificar horários sem pressa e travar um funcionário
+     - Agenda online para verificar horários sem pressa e sem travar um funcionário
      - Verificar procedimentos necessários pós avaliação
      - Valores de procedimentos
      - Tempo estimado por atendimento
@@ -19,16 +19,15 @@
 
 - ### Tecnologias
   1. Infra
-     - Deploy na nuvem com Github Actions
-     - Github para versionamento
+     - Deploy na nuvem com GitHub Actions
+     - GitHub para versionamento
      - Azure
      - SQL Server
-     - Redis
      <br />
 
   2. Backend
      - .Net 6
-     - Azure functions
+     - Azure Functions
      <br />
 
   3. Frontend
