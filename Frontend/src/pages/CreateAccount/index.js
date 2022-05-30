@@ -21,7 +21,7 @@ function Copyright(props) {
             align="center"
             {...props}
         >
-            {"Copyright © "}
+            {"TCC UMC © "}
             {new Date().getFullYear()}
             {"."}
         </Typography>

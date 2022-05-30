@@ -13,7 +13,7 @@ function Copyright(props) {
             align="center"
             {...props}
         >
-            {"Progredindo a cada commit - "}
+            {"TCC UMC © "}
             {new Date().getFullYear()}
             {"."}
         </Typography>

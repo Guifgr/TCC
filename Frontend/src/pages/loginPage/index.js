@@ -21,10 +21,7 @@ function Copyright(props) {
             align="center"
             {...props}
         >
-            {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{" "}
+            {"TCC UMC © "}
             {new Date().getFullYear()}
             {"."}
         </Typography>
