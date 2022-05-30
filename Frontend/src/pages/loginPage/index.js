@@ -12,21 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Constants from "../../Constants";
 import axios from "axios";
-
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"TCC UMC © "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
+import Copyright from "../../Components/copyright";
 
 const theme = createTheme();
 
@@ -109,12 +95,12 @@ export default function SignIn() {
                         <Grid container>
                             <Grid item xs>
                                 <Link href="redefinir-senha" variant="body2">
-                                    Forgot password?
+                                    Esqueceu a senha?
                                 </Link>
                             </Grid>
                             <Grid item>
                                 <Link href="criar-conta" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    {"Não tem conta? Se cadastre"}
                                 </Link>
                             </Grid>
                         </Grid>
