@@ -12,6 +12,7 @@ public class CreateUserDto
     [MinLength(8)]
     public string Password { get; set; } = string.Empty;
 
+    /// <example>551.799.550-09</example>
     [Required]
     [MaxLength(11)]
     [MinLength(11)]

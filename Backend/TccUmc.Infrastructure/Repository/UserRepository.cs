@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByCredentials(string email)
     {
         var result = await _tccContext.Users.FirstOrDefaultAsync(u =>
-            u.Email == email
+            u.Email.ToLower() == email.ToLower()
         );
         if (result == null)
         {
@@ -60,6 +60,10 @@ public class UserRepository : IUserRepository
 
     public async Task<User> CreateUser(User user)
     {
+        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email))
+        {
+            throw new BadRequestException("Usuário já cadastrado");
+        }
         await _tccContext.Users.AddAsync(user);
         await _tccContext.SaveChangesAsync();
         return user;

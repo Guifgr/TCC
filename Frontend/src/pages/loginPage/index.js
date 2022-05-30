@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Constants from "../../Constants";
+import axios from "axios";
 
 function Copyright(props) {
     return (
@@ -37,10 +37,24 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+        var body = {
             email: data.get("email"),
-            password: data.get("password"),
-        });
+            password: data.get("password")
+        };
+        axios
+            .post(`${Constants.url.route}/Auth/Login`, body)
+            .then((res) => {
+                localStorage.setItem("@tccToken", JSON.stringify(res.data.token));
+                if (res.data.token != null) {
+                } else {
+                    localStorage.removeItem("@tccToken");
+                    throw Error;
+                }
+                window.location.href = '/'
+            })
+            .catch((err) => {
+                alert("Usuário ou senha inválidos. Tente novamente!");
+            });
     };
 
     return (
@@ -86,12 +100,6 @@ export default function SignIn() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
                         />
                         <Button
                             type="submit"

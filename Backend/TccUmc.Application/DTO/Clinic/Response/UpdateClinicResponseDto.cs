@@ -1,8 +1,8 @@
 ﻿using TccUmc.Domain.Models;
 
-namespace TccUmc.Application.DTO.Clinic.Request;
+namespace TccUmc.Application.DTO.Clinic.Response;
 
-public class UpdateClinicDto
+public class UpdateClinicResponseDto
 {
     public string Name { get; set; }
     public AddressDto Address { get; set; }

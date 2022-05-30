@@ -4,8 +4,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme } from "@mui/material/styles";
 
+function Copyright(props) {
+    return (
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            align="center"
+            {...props}
+        >
+            {"Progredindo a cada commit - "}
+            {new Date().getFullYear()}
+            {"."}
+        </Typography>
+    );
+}
 
 export default function SignOut() {
     const handleSubmit = (event) => {
@@ -25,11 +38,11 @@ export default function SignOut() {
             <CssBaseline />
             <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
                 <Typography variant="h2" component="h1" gutterBottom>
-                    Calma lá campeão era 30% segura ai kkjjj
+                    Agradeço por testar o sistema de login do TCC!
                 </Typography>
                 <br />
                 <Typography variant="h5" component="h2" gutterBottom>
-                    Agora volta pro login meu parça kkkkk
+                    Agora poderia testar o logout? kkkkjj
                 </Typography>
                 <Typography variant="body1"></Typography>
 
@@ -40,7 +53,7 @@ export default function SignOut() {
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                 >
-                    Clique aqui e caia fora meu chapa
+                    Sign Out
                 </Button>
 
             </Container>
@@ -56,6 +69,9 @@ export default function SignOut() {
                             : theme.palette.grey[800],
                 }}
             >
+                <Container maxWidth="sm">
+                    <Copyright />
+                </Container>
             </Box>
         </Box>
     );

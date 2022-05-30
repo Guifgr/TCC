@@ -11,15 +11,15 @@ import Login from "./pages/loginPage";
 import RequestChangePassword from "./pages/RequestChangePassword";
 import ChangePassword from "./pages/ChangePassword";
 import CreateAccount from "./pages/CreateAccount";
+import Main from "./pages/Main";
 import NavBar from "./Components/navbar";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const PrivateRoute = () => {
     const auth = isAuthenticated(); // determine if authorized, from context or however you're doing it
-
     // If authorized, return an outlet that will render child elements
     // If not, return element that will navigate to login page
-    return auth ? <Outlet /> : <Navigate to="/" />;
+    return auth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const AppRoutes = () => (
@@ -27,13 +27,13 @@ const AppRoutes = () => (
         <Fragment>
             <NavBar />
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/redefinir-senha" element={<RequestChangePassword />} />
                 <Route path="/definir-senha" element={<ChangePassword />} />
                 <Route path="/criar-conta" element={<CreateAccount />} />
 
                 <Route exact path="/" element={<PrivateRoute />}>
-                    <Route path="/services" element={<h1>TESTE</h1>} />
+                    <Route path="/" element={<Main />} />
                 </Route>
 
                 <Route path="*" element={<h1>Pagina não encontrada</h1>} />

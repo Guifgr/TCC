@@ -6,8 +6,8 @@ const prod = {
 };
 const dev = {
     url: {
-        route: "https://localhost:7233",
-        Hub: "https://localhost:7233/hubs/TccHub",
+        route: "https://localhost:7039",
+        Hub: "https://localhost:7039/hubs/TccHub",
     },
 };
 export default process.env.NODE_ENV === "development" ? dev : prod;

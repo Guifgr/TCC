@@ -1,4 +1,6 @@
-﻿namespace TccUmc.Utility.Helpers;
+﻿using System.Text.RegularExpressions;
+
+namespace TccUmc.Utility.Helpers;
 
 public static class Validate
 {
@@ -63,5 +65,12 @@ public static class Validate
             resto = 11 - resto;
         digito += resto.ToString();
         return cpf.EndsWith(digito);
+    }
+    
+    public static bool IsEmailValid(string email)
+    {
+        const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
+
+        return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
     }
 }

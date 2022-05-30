@@ -51,7 +51,7 @@ public class UsersController : Controller
     /// <returns>User email</returns>
     [AllowAnonymous]
     //[ApiExplorerSettings(IgnoreApi = true)]
-    [HttpPost]
+    [HttpPatch]
     public async Task<IActionResult> ChangePasswordAccount([Required][FromBody] UpdateUserPasswordDto userDto)
     {
         await _userService.ChangePasswordUser(userDto);

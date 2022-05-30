@@ -13,8 +13,9 @@ public class ModelProfile : Profile
     {
         CreateMap<CreateUserDto, User>();
         CreateMap<AddressDto, Address>();
-        CreateMap<Clinic, CreateClinicResponseDto>();
-        CreateMap<CreateClinicDto, Clinic>();
+        CreateMap<Address, AddressDto>();
+        CreateMap<Clinic, UpdateClinicResponseDto>();
+        CreateMap<UpdateClinicResponseDto, Clinic>();
         CreateMap<Clinic, UpdateClinicDto>();
         CreateMap<UpdateClinicDto, Clinic>();
         CreateMap<WorkingHoursDto, WorkingHours>();

@@ -30,6 +30,11 @@ public class UserService : IUserService
 
     public async Task<CreateUserResponseDto> CreateUser(CreateUserDto userDto)
     {
+        if (!Validate.IsEmailValid(userDto.Email))
+        {
+            throw new BadRequestException("Email invalido");
+        }
+        
         if (!Validate.IsCpf(userDto.Cpf))
         {
             throw new BadRequestException("Cpf invalido");
