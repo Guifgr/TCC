@@ -37,7 +37,7 @@ export default function SignIn() {
         var passwordConfirmation = data.get("password-confirmation");
 
         if (email == '' || password == '' || passwordConfirmation == '' || email == null || password == null || passwordConfirmation == null) {
-            return toast.error('Preecha todos os campos', {
+            return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
                 autoClose: 5000,
                 hideProgressBar: false,

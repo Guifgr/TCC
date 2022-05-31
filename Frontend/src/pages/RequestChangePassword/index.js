@@ -26,7 +26,7 @@ export default function SignIn() {
         const data = new FormData(event.currentTarget);
 
         if (data.get("email") == '' || data.get("email") == null) {
-            return toast.error('Preecha todos os campos', {
+            return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
                 autoClose: 5000,
                 hideProgressBar: false,
