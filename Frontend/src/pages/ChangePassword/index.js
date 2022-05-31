@@ -22,15 +22,62 @@ const theme = createTheme();
 
 export default function SignIn() {
     let [searchParams, setSearchParams] = useSearchParams();
-    const [loading, setLoading] = useState(false);
 
+    if (searchParams.get("token") == null || searchParams.get("token") == '') {
+        window.location.href = '/';
+    }
+
+    const [loading, setLoading] = useState(false);
     const handleSubmit = (event) => {
         event.preventDefault();
-        setLoading(true);
         const data = new FormData(event.currentTarget);
+
+        var email = data.get("email");
+        var password = data.get("password");
+        var passwordConfirmation = data.get("password-confirmation");
+
+        if (email == '' || password == '' || passwordConfirmation == '' || email == null || password == null || passwordConfirmation == null) {
+            return toast.error('Preecha todos os campos', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        if (password !== passwordConfirmation) {
+            setLoading(false);
+            return toast.error('Senhas não conferem!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        if (password.length < 8) {
+            setLoading(false);
+            return toast.error('Senha deve conter 8 ou mais caracteres!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        setLoading(true);
+
         var body = {
-            email: data.get("email"),
-            newPassword: data.get("password"),
+            email: email,
+            newPassword: password,
             token: searchParams.get("token")
         };
         axios
@@ -44,7 +91,16 @@ export default function SignIn() {
 
             })
             .catch((err) => {
-                alert(JSON.parse(err.request.response).Message);
+                var message = JSON.parse(err.request.response).Message;
+                toast.error(message, {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setLoading(false);
             });
     };
@@ -103,6 +159,16 @@ export default function SignIn() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password-confirmation"
+                            label="Password Confirmation"
+                            type="password"
+                            id="password-confirmation"
+                            autoComplete="current-password-confirmation"
                         />
                         <Button
                             type="submit"

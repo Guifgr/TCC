@@ -24,6 +24,19 @@ export default function SignIn() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
+        if (data.get("email") == '' || data.get("email") == null) {
+            return toast.error('Preecha todos os campos', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
         await setLoading(true);
         var body = {
             email: data.get("email")
@@ -38,7 +51,16 @@ export default function SignIn() {
                 }, 5000);
             })
             .catch((err) => {
-                alert(JSON.parse(err.request.response).Message);
+                var message = JSON.parse(err.request.response).Message;
+                toast.error(message, {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setLoading(false);
             });
     };

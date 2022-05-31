@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Constants from "../../Constants";
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
 import Copyright from "../../Components/copyright";
 
 const theme = createTheme();
@@ -23,11 +24,28 @@ export default function SignIn() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setLoading(true);
         const data = new FormData(event.currentTarget);
+        var email = data.get("email");
+        var password = data.get("password");
+
+
+        if (email == null || password == null || email == '' || password == '') {
+            return toast.info('Preecha todos os campos', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        setLoading(true);
+
         var body = {
-            email: data.get("email"),
-            password: data.get("password")
+            email: email,
+            password: password
         };
         axios
             .post(`${Constants.url.route}/Auth/Login`, body)
@@ -43,7 +61,15 @@ export default function SignIn() {
             })
             .catch((err) => {
                 setLoading(false);
-                alert("Usuário ou senha inválidos. Tente novamente!");
+                toast.error('Usuário ou senha inválidos. Tente novamente!', {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             });
     };
 
@@ -115,6 +141,7 @@ export default function SignIn() {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
+            <ToastContainer />
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}

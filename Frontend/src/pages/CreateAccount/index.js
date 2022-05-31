@@ -24,23 +24,60 @@ export default function SignIn() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        var email = data.get("email");
+        var password = data.get("password");
+        var passwordConfirmation = data.get("password-confirmation");
+
+
+        if (email == '' ||
+            password == '' ||
+            passwordConfirmation == '' ||
+            email == null ||
+            password == null ||
+            passwordConfirmation == null) {
+            return toast.error('Preecha todos os campos', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        if (password !== passwordConfirmation) {
+            setLoading(false);
+            return toast.error('Senhas não conferem!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        if (password.length < 8) {
+            setLoading(false);
+            return toast.error('Senha deve conter 8 ou mais caracteres!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
         setLoading(true);
 
-        const data = new FormData(event.currentTarget);
-
-        if (data.get("password") !== data.get("password-confirmation")) {
-            setLoading(false);
-            return alert("Senhas não conferem!");
-        }
-        if (data.get("password").length < 8) {
-            setLoading(false);
-            return alert("Senha deve conter 8 ou mais caracteres!");
-        }
-        
         var body = {
-            email: data.get("email"),
+            email: email,
             name: "string",
-            password: data.get("password"),
+            password: password,
             cpf: "55179955009",
             address: {
                 street: "string",
@@ -65,7 +102,16 @@ export default function SignIn() {
             })
             .catch((err) => {
                 setLoading(false);
-                alert(JSON.parse(err.request.response).Message);
+                var message = JSON.parse(err.request.response).Message;
+                toast.error(message, {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             });
 
     };
