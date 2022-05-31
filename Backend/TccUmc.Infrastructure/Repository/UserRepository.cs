@@ -54,6 +54,11 @@ public class UserRepository : IUserRepository
 
     public async Task ChangePasswordUser(string newPassword, User user)
     {
+        if (BCrypt.Net.BCrypt.Verify(newPassword, user.Password))
+        {
+            throw new BadRequestException("Senha igual a anterior, utilize outra senha");
+        }
+        
         user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
         await _tccContext.SaveChangesAsync();
     }
