@@ -29,11 +29,14 @@ export default function SignIn() {
         const data = new FormData(event.currentTarget);
 
         if (data.get("password") !== data.get("password-confirmation")) {
+            setLoading(false);
             return alert("Senhas não conferem!");
         }
         if (data.get("password").length < 8) {
+            setLoading(false);
             return alert("Senha deve conter 8 ou mais caracteres!");
         }
+        
         var body = {
             email: data.get("email"),
             name: "string",
