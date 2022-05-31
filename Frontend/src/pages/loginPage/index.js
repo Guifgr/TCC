@@ -1,6 +1,8 @@
-import * as React from "react";
+import React, { useState } from 'react'
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -17,8 +19,11 @@ import Copyright from "../../Components/copyright";
 const theme = createTheme();
 
 export default function SignIn() {
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = (event) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget);
         var body = {
             email: data.get("email"),
@@ -33,9 +38,11 @@ export default function SignIn() {
                     localStorage.removeItem("@tccToken");
                     throw Error;
                 }
+                setLoading(false);
                 window.location.href = '/'
             })
             .catch((err) => {
+                setLoading(false);
                 alert("Usuário ou senha inválidos. Tente novamente!");
             });
     };
@@ -90,7 +97,7 @@ export default function SignIn() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Logar
                         </Button>
                         <Grid container>
                             <Grid item xs>
@@ -108,6 +115,12 @@ export default function SignIn() {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </ThemeProvider>
     );
 }

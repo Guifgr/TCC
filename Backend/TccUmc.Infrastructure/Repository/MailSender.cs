@@ -19,7 +19,7 @@ public class MailSender : IMailSender
     
     public async Task SentMailResetPassword(string email, string token)
     {
-        var emailText = $"https://Tcc.guifgr.com/definirSenha?token={HttpUtility.HtmlEncode(token)}\n";
+        var emailText = $"https://Tcc.guifgr.com/definir-senha?token={HttpUtility.HtmlEncode(token)}\n";
         var message = new MimeMessage();
         
         message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));

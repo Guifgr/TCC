@@ -53,7 +53,7 @@ export default function SignOut() {
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                 >
-                    Sign Out
+                    Logout
                 </Button>
 
             </Container>

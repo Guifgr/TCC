@@ -1,4 +1,6 @@
-import * as React from "react";
+import React, { useState } from 'react'
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,8 +19,13 @@ import Copyright from "../../Components/copyright";
 const theme = createTheme();
 
 export default function SignIn() {
+
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = (event) => {
         event.preventDefault();
+        setLoading(true);
+
         const data = new FormData(event.currentTarget);
 
         if (data.get("password") !== data.get("password-confirmation")) {
@@ -48,11 +55,13 @@ export default function SignIn() {
             .post(`${Constants.url.route}/Users/CreateAccount`, body)
             .then((res) => {
                 notify();
+                setLoading(false);
                 setTimeout(function () {
                     window.location.href = '/';
                 }, 5000);
             })
             .catch((err) => {
+                setLoading(false);
                 alert(JSON.parse(err.request.response).Message);
             });
 
@@ -136,6 +145,12 @@ export default function SignIn() {
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
             <ToastContainer />
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </ThemeProvider>
     );
 }
