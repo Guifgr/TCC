@@ -10,7 +10,7 @@ function NavBar() {
                         <Link to="/">
                             <img
                                 style={{ height: "80px" }}
-                                alt="scgas"
+                                alt="TccUmc"
                                 src={Logo}
                             />
                         </Link>

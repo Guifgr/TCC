@@ -42,7 +42,7 @@ export default function SignOut() {
                 </Typography>
                 <br />
                 <Typography variant="h5" component="h2" gutterBottom>
-                    Agora poderia testar o logout? kkkkjj
+                    Agora poderia testar o logout? kkkk :D
                 </Typography>
                 <Typography variant="body1"></Typography>
 
