@@ -15,11 +15,11 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from "../../Components/copyright";
+import ValidateCpf from "../../services/validateCpf";
 
 const theme = createTheme();
 
 export default function SignIn() {
-
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = (event) => {
@@ -29,7 +29,6 @@ export default function SignIn() {
         var password = data.get("password");
         var passwordConfirmation = data.get("password-confirmation");
 
-
         if (email == '' ||
             password == '' ||
             passwordConfirmation == '' ||
@@ -38,7 +37,7 @@ export default function SignIn() {
             passwordConfirmation == null) {
             return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -51,7 +50,7 @@ export default function SignIn() {
             setLoading(false);
             return toast.error('Senhas não conferem!', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -59,11 +58,12 @@ export default function SignIn() {
                 progress: undefined,
             });
         }
+
         if (password.length < 8) {
             setLoading(false);
             return toast.error('Senha deve conter 8 ou mais caracteres!', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -76,36 +76,24 @@ export default function SignIn() {
 
         var body = {
             email: email,
-            name: "string",
             password: password,
-            cpf: "55179955009",
-            address: {
-                street: "string",
-                number: "string",
-                complement: "string",
-                neighborhood: "string",
-                city: "string",
-                state: "string",
-                country: "string",
-                zipCode: "string",
-                reference: "string"
-            }
         }
+
         axios
-            .post(`${Constants.url.route}/Users/CreateAccount`, body)
+            .post(`${Constants.url.route}/Users/PreRegisterAccount`, body)
             .then((res) => {
                 notify();
                 setLoading(false);
                 setTimeout(function () {
                     window.location.href = '/';
-                }, 5000);
+                }, 3000);
             })
             .catch((err) => {
                 setLoading(false);
                 var message = JSON.parse(err.request.response).Message;
                 toast.error(message, {
                     position: "bottom-center",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -118,7 +106,7 @@ export default function SignIn() {
 
     const notify = () => toast.success('Conta cadastrada com sucesso!', {
         position: "bottom-left",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

@@ -28,21 +28,11 @@ public class UserService : IUserService
         _resetPassword = resetPassword;
     }
 
-    public async Task<CreateUserResponseDto> CreateUser(CreateUserDto userDto)
+    public async Task<CreateUserResponseDto> PreRegisterAccount(CreateUserDto userDto)
     {
         if (!Validate.IsEmailValid(userDto.Email))
         {
             throw new BadRequestException("Email invalido");
-        }
-        
-        if (!Validate.IsCpf(userDto.Cpf))
-        {
-            throw new BadRequestException("Cpf invalido");
-        }
-
-        if (userDto.Cnpj != string.Empty && !Validate.IsCnpj(userDto.Cnpj))
-        {
-            throw new BadRequestException("Cnpj invalido");
         }
         
         var user = _mapper.Map<User>(userDto);
@@ -55,7 +45,7 @@ public class UserService : IUserService
         };
     }
 
-    public async Task RequestChangePasswordUser(RequestUpdateUserPasswordDto userDto)
+    public async Task RequestAccountPasswordChange(RequestUpdateUserPasswordDto userDto)
     {
         var user = await _userRepository.GetUserByEmail(userDto.Email);
         if (user == null)
@@ -66,7 +56,7 @@ public class UserService : IUserService
         await _mailSender.SentMailResetPassword(user.Email, resetPasswordToken.Token);
     }
 
-    public async Task ChangePasswordUser(UpdateUserPasswordDto userDto)
+    public async Task ChangeAccountPassword(UpdateUserPasswordDto userDto)
     {
         var user = await _userRepository.GetUserByEmail(userDto.Email);
         if (user == default)
@@ -82,5 +72,13 @@ public class UserService : IUserService
         
         await _userRepository.ChangePasswordUser(userDto.NewPassword, user);
         await _resetPassword.RevokeResetPasswordToken(user, userDto.Token);
+    }
+    
+    public async Task<CreateUserResponseDto> ContinueAccountRegister(UpdateUserDto userDto, string? email)
+    {
+        var user = _mapper.Map<User>(userDto);
+        user.Email = email ?? string.Empty;
+        user = await _userRepository.UpdateUser(user);
+        return _mapper.Map<CreateUserResponseDto>(user);
     }
 }

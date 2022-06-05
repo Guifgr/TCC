@@ -37,6 +37,7 @@ public class AuthService : IAuthService
             new(JwtRegisteredClaimNames.Sub, user.Email),
             new("id", user.Id.ToString()),
             new(ClaimTypes.Role, user.Role.ToString()),
+            new(ClaimTypes.Email, user.Email),
         };
         var (token, hours) = _serviceToken.GenerateToken(claims);
         return new LoginResponseDto

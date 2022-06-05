@@ -39,7 +39,7 @@ export default function SignIn() {
         if (email == '' || password == '' || passwordConfirmation == '' || email == null || password == null || passwordConfirmation == null) {
             return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -52,7 +52,7 @@ export default function SignIn() {
             setLoading(false);
             return toast.error('Senhas não conferem!', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -64,7 +64,7 @@ export default function SignIn() {
             setLoading(false);
             return toast.error('Senha deve conter 8 ou mais caracteres!', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -87,14 +87,14 @@ export default function SignIn() {
                 notify();
                 setTimeout(function () {
                     window.location.href = '/';
-                }, 5000);
+                }, 3000);
 
             })
             .catch((err) => {
                 var message = JSON.parse(err.request.response).Message;
                 toast.error(message, {
                     position: "bottom-center",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -107,7 +107,7 @@ export default function SignIn() {
 
     const notify = () => toast.success('Senha alterada com sucesso!', {
         position: "bottom-left",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

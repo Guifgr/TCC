@@ -28,7 +28,7 @@ export default function SignIn() {
         if (data.get("email") == '' || data.get("email") == null) {
             return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -42,19 +42,19 @@ export default function SignIn() {
             email: data.get("email")
         }
         axios
-            .post(`${Constants.url.route}/Users/RequestChangePasswordAccount`, body)
+            .post(`${Constants.url.route}/Users/RequestAccountPasswordChange`, body)
             .then((res) => {
                 setLoading(false);
                 notify();
                 setTimeout(function () {
                     window.location.href = '/';
-                }, 5000);
+                }, 3000);
             })
             .catch((err) => {
                 var message = JSON.parse(err.request.response).Message;
                 toast.error(message, {
                     position: "bottom-center",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -67,7 +67,7 @@ export default function SignIn() {
 
     const notify = () => toast.success('Email enviado para sua caixa de entrada com sucesso!', {
         position: "bottom-left",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

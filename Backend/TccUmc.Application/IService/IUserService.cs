@@ -5,7 +5,8 @@ namespace TccUmc.Application.IService;
 
 public interface IUserService
 {
-    Task<CreateUserResponseDto> CreateUser(CreateUserDto userDto);
-    Task RequestChangePasswordUser(RequestUpdateUserPasswordDto userDto);
-    Task ChangePasswordUser(UpdateUserPasswordDto userDto);
+    Task<CreateUserResponseDto> PreRegisterAccount(CreateUserDto userDto);
+    Task RequestAccountPasswordChange(RequestUpdateUserPasswordDto userDto);
+    Task ChangeAccountPassword(UpdateUserPasswordDto userDto);
+    Task<CreateUserResponseDto> ContinueAccountRegister(UpdateUserDto userDto, string? email);
 }

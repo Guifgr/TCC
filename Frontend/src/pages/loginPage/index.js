@@ -32,7 +32,7 @@ export default function SignIn() {
         if (email == null || password == null || email == '' || password == '') {
             return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -63,7 +63,7 @@ export default function SignIn() {
                 setLoading(false);
                 toast.error('Usuário ou senha inválidos. Tente novamente!', {
                     position: "bottom-center",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
