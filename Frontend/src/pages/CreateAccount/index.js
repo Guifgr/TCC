@@ -148,7 +148,7 @@ export default function SignIn() {
                         noValidate
                         sx={{ mt: 1 }}
                     >
-                        <Grid container spacing={3}>
+                        <Grid container spacing={1}>
                             <Grid item xs={10} sm={12}>
                                 <TextField
                                     margin="normal"

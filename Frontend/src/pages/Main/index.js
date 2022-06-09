@@ -41,11 +41,11 @@ export default function Main() {
         >
             <CssBaseline />
             <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
-                <Typography variant="h2" component="h1" gutterBottom>
-                    Agradeço por testar o sistema de login do TCC!
+                <Typography variant="h4" component="h1" gutterBottom>
+                    HOME EM MANUTENÇÃO
                 </Typography>
                 <br />
-                <Typography variant="h5" component="h2" gutterBottom>
+                <Typography variant="h6" component="h2" gutterBottom>
                     Agora poderia testar o logout? kkkk :D
                 </Typography>
                 <Typography variant="body1"></Typography>
