@@ -28,6 +28,7 @@ export default function SignIn() {
         var email = data.get("email");
         var password = data.get("password");
         var passwordConfirmation = data.get("password-confirmation");
+        var cpf = data.get("cpf");
 
         if (email == '' ||
             password == '' ||
@@ -77,6 +78,7 @@ export default function SignIn() {
         var body = {
             email: email,
             password: password,
+            cpf: cpf,
         }
 
         axios
@@ -139,6 +141,16 @@ export default function SignIn() {
                         sx={{ mt: 1 }}
                     >
 
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="cpf"
+                            label="Cpf"
+                            name="cpf"
+                            autoComplete="cpf"
+                            autoFocus
+                        />
                         <TextField
                             margin="normal"
                             required

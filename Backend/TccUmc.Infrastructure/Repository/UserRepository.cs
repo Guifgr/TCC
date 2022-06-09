@@ -90,8 +90,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User> CreateUser(User user)
     {
-        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email))
-        {
+        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email ||u.Cpf == user.Cpf))
+        { 
             throw new BadRequestException("Usuário já cadastrado");
         }
         await _tccContext.Users.AddAsync(user);
