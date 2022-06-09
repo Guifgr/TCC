@@ -175,7 +175,7 @@ export default function SignIn() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Mudar senha
+                            Trocar senha
                         </Button>
                     </Box>
                 </Box>
