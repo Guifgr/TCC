@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Logo from "../assets/logo.png";
+import UMC from "../assets/UMC.png";
 
 function NavBar() {
     return (
@@ -11,7 +11,7 @@ function NavBar() {
                             <img
                                 style={{ height: "80px" }}
                                 alt="TccUmc"
-                                src={Logo}
+                                src={UMC}
                             />
                         </Link>
                     </li>

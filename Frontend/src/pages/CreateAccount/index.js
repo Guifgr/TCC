@@ -36,7 +36,7 @@ export default function SignIn() {
             email == null ||
             password == null ||
             passwordConfirmation == null) {
-            return toast.info('Preecha todos os campos', {
+            return toast.info('Preencha todos os campos!', {
                 position: "bottom-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -116,7 +116,7 @@ export default function SignIn() {
 
     };
 
-    const notify = () => toast.success('Conta cadastrada com sucesso!', {
+    const notify = () => toast.success('Conta pré cadastrada com sucesso!', {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -156,7 +156,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Email"
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -166,7 +166,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Senha"
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -176,7 +176,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             name="password-confirmation"
-                            label="Password Confirmation"
+                            label="Confirme a Senha:"
                             type="password"
                             id="password-confirmation"
                             autoComplete="current-password-confirmation"
