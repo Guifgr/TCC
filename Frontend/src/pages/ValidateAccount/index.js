@@ -50,7 +50,7 @@ export default function SignIn() {
                     setLoading(false);
                     toast.error(message, {
                         position: "bottom-center",
-                        autoClose: 3000,
+                        autoClose: 5000,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,

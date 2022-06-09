@@ -52,7 +52,7 @@ export default function SignIn() {
             setLoading(false);
             return toast.error('Senhas não conferem!', {
                 position: "bottom-center",
-                autoClose: 3000,
+                autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -64,7 +64,7 @@ export default function SignIn() {
             setLoading(false);
             return toast.error('Senha deve conter 8 ou mais caracteres!', {
                 position: "bottom-center",
-                autoClose: 3000,
+                autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

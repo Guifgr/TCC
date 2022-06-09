@@ -64,13 +64,26 @@ export default function SignIn() {
                 setLoading(false);
                 toast.error(error, {
                     position: "bottom-center",
-                    autoClose: 3000,
+                    autoClose: 4000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
+                    allowHtml: true
                 });
+                if (error == 'Usuário ainda não confirmou a conta por email!') {
+                    toast.error('Não se preocupe já enviamos um novo email para você!', {
+                        position: "bottom-center",
+                        autoClose: 6000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        allowHtml: true
+                    });
+                }
             });
     };
 

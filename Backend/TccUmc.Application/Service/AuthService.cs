@@ -13,6 +13,7 @@ public class AuthService : IAuthService
 {
     private readonly ITokenService _serviceToken;
     private readonly IUserRepository _userRepository;
+    private readonly IValidateAccountToken _validateAccountToken;
     private readonly IClinicRepository _clinicRepository;
     private readonly IMailSender _mail;
 
@@ -20,13 +21,13 @@ public class AuthService : IAuthService
         ITokenService serviceToken,
         IUserRepository userRepository,
         IClinicRepository clinicRepository,
-        IMailSender mail
-    )
+        IMailSender mail, IValidateAccountToken validateAccountToken)
     {
         _serviceToken = serviceToken;
         _userRepository = userRepository;
         _clinicRepository = clinicRepository;
         _mail = mail;
+        _validateAccountToken = validateAccountToken;
     }
 
     public async Task<LoginResponseDto> LoginAsync(LoginRequestDto model)
@@ -34,7 +35,9 @@ public class AuthService : IAuthService
         var user = await _userRepository.GetUserByCredentials(model.Email);
         if (!user.IsActive)
         {
-            throw new ForbiddenException("Usuário ainda não confirmou a conta por email");
+            var newToken = await _validateAccountToken.RecreateValidateToken(user);
+            await _mail.SentMailResetValidateAccount(user.Email, newToken.Token);
+            throw new ForbiddenException("Usuário ainda não confirmou a conta por email!");
         }
         _userRepository.VerifyUserPassword(model.Password, user);
         var claims = new List<Claim>

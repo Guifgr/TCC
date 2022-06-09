@@ -54,7 +54,7 @@ export default function SignIn() {
                 var message = JSON.parse(err.request.response).Message;
                 toast.error(message, {
                     position: "bottom-center",
-                    autoClose: 3000,
+                    autoClose: 5000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
