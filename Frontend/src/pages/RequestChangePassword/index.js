@@ -15,11 +15,18 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from "../../Components/copyright";
+import Grid from '@mui/material/Grid';
 
 const theme = createTheme();
 
 export default function SignIn() {
     const [loading, setLoading] = useState(false);
+
+    const onReturn = (event) => {
+        event.preventDefault();
+        localStorage.removeItem("@tccToken");
+        window.location.href = '/'
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -65,7 +72,7 @@ export default function SignIn() {
             });
     };
 
-    const notify = () => toast.success('Email enviado para sua caixa de entrada com sucesso!', {
+    const notify = () => toast.success('Email enviado para sua caixa de entrada!', {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -99,25 +106,41 @@ export default function SignIn() {
                         noValidate
                         sx={{ mt: 1 }}
                     >
+                        <Grid container spacing={3}>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={10} sm={5}>
+                                <Button
+                                    onClick={onReturn}
+                                    type="submit"
+                                    color="error"
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{ mt: 3, mb: 2 }}>Voltar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={10} sm={2}></Grid>
+                            <Grid item xs={10} sm={5}>
+                                <Button
 
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Requisitar troca de senha
-                        </Button>
+                                    type="submit"
+                                    color="primary"
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{ mt: 3, mb: 2 }}>Enviar Link
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />

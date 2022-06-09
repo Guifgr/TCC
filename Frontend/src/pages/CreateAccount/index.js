@@ -16,11 +16,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from "../../Components/copyright";
 import ValidateCpf from "../../services/validateCpf";
+import Grid from '@mui/material/Grid';
+import api from '../../services/api';
 
 const theme = createTheme();
 
 export default function SignIn() {
     const [loading, setLoading] = useState(false);
+
+    const onReturn = (event) => {
+        event.preventDefault();
+        localStorage.removeItem("@tccToken");
+        window.location.href = '/'
+      };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -140,55 +148,76 @@ export default function SignIn() {
                         noValidate
                         sx={{ mt: 1 }}
                     >
+                        <Grid container spacing={3}>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="cpf"
+                                    label="CPF:"
+                                    name="cpf"
+                                    autoComplete="cpf"
+                                    autoFocus
+                                /></Grid>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Senha"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                />
+                            </Grid>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password-confirmation"
+                                    label="Confirme a Senha:"
+                                    type="password"
+                                    id="password-confirmation"
+                                    autoComplete="current-password-confirmation"
+                                />
+                            </Grid>
+                            <Grid item xs={10} sm={4}>
+                                <Button
+                                    onClick={onReturn}
+                                    type="submit"
+                                    color="error"
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{ mt: 3, mb: 2 }}>Voltar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={10} sm={4}></Grid>
+                            <Grid item xs={10} sm={4}>
+                                <Button
 
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="cpf"
-                            label="Cpf"
-                            name="cpf"
-                            autoComplete="cpf"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Senha"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password-confirmation"
-                            label="Confirme a Senha:"
-                            type="password"
-                            id="password-confirmation"
-                            autoComplete="current-password-confirmation"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Cadastrar
-                        </Button>
+                                    type="submit"
+                                    color="primary"
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{ mt: 3, mb: 2 }}>Salvar
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
