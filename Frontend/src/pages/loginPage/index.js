@@ -32,7 +32,7 @@ export default function SignIn() {
         if (email == null || password == null || email == '' || password == '') {
             return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -60,16 +60,30 @@ export default function SignIn() {
                 window.location.href = '/'
             })
             .catch((err) => {
+                var error = JSON.parse(err.request.response).Message
                 setLoading(false);
-                toast.error('Usuário ou senha inválidos. Tente novamente!', {
+                toast.error(error, {
                     position: "bottom-center",
-                    autoClose: 5000,
+                    autoClose: 4000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
+                    allowHtml: true
                 });
+                if (error == 'Usuário ainda não confirmou a conta por email!') {
+                    toast.error('Não se preocupe já enviamos um novo email para você!', {
+                        position: "bottom-center",
+                        autoClose: 6000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        allowHtml: true
+                    });
+                }
             });
     };
 

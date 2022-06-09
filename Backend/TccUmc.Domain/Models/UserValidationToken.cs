@@ -1,6 +1,6 @@
 ﻿namespace TccUmc.Domain.Models;
 
-public class ResetPasswordToken
+public class UserValidationToken
 {
     public int Id { get; set; }
     public User User { get; set; } = new User();

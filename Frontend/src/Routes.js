@@ -12,6 +12,7 @@ import RequestChangePassword from "./pages/RequestChangePassword";
 import ChangePassword from "./pages/ChangePassword";
 import CreateAccount from "./pages/CreateAccount";
 import Main from "./pages/Main";
+import ValidateAccount from "./pages/ValidateAccount";
 import NavBar from "./Components/navbar";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -31,6 +32,7 @@ const AppRoutes = () => (
                 <Route path="/redefinir-senha" element={<RequestChangePassword />} />
                 <Route path="/definir-senha" element={<ChangePassword />} />
                 <Route path="/criar-conta" element={<CreateAccount />} />
+                <Route path="/validar-conta" element={<ValidateAccount />} />
 
                 <Route exact path="/" element={<PrivateRoute />}>
                     <Route path="/" element={<Main />} />

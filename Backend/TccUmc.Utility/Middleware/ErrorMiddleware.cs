@@ -34,10 +34,11 @@ public class ErrorMiddleware
 
         context.Response.StatusCode = exception switch
         {
-            BadRequestException => 400,
             NoContentException => 204,
-            ServerException => 500,
+            BadRequestException => 400,
+            ForbiddenException => 403,
             NotFoundException => 404,
+            ServerException => 500,
             _ => context.Response.StatusCode
         };
 

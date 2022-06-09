@@ -34,6 +34,23 @@ public class MailSender : IMailSender
         await MailSmtp(emailText, message);
     }
 
+    public async Task SentMailResetValidateAccount(string userEmail, string validationToken)
+    {
+        var emailText = $"https://Tcc.guifgr.com/validar-conta?token={HttpUtility.HtmlEncode(validationToken)}\n";
+        var message = new MimeMessage();
+        
+        message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));
+        message.To.Add(MailboxAddress.Parse(userEmail));
+
+        message.Subject = "Validar conta do TCC UMC";
+        message.Body = new TextPart("plain")
+        {
+            Text = "Clique abaixo para validar a sua conta\n" + emailText
+        };
+
+        await MailSmtp(emailText, message);
+    }
+
     private async Task MailSmtp(string emailText, MimeMessage message)
     {
         var client = new MailKit.Net.Smtp.SmtpClient();

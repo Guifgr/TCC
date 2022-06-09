@@ -26,6 +26,8 @@ namespace TccUmc.Ioc
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IResetPassword, ResetPassword>();
             services.AddScoped<IMailSender, MailSender>();
+            services.AddScoped<IValidateAccountToken, ValidateAccountToken>();
+
 
             //Data
             services.AddScoped<TccContext>();

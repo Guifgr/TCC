@@ -63,10 +63,35 @@ public class UserRepository : IUserRepository
         await _tccContext.SaveChangesAsync();
     }
 
+    public async Task<User> UpdateUser(User user)
+    {
+        var userEntity = await GetUserByEmail(user.Email);
+        if (userEntity == null)
+        {
+            throw new NotFoundException("Usuário não encontrado");
+        }
+        
+        userEntity.Cnpj =  user.Cnpj;
+        userEntity.Name = user.Name;
+        userEntity.Address = user.Address;
+        userEntity.Cpf = user.Cpf;
+        
+        _tccContext.Users.Update(userEntity);
+        await _tccContext.SaveChangesAsync();
+        return userEntity;
+    }
+
+    public async Task ValidateUserEmailAccount(User user)
+    {
+        user.IsActive = true;
+        _tccContext.Users.Update(user);
+        await _tccContext.SaveChangesAsync();
+    }
+
     public async Task<User> CreateUser(User user)
     {
-        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email))
-        {
+        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email ||u.Cpf == user.Cpf))
+        { 
             throw new BadRequestException("Usuário já cadastrado");
         }
         await _tccContext.Users.AddAsync(user);

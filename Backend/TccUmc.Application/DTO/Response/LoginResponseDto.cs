@@ -8,4 +8,5 @@ public class LoginResponseDto
     public DateTime ExpirationDate { get; set; }
     public Role PermissionLevel { get; set; }
     public string UserName { get; set; } = string.Empty;
+    public bool WasPostRegistered { get; set; }
 }
