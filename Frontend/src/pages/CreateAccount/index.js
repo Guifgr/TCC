@@ -142,16 +142,17 @@ export default function SignIn() {
                     >
 
                         <TextField
+                            
                             margin="normal"
                             required
                             fullWidth
                             id="cpf"
                             label="Cpf"
                             name="cpf"
-                            autoComplete="cpf"
                             autoFocus
                         />
                         <TextField
+                            
                             margin="normal"
                             required
                             fullWidth
@@ -162,6 +163,7 @@ export default function SignIn() {
                             autoFocus
                         />
                         <TextField
+                            
                             margin="normal"
                             required
                             fullWidth
@@ -172,6 +174,7 @@ export default function SignIn() {
                             autoComplete="current-password"
                         />
                         <TextField
+                            
                             margin="normal"
                             required
                             fullWidth
