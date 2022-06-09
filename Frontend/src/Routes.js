@@ -33,6 +33,7 @@ const AppRoutes = () => (
                 <Route path="/definir-senha" element={<ChangePassword />} />
                 <Route path="/criar-conta" element={<CreateAccount />} />
                 <Route path="/validar-conta" element={<ValidateAccount />} />
+                <Route path="/finalizar-cadastro" element={<Main />} />
 
                 <Route exact path="/" element={<PrivateRoute />}>
                     <Route path="/" element={<Main />} />

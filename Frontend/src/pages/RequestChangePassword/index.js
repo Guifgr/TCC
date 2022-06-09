@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import { useSearchParams } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import { toast, ToastContainer } from 'react-toastify';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Button from '@mui/material/Button';
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -12,20 +16,27 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Constants from "../../Constants";
 import axios from "axios";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Copyright from "../../Components/copyright";
 
 const theme = createTheme();
 
 export default function SignIn() {
-    const [loading, setLoading] = useState(false);
+    let [searchParams, setSearchParams] = useSearchParams();
 
-    const handleSubmit = async (event) => {
+    if (searchParams.get("token") == null || searchParams.get("token") == '') {
+        window.location.href = '/';
+    }
+
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        if (data.get("email") == '' || data.get("email") == null) {
+        var email = data.get("email");
+        var password = data.get("password");
+        var passwordConfirmation = data.get("password-confirmation");
+
+        if (email == '' || password == '' || passwordConfirmation == '' || email == null || password == null || passwordConfirmation == null) {
             return toast.info('Preecha todos os campos', {
                 position: "bottom-center",
                 autoClose: 3000,
@@ -37,24 +48,53 @@ export default function SignIn() {
             });
         }
 
-        await setLoading(true);
-        var body = {
-            email: data.get("email")
+        if (password !== passwordConfirmation) {
+            setLoading(false);
+            return toast.error('Senhas nÃ£o conferem!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
+        if (password.length < 8) {
+            setLoading(false);
+            return toast.error('Senha deve conter 8 ou mais caracteres!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        setLoading(true);
+
+        var body = {
+            email: email,
+            newPassword: password,
+            token: searchParams.get("token")
+        };
         axios
-            .post(`${Constants.url.route}/Users/RequestAccountPasswordChange`, body)
+            .patch(`${Constants.url.route}/Users/ChangePasswordAccount`, body)
             .then((res) => {
                 setLoading(false);
                 notify();
                 setTimeout(function () {
                     window.location.href = '/';
                 }, 3000);
+
             })
             .catch((err) => {
                 var message = JSON.parse(err.request.response).Message;
                 toast.error(message, {
                     position: "bottom-center",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -65,7 +105,7 @@ export default function SignIn() {
             });
     };
 
-    const notify = () => toast.success('Email enviado para sua caixa de entrada com sucesso!', {
+    const notify = () => toast.success('Senha alterada com sucesso!', {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -74,6 +114,7 @@ export default function SignIn() {
         draggable: true,
         progress: undefined,
     });
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -99,15 +140,35 @@ export default function SignIn() {
                         noValidate
                         sx={{ mt: 1 }}
                     >
-
                         <TextField
                             margin="normal"
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Email"
                             name="email"
+                            autoComplete="email"
                             autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Senha:"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="Confirma a senha:"
+                            label="Password Confirmation"
+                            type="password"
+                            id="password-confirmation"
+                            autoComplete="current-password-confirmation"
                         />
                         <Button
                             type="submit"
@@ -115,7 +176,7 @@ export default function SignIn() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Requisitar troca de senha
+                            Mudar senha
                         </Button>
                     </Box>
                 </Box>
