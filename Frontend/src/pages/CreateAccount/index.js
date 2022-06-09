@@ -28,7 +28,7 @@ export default function SignIn() {
         event.preventDefault();
         localStorage.removeItem("@tccToken");
         window.location.href = '/'
-      };
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -96,7 +96,7 @@ export default function SignIn() {
                 setLoading(false);
                 setTimeout(function () {
                     window.location.href = '/';
-                }, 3000);
+                }, 5000);
             })
             .catch((err) => {
                 setLoading(false);
@@ -114,15 +114,26 @@ export default function SignIn() {
 
     };
 
-    const notify = () => toast.success('Conta pré cadastrada com sucesso!', {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    });
+    const notify = () => {
+        toast.success('Conta pré cadastrada com sucesso!', {
+            position: "bottom-left",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        toast.info('Enviamos um email para validação da conta em sua caixa de entrada!', {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
 
     return (
         <ThemeProvider theme={theme}>
