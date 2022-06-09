@@ -21,6 +21,7 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import Constants from "../../Constants";
 import api from '../../services/api';
+import { postAccountSet } from '../../services/auth';
 
 const theme = createTheme();
 
@@ -102,6 +103,7 @@ export default function PersonalForm() {
       .then((res) => {
         notify();
         setLoading(false);
+        postAccountSet()
         setTimeout(function () {
           window.location.href = '/';
         }, 5000);
@@ -122,7 +124,7 @@ export default function PersonalForm() {
 
   };
 
-  const notify = () => toast.success('Conta cadastrada com sucesso!', {
+  const notify = () => toast.success('Dados cadastrados com sucesso!', {
     position: "bottom-left",
     autoClose: 5000,
     hideProgressBar: false,

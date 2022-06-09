@@ -7,11 +7,6 @@ import Container from "@mui/material/Container";
 import { getWasPostRegistered } from '../../services/auth'
 
 function Copyright(props) {
-
-    if(!getWasPostRegistered){
-        window.location.href = '/pos-cadastro'
-    }
-
     return (
         <Typography
             variant="body2"
@@ -26,7 +21,10 @@ function Copyright(props) {
     );
 }
 
-export default function SignOut() {
+export default function Main() {
+    if (!getWasPostRegistered()) {
+        window.location.href = '/pos-cadastro'
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         localStorage.removeItem("@tccToken");
@@ -43,8 +41,8 @@ export default function SignOut() {
         >
             <CssBaseline />
             <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
-                <Typography variant="h3" component="h1" gutterBottom>
-                    MENU EM MANUTENÇÃO!!
+                <Typography variant="h2" component="h1" gutterBottom>
+                    Agradeço por testar o sistema de login do TCC!
                 </Typography>
                 <br />
                 <Typography variant="h5" component="h2" gutterBottom>
