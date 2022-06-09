@@ -225,7 +225,7 @@ export default function SignIn() {
                                     color="primary"
                                     variant="contained"
                                     fullWidth
-                                    sx={{ mt: 3, mb: 2 }}>Salvar
+                                    sx={{ mt: 3, mb: 2 }}>Cadastrar
                                 </Button>
                             </Grid>
                         </Grid>
