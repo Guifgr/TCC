@@ -11,6 +11,7 @@ import Login from "./pages/loginPage";
 import RequestChangePassword from "./pages/RequestChangePassword";
 import ChangePassword from "./pages/ChangePassword";
 import CreateAccount from "./pages/CreateAccount";
+import PostAccount from "./pages/PostAccount";
 import Main from "./pages/Main";
 import ValidateAccount from "./pages/ValidateAccount";
 import NavBar from "./Components/navbar";
@@ -33,12 +34,14 @@ const AppRoutes = () => (
                 <Route path="/definir-senha" element={<ChangePassword />} />
                 <Route path="/criar-conta" element={<CreateAccount />} />
                 <Route path="/validar-conta" element={<ValidateAccount />} />
-                <Route path="/finalizar-cadastro" element={<Main />} />
+              
 
                 <Route exact path="/" element={<PrivateRoute />}>
                     <Route path="/" element={<Main />} />
                 </Route>
-
+                <Route exact path="/pos-cadastro" element={<PrivateRoute />}>
+                    <Route path="/pos-cadastro" element={<PostAccount />} />
+                </Route>
                 <Route path="*" element={<h1>Pagina não encontrada</h1>} />
             </Routes>
         </Fragment>

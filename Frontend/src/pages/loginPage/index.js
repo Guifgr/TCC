@@ -50,7 +50,7 @@ export default function SignIn() {
         axios
             .post(`${Constants.url.route}/Auth/Login`, body)
             .then((res) => {
-                localStorage.setItem("@tccToken", JSON.stringify(res.data.token));
+                localStorage.setItem("@tccToken", JSON.stringify(res.data));
                 if (res.data.token != null) {
                 } else {
                     localStorage.removeItem("@tccToken");

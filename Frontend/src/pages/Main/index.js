@@ -43,8 +43,8 @@ export default function SignOut() {
         >
             <CssBaseline />
             <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
-                <Typography variant="h2" component="h1" gutterBottom>
-                    EM MANUTENÇÃO
+                <Typography variant="h3" component="h1" gutterBottom>
+                    MENU EM MANUTENÇÃO!!
                 </Typography>
                 <br />
                 <Typography variant="h5" component="h2" gutterBottom>
