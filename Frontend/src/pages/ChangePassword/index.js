@@ -81,7 +81,7 @@ export default function SignIn() {
             token: searchParams.get("token")
         };
         axios
-            .patch(`${Constants.url.route}/Users/ChangePasswordAccount`, body)
+            .patch(`${Constants.url.route}/Users/ChangeAccountPassword`, body)
             .then((res) => {
                 setLoading(false);
                 notify();
@@ -147,7 +147,6 @@ export default function SignIn() {
                             id="email"
                             label="Email"
                             name="email"
-                            autoComplete="email"
                             autoFocus
                         />
                         <TextField

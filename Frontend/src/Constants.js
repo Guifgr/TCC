@@ -1,6 +1,6 @@
 const prod = {
     url: {
-        route: "https://tccumcbacked.azurewebsites.net/",
+        route: "https://tccumcbacked.azurewebsites.net",
         Hub: "https://tccumcbacked.azurewebsites.net/hubs/TccHub",
     },
 };
