@@ -67,6 +67,17 @@ public class UsersController : Controller
     {
         return await _userService.ContinueAccountRegister(userDto, User.FindFirst(ClaimTypes.Email)?.Value);
     }
+    
+    /// <summary>
+    /// Update User Information
+    /// </summary>
+    /// <param name="userDto">User Information for the signup</param>
+    /// <returns>User Guid and user email</returns>
+    [HttpGet]
+    public async Task<GetUserEmailAndDocument> GetUserEmailAndDocument()
+    {
+        return await _userService.GetUserEmailAndDocument(User.FindFirst(ClaimTypes.Email)?.Value);
+    }
 
     /// <summary>
     /// Request change password
