@@ -5,6 +5,7 @@ using TccUmc.Application.DTO.Request;
 using TccUmc.Application.DTO.Response;
 using TccUmc.Application.IService;
 using TccUmc.Domain.Enums;
+using TccUmc.Domain.Exceptions;
 
 namespace TccUmc.Application.Service;
 
@@ -31,6 +32,10 @@ public class AuthService : IAuthService
     public async Task<LoginResponseDto> LoginAsync(LoginRequestDto model)
     {
         var user = await _userRepository.GetUserByCredentials(model.Email);
+        if (!user.IsActive)
+        {
+            throw new ForbiddenException("Usuário ainda não confirmou a conta por email");
+        }
         _userRepository.VerifyUserPassword(model.Password, user);
         var claims = new List<Claim>
         {
@@ -46,6 +51,7 @@ public class AuthService : IAuthService
             Token = token,
             PermissionLevel = user.Role,
             UserName = user.Name,
+            WasPostRegistered = user.Name.Length > 0
         };
     }
 }

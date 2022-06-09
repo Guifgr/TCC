@@ -32,6 +32,32 @@ public class UsersController : Controller
     }
     
     /// <summary>
+    /// Pre Registration of a new user
+    /// </summary>
+    /// <param name="userDto">User Information for the signup</param>
+    /// <returns>User Guid and user email</returns>
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task<IActionResult> ValidateUserEmailAccount([Required][FromQuery] string token)
+    {
+        await _userService.ValidateUserEmailAccount(token);
+        return Ok("Conta validada com sucesso");
+    }
+    
+    /// <summary>
+        /// Pre Registration of a new user
+        /// </summary>
+        /// <param name="userDto">User Information for the signup</param>
+        /// <returns>User Guid and user email</returns>
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ResendValidateUserEmailAccountToken([Required][FromBody] string email)
+        {
+            await _userService.ResendValidateUserEmailAccountToken(email);
+            return Ok("Token reenviado com sucesso!");
+        }
+    
+    /// <summary>
     /// Update User Information
     /// </summary>
     /// <param name="userDto">User Information for the signup</param>

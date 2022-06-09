@@ -60,8 +60,9 @@ export default function SignIn() {
                 window.location.href = '/'
             })
             .catch((err) => {
+                var error = JSON.parse(err.request.response).Message
                 setLoading(false);
-                toast.error('Usuário ou senha inválidos. Tente novamente!', {
+                toast.error(error, {
                     position: "bottom-center",
                     autoClose: 3000,
                     hideProgressBar: false,

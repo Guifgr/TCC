@@ -81,6 +81,13 @@ public class UserRepository : IUserRepository
         return userEntity;
     }
 
+    public async Task ValidateUserEmailAccount(User user)
+    {
+        user.IsActive = true;
+        _tccContext.Users.Update(user);
+        await _tccContext.SaveChangesAsync();
+    }
+
     public async Task<User> CreateUser(User user)
     {
         if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email))

@@ -19,7 +19,7 @@ public class ClinicController : Controller
     }
     
     /// <summary>
-    /// Create a new Clinic
+    /// Update clinic information
     /// </summary>
     /// <param name="clinicDto">Clinic data</param>
     /// <returns>Clinic resumed data</returns>

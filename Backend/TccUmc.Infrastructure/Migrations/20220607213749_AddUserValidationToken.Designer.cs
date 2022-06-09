@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TccUmc.Infrastructure.Database.Context;
 
@@ -11,9 +12,10 @@ using TccUmc.Infrastructure.Database.Context;
 namespace TccUmc.Infrastructure.Migrations
 {
     [DbContext(typeof(TccContext))]
-    partial class TccContextModelSnapshot : ModelSnapshot
+    [Migration("20220607213749_AddUserValidationToken")]
+    partial class AddUserValidationToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,6 +160,10 @@ namespace TccUmc.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
 
@@ -173,6 +179,8 @@ namespace TccUmc.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ResetPasswordTokens");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ResetPasswordToken");
                 });
 
             modelBuilder.Entity("TccUmc.Domain.Models.User", b =>
@@ -227,31 +235,6 @@ namespace TccUmc.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TccUmc.Domain.Models.UserValidationToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserValidationTokens");
-                });
-
             modelBuilder.Entity("TccUmc.Domain.Models.WorkingHours", b =>
                 {
                     b.Property<int>("Id")
@@ -280,6 +263,13 @@ namespace TccUmc.Infrastructure.Migrations
                     b.HasIndex("ClinicId");
 
                     b.ToTable("WorkingHours");
+                });
+
+            modelBuilder.Entity("TccUmc.Domain.Models.UserValidationToken", b =>
+                {
+                    b.HasBaseType("TccUmc.Domain.Models.ResetPasswordToken");
+
+                    b.HasDiscriminator().HasValue("UserValidationToken");
                 });
 
             modelBuilder.Entity("TccUmc.Domain.Models.Clinic", b =>
@@ -324,17 +314,6 @@ namespace TccUmc.Infrastructure.Migrations
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("TccUmc.Domain.Models.UserValidationToken", b =>
-                {
-                    b.HasOne("TccUmc.Domain.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TccUmc.Domain.Models.WorkingHours", b =>
