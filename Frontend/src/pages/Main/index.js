@@ -82,19 +82,19 @@ export default function PersonalForm() {
   
 
   var body = {
-    name: "string",
-    email:"taah.rock6@gmail.com",
+    name: name,
+    email:"taah6@gmail.com",
     cpf: "55179955009",
     address: {
-        street: "string",
-        number: "string",
-        complement: "string",
-        neighborhood: "string",
-        city: "string",
-        state: "string",
-        country: "string",
-        zipCode: "string",
-        reference: "string"
+        street: street,
+        number: number,
+        complement: complement,
+        neighborhood: neighborhood,
+        city: city,
+        state: state,
+        country: country,
+        zipCode: zipCode,
+        reference: reference
     }
 }
 axios
