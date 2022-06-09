@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -42,6 +42,8 @@ function Copyright(props) {
 
 export default function PersonalForm() {
 
+  const [cpf, setCpf] = useState();
+  const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
 
   const onReturn = (event) => {
@@ -49,6 +51,17 @@ export default function PersonalForm() {
     localStorage.removeItem("@tccToken");
     window.location.href = '/'
   };
+
+  useEffect(() => {
+    api
+      .get(`${Constants.url.route}/Users/GetUserEmailAndDocument`)
+      .then((res) => {
+        setCpf(res.data.cpf);
+        setEmail(res.data.email);
+        console.log(res.data.email)
+      })
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -154,6 +167,7 @@ export default function PersonalForm() {
                 disabled
                 id="firstName"
                 name="firstName"
+                value={email}
                 label="Email"
                 InputProps={{
                   startAdornment: (
@@ -174,6 +188,7 @@ export default function PersonalForm() {
                 id="firstName"
                 name="firstName"
                 label="CPF"
+                value={cpf}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -440,7 +455,7 @@ export default function PersonalForm() {
                 color="error"
                 variant="contained"
                 fullWidth
-                sx={{ mt: 3, mb: 2 }}>Voltar para login
+                sx={{ mt: 3, mb: 2 }}>Voltar
               </Button>
             </Grid>
             <Grid item xs={10} sm={4}></Grid>

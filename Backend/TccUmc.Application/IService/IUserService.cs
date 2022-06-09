@@ -11,4 +11,5 @@ public interface IUserService
     Task ChangeAccountPassword(UpdateUserPasswordDto userDto);
     Task<CreateUserResponseDto> ContinueAccountRegister(UpdateUserDto userDto, string? email);
     Task ResendValidateUserEmailAccountToken(string email);
+    Task<GetUserEmailAndDocument> GetUserEmailAndDocument(string? value);
 }

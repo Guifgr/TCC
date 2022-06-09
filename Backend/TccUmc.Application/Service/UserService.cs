@@ -111,4 +111,20 @@ public class UserService : IUserService
         var token = await _validateAccountToken.RecreateValidateToken(user);
         await _mailSender.SentMailResetValidateAccount(token.User.Email, token.Token);
     }
+
+    public async Task<GetUserEmailAndDocument> GetUserEmailAndDocument(string? value)
+    {
+        var user = await _userRepository.GetUserByEmail(value);
+        if (user == default)
+        {
+            throw new NotFoundException("Usuário não encontrado");
+        }
+
+        return new GetUserEmailAndDocument
+        {
+            Guid = user.Guid,
+            Email = user.Email,
+            Cpf = user.Cpf
+        };
+    }
 }
