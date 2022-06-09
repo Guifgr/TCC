@@ -19,12 +19,12 @@ public class ClinicController : Controller
     }
     
     /// <summary>
-    /// Create a new Clinic
+    /// Update clinic information
     /// </summary>
     /// <param name="clinicDto">Clinic data</param>
     /// <returns>Clinic resumed data</returns>
     [HttpPut]
-    public async Task<CreateClinicResponseDto> UpdateClinicData([Required][FromBody] UpdateClinicDto
+    public async Task<UpdateClinicResponseDto> UpdateClinicData([Required][FromBody] UpdateClinicDto
         clinicDto)
     {
         return await _clinicService.UpdateClinic(clinicDto);
@@ -36,7 +36,7 @@ public class ClinicController : Controller
     /// <param name="clinicDto">Clinic data</param>
     /// <returns>Clinic resumed data</returns>
     [HttpPatch]
-    public async Task<CreateClinicResponseDto> UpdateClinicWorkingHours([Required][FromBody] UpdateClinicWorkingHoursDto
+    public async Task<UpdateClinicResponseDto> UpdateClinicWorkingHours([Required][FromBody] UpdateClinicWorkingHoursDto
         clinicDto)
     {
         return await _clinicService.UpdateClinicWorkingHours(clinicDto);

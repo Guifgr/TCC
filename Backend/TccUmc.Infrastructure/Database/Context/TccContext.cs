@@ -19,6 +19,7 @@ namespace TccUmc.Infrastructure.Database.Context
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Clinic> Clinics { get; set; } = null!;
         public DbSet<ResetPasswordToken> ResetPasswordTokens { get; set; } = null!;
+        public DbSet<UserValidationToken> UserValidationTokens { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

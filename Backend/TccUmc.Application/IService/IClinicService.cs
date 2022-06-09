@@ -5,6 +5,6 @@ namespace TccUmc.Application.IService;
 
 public interface IClinicService
 {
-    Task<CreateClinicResponseDto> UpdateClinic(UpdateClinicDto clinicDto);
-    Task<CreateClinicResponseDto> UpdateClinicWorkingHours(UpdateClinicWorkingHoursDto clinicDto);
+    Task<UpdateClinicResponseDto> UpdateClinic(UpdateClinicDto clinicDto);
+    Task<UpdateClinicResponseDto> UpdateClinicWorkingHours(UpdateClinicWorkingHoursDto clinicDto);
 }

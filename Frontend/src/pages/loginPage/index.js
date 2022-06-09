@@ -1,10 +1,10 @@
-import * as React from "react";
+import React, { useState } from 'react'
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,35 +12,79 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
+import Constants from "../../Constants";
+import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import Copyright from "../../Components/copyright";
 
 const theme = createTheme();
 
 export default function SignIn() {
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        var email = data.get("email");
+        var password = data.get("password");
+
+
+        if (email == null || password == null || email == '' || password == '') {
+            return toast.info('Preecha todos os campos', {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        setLoading(true);
+
+        var body = {
+            email: email,
+            password: password
+        };
+        axios
+            .post(`${Constants.url.route}/Auth/Login`, body)
+            .then((res) => {
+                localStorage.setItem("@tccToken", JSON.stringify(res.data.token));
+                if (res.data.token != null) {
+                } else {
+                    localStorage.removeItem("@tccToken");
+                    throw Error;
+                }
+                setLoading(false);
+                window.location.href = '/'
+            })
+            .catch((err) => {
+                var error = JSON.parse(err.request.response).Message
+                setLoading(false);
+                toast.error(error, {
+                    position: "bottom-center",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    allowHtml: true
+                });
+                if (error == 'Usuário ainda não confirmou a conta por email!') {
+                    toast.error('Não se preocupe já enviamos um novo email para você!', {
+                        position: "bottom-center",
+                        autoClose: 6000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        allowHtml: true
+                    });
+                }
+            });
     };
 
     return (
@@ -59,7 +103,7 @@ export default function SignIn() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Login
+                        Entrar
                     </Typography>
                     <Box
                         component="form"
@@ -87,29 +131,23 @@ export default function SignIn() {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Logar
                         </Button>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="redefinir-senha" variant="body2">
-                                    Forgot password?
+                                    Esqueceu a senha?
                                 </Link>
                             </Grid>
                             <Grid item>
                                 <Link href="criar-conta" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    {"Não tem conta? Se cadastre"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -117,6 +155,13 @@ export default function SignIn() {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
+            <ToastContainer />
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </ThemeProvider>
     );
 }

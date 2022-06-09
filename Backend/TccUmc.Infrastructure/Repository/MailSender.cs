@@ -19,7 +19,7 @@ public class MailSender : IMailSender
     
     public async Task SentMailResetPassword(string email, string token)
     {
-        var emailText = $"https://Tcc.guifgr.com/definirSenha?token={HttpUtility.HtmlEncode(token)}\n";
+        var emailText = $"https://Tcc.guifgr.com/definir-senha?token={HttpUtility.HtmlEncode(token)}\n";
         var message = new MimeMessage();
         
         message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));
@@ -29,6 +29,23 @@ public class MailSender : IMailSender
         message.Body = new TextPart("plain")
         {
             Text = "Clique abaixo para definir senha\n" + emailText
+        };
+
+        await MailSmtp(emailText, message);
+    }
+
+    public async Task SentMailResetValidateAccount(string userEmail, string validationToken)
+    {
+        var emailText = $"https://Tcc.guifgr.com/validar-conta?token={HttpUtility.HtmlEncode(validationToken)}\n";
+        var message = new MimeMessage();
+        
+        message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));
+        message.To.Add(MailboxAddress.Parse(userEmail));
+
+        message.Subject = "Validar conta do TCC UMC";
+        message.Body = new TextPart("plain")
+        {
+            Text = "Clique abaixo para validar a sua conta\n" + emailText
         };
 
         await MailSmtp(emailText, message);

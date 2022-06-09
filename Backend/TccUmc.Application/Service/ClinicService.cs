@@ -18,18 +18,18 @@ public class ClinicService : IClinicService
         _mapper = mapper;
     }
 
-    public async Task<CreateClinicResponseDto> UpdateClinic(UpdateClinicDto clinicDto)
+    public async Task<UpdateClinicResponseDto> UpdateClinic(UpdateClinicDto clinicDto)
     {
         var clinic = _mapper.Map<Clinic>(clinicDto);
         clinic = await _clinicRepository.UpdateClinic(clinic);
-        return _mapper.Map<CreateClinicResponseDto>(clinic);
+        return _mapper.Map<UpdateClinicResponseDto>(clinic);
     }
 
-    public async Task<CreateClinicResponseDto> UpdateClinicWorkingHours(UpdateClinicWorkingHoursDto clinicDto)
+    public async Task<UpdateClinicResponseDto> UpdateClinicWorkingHours(UpdateClinicWorkingHoursDto clinicDto)
     {
         var clinic = await _clinicRepository.GetClinic();
         clinic.WorkingHours = _mapper.Map<List<WorkingHours>>(clinicDto.WorkingHours);
-        clinic = await _clinicRepository.UpdateClinic(clinic);
-        return _mapper.Map<CreateClinicResponseDto>(clinic);
+        clinic = await _clinicRepository.UpdateClinicHours(clinic);
+        return _mapper.Map<UpdateClinicResponseDto>(clinic);
     }
 }
