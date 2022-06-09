@@ -145,7 +145,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             id="email"
-                            label="Email"
+                            label="Email:"
                             name="email"
                             autoFocus
                         />
@@ -163,8 +163,8 @@ export default function SignIn() {
                             margin="normal"
                             required
                             fullWidth
-                            name="Confirma a senha:"
-                            label="Password Confirmation"
+                            name="password-confirmation"
+                            label="Confirme a senha:"
                             type="password"
                             id="password-confirmation"
                             autoComplete="current-password-confirmation"
