@@ -18,7 +18,7 @@ public static class Validate
             var soma = 0;
             for (var i = 0; i < 12; i++)
                 soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
-            var resto = (soma % 11);
+            var resto = soma % 11;
             if (resto < 2)
                 resto = 0;
             else
@@ -28,7 +28,7 @@ public static class Validate
             soma = 0;
             for (var i = 0; i < 13; i++)
                 soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
-            resto = (soma % 11);
+            resto = soma % 11;
             if (resto < 2)
                 resto = 0;
             else

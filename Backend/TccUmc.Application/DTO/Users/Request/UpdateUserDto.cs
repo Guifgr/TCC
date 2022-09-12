@@ -8,11 +8,8 @@ public class UpdateUserDto
 {
     public UpdateUserDto(string name, AddressDto address, string cnpj = "")
     {
-        if (cnpj != string.Empty && !Validate.IsCnpj(cnpj))
-        {
-            throw new BadRequestException("Cnpj invalido");
-        }
-        
+        if (cnpj != string.Empty && !Validate.IsCnpj(cnpj)) throw new BadRequestException("Cnpj invalido");
+
         Name = name;
         Address = address;
         Cnpj = cnpj;
@@ -21,5 +18,5 @@ public class UpdateUserDto
     [Required] [MaxLength(50)] public string Name { get; set; } = string.Empty;
 
     [MaxLength(14)] [MinLength(14)] public string? Cnpj { get; set; } = string.Empty;
-    [Required] public AddressDto Address { get; set; } = new AddressDto();
+    [Required] public AddressDto Address { get; set; } = new();
 }

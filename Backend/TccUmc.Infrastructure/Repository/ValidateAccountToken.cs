@@ -43,10 +43,7 @@ public class ValidateAccountToken : IValidateAccountToken
     public async Task<UserValidationToken> RecreateValidateToken(User user)
     {
         var tokens = await _context.UserValidationTokens.Include(x => x.User).Where(x => x.User == user).ToListAsync();
-        foreach (var token in tokens)
-        {
-            await RevokeValidateToken(token.Token);
-        }
+        foreach (var token in tokens) await RevokeValidateToken(token.Token);
 
         return await CreateValidateToken(user);
     }

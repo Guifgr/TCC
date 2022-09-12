@@ -11,7 +11,7 @@ public static class ConvertExtensions
     {
         try
         {
-            return (TDest)Convert.ChangeType(value, typeof(TDest));
+            return (TDest) Convert.ChangeType(value, typeof(TDest));
         }
         catch
         {

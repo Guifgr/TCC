@@ -1,6 +1,6 @@
-﻿using TccUmc.Domain.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using TccUmc.Domain.Exceptions;
 using TccUmc.Domain.Models;
-using Microsoft.EntityFrameworkCore;
 using TccUmc.Infrastructure.Database.Context;
 using TccUmc.Infrastructure.IRepository;
 
@@ -20,10 +20,7 @@ public class UserRepository : IUserRepository
         var result = await _tccContext.Users.FirstOrDefaultAsync(u =>
             u.Email.ToLower() == email.ToLower()
         );
-        if (result == null)
-        {
-            throw new NotFoundException("Usuário não encontrado");
-        }
+        if (result == null) throw new NotFoundException("Usuário não encontrado");
 
         return result;
     }
@@ -31,18 +28,13 @@ public class UserRepository : IUserRepository
     public void VerifyUserPassword(string password, User user)
     {
         if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
-        {
             throw new BadRequestException("Usuário ou senha incorretos");
-        }
     }
 
     public async Task<User> GetUserById(int id)
     {
         var user = await _tccContext.Users.FirstOrDefaultAsync(u => u.Id == id);
-        if (user == default)
-        {
-            throw new NotFoundException("Usuário não encontrado");
-        }
+        if (user == default) throw new NotFoundException("Usuário não encontrado");
 
         return user;
     }
@@ -55,10 +47,8 @@ public class UserRepository : IUserRepository
     public async Task ChangePasswordUser(string newPassword, User user)
     {
         if (BCrypt.Net.BCrypt.Verify(newPassword, user.Password))
-        {
             throw new BadRequestException("Senha igual a anterior, utilize outra senha");
-        }
-        
+
         user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
         await _tccContext.SaveChangesAsync();
     }
@@ -66,16 +56,13 @@ public class UserRepository : IUserRepository
     public async Task<User> UpdateUser(User user)
     {
         var userEntity = await GetUserByEmail(user.Email);
-        if (userEntity == null)
-        {
-            throw new NotFoundException("Usuário não encontrado");
-        }
-        
-        userEntity.Cnpj =  user.Cnpj;
+        if (userEntity == null) throw new NotFoundException("Usuário não encontrado");
+
+        userEntity.Cnpj = user.Cnpj;
         userEntity.Name = user.Name;
         userEntity.Address = user.Address;
         userEntity.Cpf = user.Cpf;
-        
+
         _tccContext.Users.Update(userEntity);
         await _tccContext.SaveChangesAsync();
         return userEntity;
@@ -90,10 +77,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User> CreateUser(User user)
     {
-        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email ||u.Cpf == user.Cpf))
-        { 
+        if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email || u.Cpf == user.Cpf))
             throw new BadRequestException("Usuário já cadastrado");
-        }
         await _tccContext.Users.AddAsync(user);
         await _tccContext.SaveChangesAsync();
         return user;

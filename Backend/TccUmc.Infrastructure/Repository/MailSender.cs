@@ -1,10 +1,9 @@
 ﻿using System.Web;
-using TccUmc.Domain.Models;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using TccUmc.Infrastructure.IRepository;
-using TccUmc.Utility.Extensions;
 
 namespace TccUmc.Infrastructure.Repository;
 
@@ -16,12 +15,12 @@ public class MailSender : IMailSender
     {
         _configuration = configuration;
     }
-    
+
     public async Task SentMailResetPassword(string email, string token)
     {
         var emailText = $"https://Tcc.guifgr.com/definir-senha?token={HttpUtility.HtmlEncode(token)}\n";
         var message = new MimeMessage();
-        
+
         message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));
         message.To.Add(MailboxAddress.Parse(email));
 
@@ -38,7 +37,7 @@ public class MailSender : IMailSender
     {
         var emailText = $"https://Tcc.guifgr.com/validar-conta?token={HttpUtility.HtmlEncode(validationToken)}\n";
         var message = new MimeMessage();
-        
+
         message.From.Add(new MailboxAddress("TCC UMC", Environment.GetEnvironmentVariable("MAIL_SENDER")));
         message.To.Add(MailboxAddress.Parse(userEmail));
 
@@ -53,12 +52,12 @@ public class MailSender : IMailSender
 
     private async Task MailSmtp(string emailText, MimeMessage message)
     {
-        var client = new MailKit.Net.Smtp.SmtpClient();
-        
-        var host = Environment.GetEnvironmentVariable("SERVER_SMTP")??"";
-        var port = int.Parse(Environment.GetEnvironmentVariable("SERVER_PORT_SMTP")??"");
-        var mailSender = Environment.GetEnvironmentVariable("MAIL_SENDER")??"";
-        var mailSenderPassword = Environment.GetEnvironmentVariable("MAIL_SENDER_PASSWORD")??"";
+        var client = new SmtpClient();
+
+        var host = Environment.GetEnvironmentVariable("SERVER_SMTP") ?? "";
+        var port = int.Parse(Environment.GetEnvironmentVariable("SERVER_PORT_SMTP") ?? "");
+        var mailSender = Environment.GetEnvironmentVariable("MAIL_SENDER") ?? "";
+        var mailSenderPassword = Environment.GetEnvironmentVariable("MAIL_SENDER_PASSWORD") ?? "";
 
         try
         {
@@ -77,4 +76,4 @@ public class MailSender : IMailSender
             client.Dispose();
         }
     }
-}   
+}

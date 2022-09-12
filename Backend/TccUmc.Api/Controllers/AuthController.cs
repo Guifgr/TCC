@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Request;
 using TccUmc.Application.DTO.Response;
 using TccUmc.Application.IService;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace TccUmc.Api.Controllers;
 
@@ -19,13 +19,13 @@ public class AuthController : Controller
     }
 
     /// <summary>
-    /// Login using email and password
+    ///     Login using email and password
     /// </summary>
     /// <param name="model">Email and password</param>
     /// <returns>JWT, Expire date, Permission</returns>
     [AllowAnonymous]
     [HttpPost]
-    public Task<LoginResponseDto> Login([Required][FromBody] LoginRequestDto model)
+    public Task<LoginResponseDto> Login([Required] [FromBody] LoginRequestDto model)
     {
         return _userService.LoginAsync(model);
     }

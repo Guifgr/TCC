@@ -1,10 +1,9 @@
-﻿namespace TccUmc.Domain.Enums
+﻿namespace TccUmc.Domain.Enums;
+
+public enum Role
 {
-    public enum Role
-    {
-        User,
-        Clinic,
-        Admin,
-        Professional
-    }
+    User,
+    Clinic,
+    Admin,
+    Professional
 }

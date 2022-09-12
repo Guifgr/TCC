@@ -1,6 +1,6 @@
-using TccUmc.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using TccUmc.Domain.Exceptions;
 
 namespace TccUmc.Utility.Middleware;
 

@@ -1,6 +1,4 @@
-﻿using TccUmc.Domain.Models;
-
-namespace TccUmc.Application.DTO.Clinic.Response;
+﻿namespace TccUmc.Application.DTO.Clinic.Response;
 
 public class UpdateClinicResponseDto
 {
