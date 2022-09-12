@@ -12,7 +12,7 @@ public class ModelProfile : Profile
 {
     public ModelProfile()
     {
-        CreateMap<CreateUserDto, User>();
+        CreateMap<CreateUserDto, User>().ReverseMap();
         CreateMap<UpdateUserDto, User>();
         CreateMap<User, CreateUserResponseDto>();
         CreateMap<AddressDto, Address>();
