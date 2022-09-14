@@ -83,6 +83,10 @@ public static class Validate
 
     public static bool IsEmailValid(string email)
     {
+        if (string.IsNullOrEmpty(email))
+        {
+            return false;
+        }
         const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
 
         return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);

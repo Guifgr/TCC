@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Clinic.Request;
 using TccUmc.Application.DTO.Clinic.Response;
 using TccUmc.Application.IService;
+using TccUmc.Domain.Enums;
 
 namespace TccUmc.Api.Controllers;
 
-[Authorize(Roles = "Clinic")]
+[Authorize(Role.Clinic)]
 [Route("[controller]/[action]")]
 public class ClinicController : Controller
 {
