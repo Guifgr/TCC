@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using TccUmc.Utility.ConfigBuilders;
 
 namespace TccUmc.Utility.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class EnvironmentVariableExtension
 {
     public static T GetEnvironmentVariable<T>(string environmentKey, string configFileKey,

@@ -1,5 +1,8 @@
-﻿namespace TccUmc.Utility.ConfigBuilders;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace TccUmc.Utility.ConfigBuilders;
+
+[ExcludeFromCodeCoverage]
 public sealed class ConfigAppSettings : ConfigSettings
 {
     private static ConfigAppSettings _instance;

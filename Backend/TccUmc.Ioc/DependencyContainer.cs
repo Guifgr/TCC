@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
 using TccUmc.Application.IService;
 using TccUmc.Application.Service;
 using TccUmc.Infrastructure.Database.Context;
@@ -7,6 +8,7 @@ using TccUmc.Infrastructure.Repository;
 
 namespace TccUmc.Ioc;
 
+[ExcludeFromCodeCoverage]
 public static class DependencyContainer
 {
     public static void RegisterServices(IServiceCollection services)
