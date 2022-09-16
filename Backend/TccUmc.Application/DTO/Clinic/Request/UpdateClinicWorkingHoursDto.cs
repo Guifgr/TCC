@@ -2,5 +2,5 @@
 
 public class UpdateClinicWorkingHoursDto
 {
-    public List<WorkingHoursDto> WorkingHours { get; set; }
+    public List<WorkingHoursDto> WorkingHours { get; set; } = new List<WorkingHoursDto>();
 }
