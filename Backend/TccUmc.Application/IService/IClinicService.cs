@@ -8,5 +8,5 @@ public interface IClinicService
 {
     Task<UpdateClinicResponseDto> UpdateClinic(UpdateClinicDto clinicDto);
     Task<UpdateClinicResponseDto> UpdateClinicWorkingHours(UpdateClinicWorkingHoursDto clinicDto);
-    Task<ClinicProcedureDTO> CreateClinicProcedure(ClinicProcedureCreateDTO clinicDto);
+    Task<ClinicProcedureDto> CreateClinicProcedure(ClinicProcedureCreateDto clinicDto);
 }

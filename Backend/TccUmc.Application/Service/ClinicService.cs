@@ -34,10 +34,10 @@ public class ClinicService : IClinicService
         return _mapper.Map<UpdateClinicResponseDto>(clinic);
     }
 
-    public async Task<ClinicProcedureDTO> CreateClinicProcedure(ClinicProcedureCreateDTO clinicDto)
+    public async Task<ClinicProcedureDto> CreateClinicProcedure(ClinicProcedureCreateDto clinicDto)
     {
         var procedure = _mapper.Map<ClinicProcedure>(clinicDto);
         await _clinicRepository.CreateClinicProcedureAsync(procedure);
-        return _mapper.Map<ClinicProcedureDTO>(procedure);
+        return _mapper.Map<ClinicProcedureDto>(procedure);
     }
 }

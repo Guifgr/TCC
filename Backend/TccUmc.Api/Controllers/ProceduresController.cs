@@ -23,7 +23,7 @@ public class ProceduresController : Controller
     /// <returns>Clinic resumed data</returns>
     [Authorize(Role.Clinic, Role.Admin, Role.Professional)]
     [HttpPost]
-    public async Task<ClinicProcedureDTO> CreateClinicProcedure([FromBody] [Required] ClinicProcedureCreateDTO procedure)
+    public async Task<ClinicProcedureDto> CreateClinicProcedure([FromBody] [Required] ClinicProcedureCreateDto procedure)
     {
         if (!ModelState.IsValid)
         {

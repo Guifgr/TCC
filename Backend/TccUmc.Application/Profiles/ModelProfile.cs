@@ -20,7 +20,7 @@ public class ModelProfile : Profile
         CreateMap<Clinic, UpdateClinicResponseDto>().ReverseMap();
         CreateMap<Clinic, UpdateClinicDto>().ReverseMap();
         CreateMap<WorkingHoursDto, WorkingHours>().ReverseMap();
-        CreateMap<ClinicProcedureDTO, ClinicProcedure>().ReverseMap();
-        CreateMap<ClinicProcedureCreateDTO, ClinicProcedure>().ReverseMap();
+        CreateMap<ClinicProcedureDto, ClinicProcedure>().ReverseMap();
+        CreateMap<ClinicProcedureCreateDto, ClinicProcedure>().ReverseMap();
     }
 }
