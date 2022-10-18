@@ -33,17 +33,15 @@ public class TccContext : DbContext
         base.OnConfiguring(optionsBuilder);
     }
 
-    private static string GetConnectionString(string connectionStringName)
-    {
-        var configurationBuilder =
-            new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false);
-        var configuration = configurationBuilder.Build();
-        return configuration.GetConnectionString(connectionStringName);
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>(entity =>
+        {
+            entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
+            entity.HasIndex(e => e.Guid).IsUnique();
+        });
+        
+        modelBuilder.Entity<ClinicProcedure>(entity =>
         {
             entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
             entity.HasIndex(e => e.Guid).IsUnique();

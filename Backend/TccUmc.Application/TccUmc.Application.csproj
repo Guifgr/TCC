@@ -7,18 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5"/>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0"/>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TccUmc.Domain\TccUmc.Domain.csproj"/>
-        <ProjectReference Include="..\TccUmc.Infrastructure\TccUmc.Infrastructure.csproj"/>
-        <ProjectReference Include="..\TccUmc.Utility\TccUmc.Utility.csproj"/>
+        <ProjectReference Include="..\TccUmc.Domain\TccUmc.Domain.csproj" />
+        <ProjectReference Include="..\TccUmc.Infrastructure\TccUmc.Infrastructure.csproj" />
+        <ProjectReference Include="..\TccUmc.Utility\TccUmc.Utility.csproj" />
     </ItemGroup>
 
 </Project>

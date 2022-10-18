@@ -21,6 +21,7 @@ public class ClinicRepository : IClinicRepository
             .Include(u => u.Address)
             .Include(u => u.Professionals)
             .Include(u => u.WorkingHours)
+            .Include(u => u.ClinicProcedures)
             .FirstAsync();
     }
 
@@ -29,7 +30,6 @@ public class ClinicRepository : IClinicRepository
         var clinicEntity = await GetClinic();
         if (clinicEntity == null) throw new Exception("Clinica não encontrada");
         clinic.Id = clinicEntity.Id;
-        clinicEntity = clinic;
         await _context.SaveChangesAsync();
         return clinic;
     }
@@ -42,6 +42,14 @@ public class ClinicRepository : IClinicRepository
         clinicEntity.WorkingHours = clinic.WorkingHours;
         await _context.SaveChangesAsync();
         return clinic;
+    }
+
+    public async Task<ClinicProcedure> CreateClinicProcedureAsync(ClinicProcedure procedure)
+    {
+        var clinic = await GetClinic();
+        clinic.ClinicProcedures?.Add(procedure);
+        await _context.SaveChangesAsync();
+        return procedure;
     }
 
     public async Task<Clinic> CreateClinic(Clinic clinic)
