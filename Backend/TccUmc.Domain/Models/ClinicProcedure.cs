@@ -2,10 +2,8 @@
 
 namespace TccUmc.Domain.Models;
 
-public class ClinicProcedure
+public class ClinicProcedure : BaseModel
 {
-    public int Id { get; set; }
-    public Guid Guid { get; set; }
     public string Name { get; set; }
     public List<Professional>? QualifieldProfessionals { get; set; }
     public double TimeSpent { get; set; }
