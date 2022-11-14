@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System.ComponentModel.DataAnnotations.Schema;
 using TccUmc.Domain.Enums;
 
 namespace TccUmc.Domain.Models;

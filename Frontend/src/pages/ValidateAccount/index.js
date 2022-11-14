@@ -38,7 +38,7 @@ export default function SignIn() {
                 setTimeout(function () {
                     setLoading(false);
                     notify();
-                    setText('Tudo certo!');
+                    setText('Conta validada!');
                     setTimeout(function () {
                         window.location.href = '/';
                     }, 3000);

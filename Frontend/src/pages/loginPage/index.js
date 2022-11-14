@@ -50,7 +50,7 @@ export default function SignIn() {
         axios
             .post(`${Constants.url.route}/Auth/Login`, body)
             .then((res) => {
-                localStorage.setItem("@tccToken", JSON.stringify(res.data.token));
+                localStorage.setItem("@tccToken", JSON.stringify(res.data));
                 if (res.data.token != null) {
                 } else {
                     localStorage.removeItem("@tccToken");
@@ -116,7 +116,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Email:"
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -126,7 +126,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Senha:"
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -142,7 +142,7 @@ export default function SignIn() {
                         <Grid container>
                             <Grid item xs>
                                 <Link href="redefinir-senha" variant="body2">
-                                    Esqueceu a senha?
+                                {"Esqueceu a senha?"}
                                 </Link>
                             </Grid>
                             <Grid item>

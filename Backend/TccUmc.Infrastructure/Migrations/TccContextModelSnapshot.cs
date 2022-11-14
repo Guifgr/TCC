@@ -108,6 +108,42 @@ namespace TccUmc.Infrastructure.Migrations
                     b.ToTable("Clinics");
                 });
 
+            modelBuilder.Entity("TccUmc.Domain.Models.ClinicProcedure", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ClinicId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TimeSpent")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TimeType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId");
+
+                    b.HasIndex("Guid")
+                        .IsUnique();
+
+                    b.ToTable("ClinicProcedure");
+                });
+
             modelBuilder.Entity("TccUmc.Domain.Models.Professional", b =>
                 {
                     b.Property<int>("Id")
@@ -120,6 +156,9 @@ namespace TccUmc.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ClinicId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClinicProcedureId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -146,6 +185,8 @@ namespace TccUmc.Infrastructure.Migrations
                     b.HasIndex("AddressId");
 
                     b.HasIndex("ClinicId");
+
+                    b.HasIndex("ClinicProcedureId");
 
                     b.ToTable("Professional");
                 });
@@ -293,6 +334,13 @@ namespace TccUmc.Infrastructure.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("TccUmc.Domain.Models.ClinicProcedure", b =>
+                {
+                    b.HasOne("TccUmc.Domain.Models.Clinic", null)
+                        .WithMany("ClinicProcedures")
+                        .HasForeignKey("ClinicId");
+                });
+
             modelBuilder.Entity("TccUmc.Domain.Models.Professional", b =>
                 {
                     b.HasOne("TccUmc.Domain.Models.Address", "Address")
@@ -302,6 +350,10 @@ namespace TccUmc.Infrastructure.Migrations
                     b.HasOne("TccUmc.Domain.Models.Clinic", null)
                         .WithMany("Professionals")
                         .HasForeignKey("ClinicId");
+
+                    b.HasOne("TccUmc.Domain.Models.ClinicProcedure", null)
+                        .WithMany("QualifieldProfessionals")
+                        .HasForeignKey("ClinicProcedureId");
 
                     b.Navigation("Address");
                 });
@@ -346,9 +398,16 @@ namespace TccUmc.Infrastructure.Migrations
 
             modelBuilder.Entity("TccUmc.Domain.Models.Clinic", b =>
                 {
+                    b.Navigation("ClinicProcedures");
+
                     b.Navigation("Professionals");
 
                     b.Navigation("WorkingHours");
+                });
+
+            modelBuilder.Entity("TccUmc.Domain.Models.ClinicProcedure", b =>
+                {
+                    b.Navigation("QualifieldProfessionals");
                 });
 #pragma warning restore 612, 618
         }

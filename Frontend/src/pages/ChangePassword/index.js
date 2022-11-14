@@ -145,7 +145,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Email:"
                             name="email"
                             autoFocus
                         />
@@ -154,7 +154,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Senha:"
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -164,7 +164,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             name="password-confirmation"
-                            label="Password Confirmation"
+                            label="Confirme a senha:"
                             type="password"
                             id="password-confirmation"
                             autoComplete="current-password-confirmation"
@@ -175,20 +175,8 @@ export default function SignIn() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Mudar senha
+                            Trocar senha
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="redefinir-senha" variant="body2">
-                                    Esqueceu a senha?
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="criar-conta" variant="body2">
-                                    {"Não tem conta? Se cadastre"}
-                                </Link>
-                            </Grid>
-                        </Grid>
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />

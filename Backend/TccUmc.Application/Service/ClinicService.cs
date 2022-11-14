@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TccUmc.Application.DTO.Clinic.Request;
 using TccUmc.Application.DTO.Clinic.Response;
+using TccUmc.Application.DTO.Procedures;
 using TccUmc.Application.IService;
 using TccUmc.Domain.Models;
 using TccUmc.Infrastructure.IRepository;
@@ -31,5 +32,12 @@ public class ClinicService : IClinicService
         clinic.WorkingHours = _mapper.Map<List<WorkingHours>>(clinicDto.WorkingHours);
         clinic = await _clinicRepository.UpdateClinicHours(clinic);
         return _mapper.Map<UpdateClinicResponseDto>(clinic);
+    }
+
+    public async Task<ClinicProcedureDto> CreateClinicProcedure(ClinicProcedureCreateDto clinicDto)
+    {
+        var procedure = _mapper.Map<ClinicProcedure>(clinicDto);
+        await _clinicRepository.CreateClinicProcedureAsync(procedure);
+        return _mapper.Map<ClinicProcedureDto>(procedure);
     }
 }

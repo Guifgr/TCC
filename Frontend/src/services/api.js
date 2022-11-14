@@ -21,7 +21,7 @@ api.interceptors.response.use(
     return response
   },
   function (error) {
-    if (error.message === 'Request failed with status code 401') logout()
+    // if (error.message === 'Request failed with status code 401') logout()
     return Promise.reject(error)
   },
 )

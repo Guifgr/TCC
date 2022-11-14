@@ -1,7 +1,10 @@
-﻿namespace TccUmc.Utility.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace TccUmc.Utility.Extensions;
 
 public static class ConvertExtensions
 {
+    [ExcludeFromCodeCoverage]
     public static T ConvertValue<T>(this string value)
     {
         return value.ConvertValue<string, T>();
@@ -11,7 +14,7 @@ public static class ConvertExtensions
     {
         try
         {
-            return (TDest)Convert.ChangeType(value, typeof(TDest));
+            return (TDest) Convert.ChangeType(value, typeof(TDest));
         }
         catch
         {

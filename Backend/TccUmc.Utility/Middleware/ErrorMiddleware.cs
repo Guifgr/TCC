@@ -1,9 +1,11 @@
-using TccUmc.Domain.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using TccUmc.Domain.Exceptions;
 
 namespace TccUmc.Utility.Middleware;
 
+[ExcludeFromCodeCoverage]
 public class ErrorMiddleware
 {
     private readonly RequestDelegate _next;

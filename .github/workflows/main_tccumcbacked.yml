@@ -26,6 +26,10 @@ jobs:
         working-directory: ./backend
         run: dotnet build --configuration Release
 
+      - name: Test
+        working-directory: ./backend
+        run: dotnet test --no-restore --verbosity normal
+
       - name: dotnet publish
         working-directory: ./backend
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp

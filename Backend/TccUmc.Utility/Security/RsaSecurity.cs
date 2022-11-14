@@ -1,8 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TccUmc.Utility.Security;
 
+[ExcludeFromCodeCoverage]
 public static class RsaSecurity
 {
     public static RsaSecurityKey GetPublicSigningKey(this RSA rsa)

@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 
 namespace TccUmc.Utility.ConfigBuilders;
 
@@ -12,7 +10,7 @@ public abstract class ConfigSettings
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(file, optional: true, reloadOnChange: false);
+            .AddJsonFile(file, true, false);
 
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         if (env != null && !string.IsNullOrWhiteSpace(env))
@@ -20,7 +18,7 @@ public abstract class ConfigSettings
             var idx = file.LastIndexOf(".json");
             var newFile = file.Insert(idx, $".{env}");
 
-            builder = builder.AddJsonFile(newFile, optional: true, reloadOnChange: false);
+            builder = builder.AddJsonFile(newFile, true, false);
         }
 
         Configuration = builder.Build();
