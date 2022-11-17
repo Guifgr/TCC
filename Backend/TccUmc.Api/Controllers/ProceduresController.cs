@@ -8,6 +8,7 @@ using TccUmc.Domain.Exceptions;
 
 namespace TccUmc.Api.Controllers;
 
+[Authorize]
 [Route("[controller]/[action]")]
 public class ProceduresController : Controller
 {
@@ -21,9 +22,10 @@ public class ProceduresController : Controller
     ///     Update clinic information
     /// </summary>
     /// <returns>Clinic resumed data</returns>
-    [Authorize(Role.Clinic, Role.Admin, Role.Professional)]
     [HttpPost]
-    public async Task<ClinicProcedureDto> CreateClinicProcedure([FromBody] [Required] ClinicProcedureCreateDto procedure)
+    public async Task<ProcedureGetDto> CreateClinicProcedure(
+        [FromBody] [Required] ProcedurePostDto procedure
+        )
     {
         if (!ModelState.IsValid)
         {
@@ -31,5 +33,15 @@ public class ProceduresController : Controller
         }
 
         return await _clinicService.CreateClinicProcedure(procedure);
+    }
+
+    /// <summary>
+    ///     Get clinic procedures
+    /// </summary>
+    /// <returns>Clinic procedures</returns>
+    [HttpGet]
+    public async Task<List<ProcedureGetDto>> GetClinicProcedure()
+    {
+        return await _clinicService.GetClinicProcedures();
     }
 }

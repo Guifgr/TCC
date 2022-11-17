@@ -10,6 +10,7 @@ public class Clinic
     public string Email { get; set; } = string.Empty;
     public string Whatsapp { get; set; } = string.Empty;
     public List<WorkingHours> WorkingHours { get; set; } = new();
-    public List<ClinicProcedure>? ClinicProcedures { get; set; } = new();
+    public List<Procedure>? Procedures { get; set; } = new();
+    public List<Consult>? Consults { get; set; } = new();
     public List<Professional> Professionals { get; set; } = new();
 }
