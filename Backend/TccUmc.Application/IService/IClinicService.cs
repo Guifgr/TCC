@@ -12,9 +12,11 @@ public interface IClinicService
     Task<UpdateClinicResponseDto> UpdateClinicWorkingHours(UpdateClinicWorkingHoursDto clinicDto);
     Task<ProcedureGetDto> CreateClinicProcedure(ProcedurePostDto dto);
     Task<List<ProcedureGetDto>> GetClinicProcedures();
+    Task<List<ProcedureGetDto>> GetClinicProcedureByGuid(Guid guid);
     Task<ConsultPostDto> CreateConsult(ConsultPostDto consultPost, string userId);
     Task<ProfessionalGetDto> CreateNewProfessional(ProfessionalPostDto professional);
     Task<List<ProfessionalGetDto>> GetProfessionals();
     Task<List<ConsultGetDto>> GetUserConsults(string userId);
     Task<List<ConsultGetDto>> GetClincConsults(string userId);
+    Task<List<ProcedureGetDto>> PutClinicProcedure(ProcedureGetDto procedure);
 }

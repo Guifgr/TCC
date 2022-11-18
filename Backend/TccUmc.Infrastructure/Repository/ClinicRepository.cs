@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TccUmc.Domain.Enums;
+using TccUmc.Domain.Exceptions;
 using TccUmc.Domain.Models;
 using TccUmc.Infrastructure.Database.Context;
 using TccUmc.Infrastructure.IRepository;
@@ -70,17 +71,16 @@ public class ClinicRepository : IClinicRepository
 
     public async Task<Procedure> GetClinicProcedureByGuid(Guid procedure)
     {
-        var clinic = await _context.Clinics.Include(c=> c.Procedures).FirstAsync();
-        
+        var clinic = await _context.Clinics.Include(c => c.Procedures).FirstAsync();
+
         var procedureEntity = clinic.Procedures?.FirstOrDefault(p => p.Guid == procedure);
-        
+
         if (procedureEntity == null)
         {
             throw new Exception("Procedimento não encontrado");
         }
-        
-        return procedureEntity;
 
+        return procedureEntity;
     }
 
     public async Task<List<Professional>> GetClinicProfessionals()
@@ -128,10 +128,35 @@ public class ClinicRepository : IClinicRepository
             .Include(c => c.Consults)
             .FirstAsync();
         consultEntity.Clinic = clinic;
-        clinic.Consults ??= new List<Consult>(); 
+        clinic.Consults ??= new List<Consult>();
         clinic.Consults.Add(consultEntity);
         await _context.SaveChangesAsync();
         return consultEntity;
+    }
+
+    public async Task<Procedure> UpdateClinicProcedure(Procedure procedureEntity)
+    {
+        var clinicProcedures = await _context.Clinics.Include(c => c.Procedures)
+            .ThenInclude(p => p.QualifieldProfessionals).FirstAsync();
+        if (clinicProcedures.Procedures == null)
+        {
+            throw new BadRequestException("Procedimento não encontrado");
+        }
+
+        var procedure =
+            clinicProcedures.Procedures.FirstOrDefault(p => p.Guid == procedureEntity.Guid);
+
+        if (procedure == null)
+        {
+            throw new BadRequestException("Procedimento não encontrado");
+        }
+
+        procedure.Duration = procedureEntity.Duration;
+        procedure.Name = procedureEntity.Name;
+        procedure.Price = procedureEntity.Price;
+        procedure.QualifieldProfessionals = procedureEntity.QualifieldProfessionals;
+        await _context.SaveChangesAsync();
+        return procedure;
     }
 
     public async Task<List<Consult>> GetConsults(int userId, Role role)
@@ -147,6 +172,7 @@ public class ClinicRepository : IClinicRepository
         {
             consults = consults.Where(c => c.User.Id == userId).ToList();
         }
+
         return consults;
     }
 

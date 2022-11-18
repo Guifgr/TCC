@@ -13,5 +13,7 @@ public class Consult : BaseModel
     public string Observations { get; set; } = string.Empty;
     public ConsultStatus Status { get; set; }
     public Procedure Procedure { get; set; }
+    public List<Procedure> PendingExams { get; set; }
+    
     public PaymentStatus PaymentStatus { get; set; }
 }

@@ -18,4 +18,5 @@ public interface IClinicRepository
     Task<List<Consult>> GetConsults(int userId, Role role);
     Task<List<Consult>> GetConsultsByDate(DateTime date);
     Task<Consult> CreateConsult(Consult consultEntity);
+    Task<Procedure> UpdateClinicProcedure(Procedure procedureEntity);
 }

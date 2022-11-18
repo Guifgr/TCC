@@ -52,6 +52,11 @@ public class ClinicService : IClinicService
         return _mapper.Map<List<ProcedureGetDto>>(await _clinicRepository.GetClinicProcedures());
     }
 
+    public async Task<List<ProcedureGetDto>> GetClinicProcedureByGuid(Guid guid)
+    {
+        return _mapper.Map<List<ProcedureGetDto>>(await _clinicRepository.GetClinicProcedureByGuid(guid));
+    }
+
     public async Task<ConsultPostDto> CreateConsult(ConsultPostDto consultPost, string userId)
     {
         var user = await _userRepository.GetUserById(int.Parse(userId));
@@ -112,5 +117,11 @@ public class ClinicService : IClinicService
     {
         return  _mapper.Map<List<ConsultGetDto>>(
             await _clinicRepository.GetConsults(int.Parse(userId), Role.User));
+    }
+
+    public async Task<List<ProcedureGetDto>> PutClinicProcedure(ProcedureGetDto procedure)
+    {
+        return _mapper.Map<List<ProcedureGetDto>>(
+            await _clinicRepository.UpdateClinicProcedure(_mapper.Map<Procedure>(procedure)));
     }
 }
