@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Clinic.Request;
 using TccUmc.Application.DTO.Clinic.Response;
