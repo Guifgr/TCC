@@ -5,5 +5,5 @@ namespace TccUmc.Infrastructure.IRepository;
 
 public interface IDashboardRepository
 {
-    
+    Task<Dashboard> GetDashboard(int UserId);
 }

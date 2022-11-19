@@ -4,5 +4,5 @@ namespace TccUmc.Application.IService;
 
 public interface IDashboardService
 {
-    Task<DashboardGetDto> GetDashboard(string getHttpContextId);
+    Task<DashboardGetDto> GetDashboard(string userId);
 }

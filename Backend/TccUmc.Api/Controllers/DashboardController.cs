@@ -19,13 +19,6 @@ public class DashbardController : Controller
         _dashboardService = dashboardService;
     }
 
-    /// <summary>
-    ///     Change password
-    /// </summary>
-    /// <param name="userDto">User Information</param>
-    /// <returns>User email</returns>
-    [AllowAnonymous]
-    //[ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet]
     public async Task<DashboardGetDto> GetDashboardInfo()
     {

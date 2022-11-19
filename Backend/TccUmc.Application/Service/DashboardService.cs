@@ -1,23 +1,22 @@
-﻿using TccUmc.Application.DTO;
+﻿using AutoMapper;
+using TccUmc.Application.DTO;
 using TccUmc.Application.IService;
 using TccUmc.Infrastructure.IRepository;
 
 namespace TccUmc.Application.Service;
 
-public class DasboardService : IDashboardService
+public class DashboardService : IDashboardService
 {
-    public IDashboardRepository _dashboardRepository;
-
-    public DasboardService(IDashboardRepository dashboardRepository)
+    private readonly IDashboardRepository _dashboardRepository;
+    private readonly IMapper _mapper;
+    public DashboardService(IDashboardRepository dashboardRepository, IMapper mapper)
     {
         _dashboardRepository = dashboardRepository;
+        _mapper = mapper;
     }
 
-    public async Task<DashboardGetDto> GetDashboard(string getHttpContextId)
+    public async Task<DashboardGetDto> GetDashboard(string userId)
     {
-        return new DashboardGetDto()
-        {
-
-        };
+        return _mapper.Map<DashboardGetDto>(await _dashboardRepository.GetDashboard(int.Parse(userId)));
     }
 }
