@@ -8,6 +8,7 @@ public class ProcedureGetDto
 {
     [Required] public Guid Guid { get; set; }
     [Required] public string Name { get; set; }
+    public double Price { get; set; }
     public List<ProfessionalGetDto>? QualifieldProfessionals { get; set; }
     public double ProcedureMinutes { get; set; }
 }

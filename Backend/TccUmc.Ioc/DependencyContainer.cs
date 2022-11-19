@@ -21,6 +21,7 @@ public static class DependencyContainer
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IClinicService, ClinicService>();
+        services.AddScoped<IDashboardService, DashboardService>();
 
         //Repository
         services.AddScoped<IUserRepository, UserRepository>();
@@ -28,6 +29,7 @@ public static class DependencyContainer
         services.AddScoped<IResetPassword, ResetPassword>();
         services.AddScoped<IMailSender, MailSender>();
         services.AddScoped<IValidateAccountToken, ValidateAccountToken>();
+        services.AddScoped<IDashboardRepository, DashboardRepository>();
 
 
         //Data

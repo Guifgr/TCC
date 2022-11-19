@@ -44,4 +44,25 @@ public class ProceduresController : Controller
     {
         return await _clinicService.GetClinicProcedures();
     }
+    
+    /// <summary>
+    ///     Get clinic procedures
+    /// </summary>
+    /// <returns>Clinic procedures</returns>
+    [HttpGet("/{procedure:Guid}")]
+    public async Task<List<ProcedureGetDto>> GetClinicProcedureByGuid(Guid procedure)
+    {
+        return await _clinicService.GetClinicProcedureByGuid(procedure);
+    }
+    
+    /// <summary>
+    ///     Get clinic procedures
+    /// </summary>
+    /// <returns>Clinic procedures</returns>
+    [Authorize(Role.Admin, Role.Clinic, Role.Professional)]
+    [HttpPost]
+    public async Task<List<ProcedureGetDto>> GetClinicProcedureByGuid(ProcedureGetDto procedure)
+    {
+        return await _clinicService.PutClinicProcedure(procedure);
+    }
 }
