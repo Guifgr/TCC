@@ -41,7 +41,19 @@ public class TccContext : DbContext
             entity.HasIndex(e => e.Guid).IsUnique();
         });
         
-        modelBuilder.Entity<ClinicProcedure>(entity =>
+        modelBuilder.Entity<Procedure>(entity =>
+        {
+            entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
+            entity.HasIndex(e => e.Guid).IsUnique();
+        });
+
+        modelBuilder.Entity<Consult>(entity =>
+        {
+            entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
+            entity.HasIndex(e => e.Guid).IsUnique();
+        });
+
+        modelBuilder.Entity<Professional>(entity =>
         {
             entity.Property(e => e.Guid).HasDefaultValueSql("NEWID()");
             entity.HasIndex(e => e.Guid).IsUnique();
