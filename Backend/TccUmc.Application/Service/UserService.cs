@@ -52,7 +52,7 @@ public class UserService : IUserService
     {
         var tokenValidate = await _validateAccountToken.GetValidateToken(token);
         if (tokenValidate == default || tokenValidate.ExpirationDate < DateTime.Now)
-            throw new NotFoundException("Token inválido");
+            throw new BadRequestException("Token inválido");
 
         await _userRepository.ValidateUserEmailAccount(tokenValidate.User);
         await _validateAccountToken.RevokeValidateToken(tokenValidate.Token);

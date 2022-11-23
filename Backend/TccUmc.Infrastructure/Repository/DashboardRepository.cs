@@ -22,7 +22,7 @@ public class DashboardRepository : IDashboardRepository
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         if (user == default)
         {
-            throw new BadRequestException("Usuário não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
         
         var clinic = await _context.Clinics
