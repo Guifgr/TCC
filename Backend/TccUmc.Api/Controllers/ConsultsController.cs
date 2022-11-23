@@ -7,6 +7,7 @@ using TccUmc.Application.DTO.Users.Request;
 using TccUmc.Application.DTO.Users.Response;
 using TccUmc.Application.IService;
 using TccUmc.Domain.Enums;
+using TccUmc.Domain.Exceptions;
 using TccUmc.Domain.Models;
 using TccUmc.Utility.Extensions;
 
@@ -32,7 +33,7 @@ public class ConsultsController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new BadRequestException(ModelState.ToString());
         }
         var userId = HttpContext.GetHttpContextId();
         await _clinicService.CreateConsult(consultPost, userId);
