@@ -61,7 +61,7 @@ public class UserService : IUserService
     public async Task RequestAccountPasswordChange(RequestUpdateUserPasswordDto userDto)
     {
         var user = await _userRepository.GetUserByEmail(userDto.Email);
-        if (user == null) throw new NotFoundException("Email não cadastrado");
+        if (user == null) throw new BadRequestException("Email não cadastrado");
         var resetPasswordToken = await _resetPassword.CreateResetPasswordToken(user);
         await _mailSender.SentMailResetPassword(user.Email, resetPasswordToken.Token);
     }
@@ -69,11 +69,11 @@ public class UserService : IUserService
     public async Task ChangeAccountPassword(UpdateUserPasswordDto userDto)
     {
         var user = await _userRepository.GetUserByEmail(userDto.Email);
-        if (user == default) throw new NotFoundException("Email não cadastrado");
+        if (user == default) throw new BadRequestException("Email não cadastrado");
 
         var resetToken = await _resetPassword.GetResetPasswordToken(user, userDto.Token);
         if (resetToken == default || resetToken.ExpirationDate < DateTime.Now)
-            throw new NotFoundException("Token inválido");
+            throw new BadRequestException("Token inválido");
 
         await _userRepository.ChangePasswordUser(userDto.NewPassword, user);
         await _resetPassword.RevokeResetPasswordToken(user, userDto.Token);
@@ -99,7 +99,7 @@ public class UserService : IUserService
     public async Task<GetUserEmailAndDocument> GetUserEmailAndDocument(string? value)
     {
         var user = await _userRepository.GetUserByEmail(value);
-        if (user == default) throw new NotFoundException("Usuário não encontrado");
+        if (user == default) throw new BadRequestException("Usuário não encontrado");
 
         return new GetUserEmailAndDocument
         {

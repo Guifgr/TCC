@@ -20,7 +20,7 @@ public class UserRepository : IUserRepository
         var result = await _tccContext.Users.FirstOrDefaultAsync(u =>
             u.Email.ToLower() == email.ToLower()
         );
-        if (result == null) throw new NotFoundException("Usuário não encontrado");
+        if (result == null) throw new BadRequestException("Usuário não encontrado");
 
         return result;
     }
@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserById(int id)
     {
         var user = await _tccContext.Users.FirstOrDefaultAsync(u => u.Id == id);
-        if (user == default) throw new NotFoundException("Usuário não encontrado");
+        if (user == default) throw new BadRequestException("Usuário não encontrado");
 
         return user;
     }
@@ -56,7 +56,7 @@ public class UserRepository : IUserRepository
     public async Task<User> UpdateUser(User user)
     {
         var userEntity = await GetUserByEmail(user.Email);
-        if (userEntity == null) throw new NotFoundException("Usuário não encontrado");
+        if (userEntity == null) throw new BadRequestException("Usuário não encontrado");
 
         userEntity.Cnpj = user.Cnpj;
         userEntity.Name = user.Name;

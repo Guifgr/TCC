@@ -77,7 +77,7 @@ public class ClinicRepository : IClinicRepository
 
         if (procedureEntity == null)
         {
-            throw new NotFoundException("Procedimento não encontrado");
+            throw new BadRequestException("Procedimento não encontrado");
         }
 
         return procedureEntity;
@@ -98,7 +98,7 @@ public class ClinicRepository : IClinicRepository
             .FirstAsync();
 
         var professionalEntity = clinic.Professionals.FirstOrDefault(p => p.Guid == professional);
-        if (professionalEntity == default) throw new NotFoundException("Profissional não encontrado");
+        if (professionalEntity == default) throw new BadRequestException("Profissional não encontrado");
 
         return professionalEntity;
     }
@@ -140,7 +140,7 @@ public class ClinicRepository : IClinicRepository
             .ThenInclude(p => p.QualifieldProfessionals).FirstAsync();
         if (clinicProcedures.Procedures == null)
         {
-            throw new NotFoundException("Procedimento não encontrado");
+            throw new BadRequestException("Procedimento não encontrado");
         }
 
         var procedure =
@@ -148,7 +148,7 @@ public class ClinicRepository : IClinicRepository
 
         if (procedure == null)
         {
-            throw new NotFoundException("Procedimento não encontrado");
+            throw new BadRequestException("Procedimento não encontrado");
         }
 
         procedure.Duration = procedureEntity.Duration;
