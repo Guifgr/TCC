@@ -106,6 +106,8 @@ public class UsersController : Controller
         await _userService.ChangeAccountPassword(userDto);
         return Ok("Senha alterada com sucesso");
     }
+    
+    [HttpGet]
     public IActionResult Teste()
     {
         return BadRequest("Erro direto do controller");
