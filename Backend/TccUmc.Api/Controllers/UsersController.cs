@@ -107,9 +107,10 @@ public class UsersController : Controller
         return Ok("Senha alterada com sucesso");
     }
     
+    [AllowAnonymous]
     [HttpGet]
-    public IActionResult Teste()
+    public async Task<IActionResult> TestApiErrors()
     {
-        return BadRequest("Erro direto do controller");
+        return BadRequest("Senha alterada com sucesso");
     }
 }
