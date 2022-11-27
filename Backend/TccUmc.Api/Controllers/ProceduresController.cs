@@ -49,7 +49,7 @@ public class ProceduresController : Controller
     ///     Get clinic procedures
     /// </summary>
     /// <returns>Clinic procedures</returns>
-    [HttpGet("procedure/{procedure:Guid}")]
+    [HttpGet("{procedure:Guid}")]
     public async Task<List<ProcedureGetDto>> GetClinicProcedureByGuid(Guid procedure)
     {
         return await _clinicService.GetClinicProcedureByGuid(procedure);
