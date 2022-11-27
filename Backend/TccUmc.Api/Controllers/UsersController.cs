@@ -106,4 +106,11 @@ public class UsersController : Controller
         await _userService.ChangeAccountPassword(userDto);
         return Ok("Senha alterada com sucesso");
     }
+    
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> TestApiErrors()
+    {
+        return BadRequest("Senha alterada com sucesso");
+    }
 }
