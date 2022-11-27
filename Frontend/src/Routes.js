@@ -1,56 +1,72 @@
-import React, { Fragment } from "react";
-import {
-    BrowserRouter,
-    Route,
-    Routes,
-    Navigate,
-    Outlet,
-} from "react-router-dom";
-import { getToken, isAuthenticated } from "./services/auth";
-import Login from "./pages/loginPage";
-import RequestChangePassword from "./pages/RequestChangePassword";
-import ChangePassword from "./pages/ChangePassword";
-import CreateAccount from "./pages/CreateAccount";
-import PostAccount from "./pages/PostAccount";
-import Main from "./pages/Main";
-import ValidateAccount from "./pages/ValidateAccount";
-import NavBar from "./Components/navbar";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import Home from "views/Home";
+import Professional from "views/Professional/Professional.js";
+import UserPage from "views/AccountPatient/UpdatePatient";
+import Contact from "views/Contact/Contact"
+import Consulta from "views/Consultation/Consulta";
+import Exams from "views/Exams/Exams";
+import Finance from "views/Finance/Finance";
+// import Login from "views/Login/loginIndex";
 
-const ProtectedRoute = ({ children }) => {
-    if (!isAuthenticated()) {
-        return <Navigate to="/login" replace />;
-    }
 
-    return children;
-};
+var routes = [
+  {
+    path: "/home",
+    name: "Inicio",
+    icon: "nc-icon nc-button-play",
+    component: Home,
+    layout: "/admin"
+  },
+   {
+     path: "/consulta",
+     name: "Consultas",
+     icon: "nc-icon nc-single-copy-04",
+     component: Consulta,
+     layout: "/admin"
+   },
+   {
+     path: "/exames",
+     name: "Exames",
+     icon: "nc-icon nc-touch-id",
+     component: Exams,
+     layout: "/admin"
+   },
+     {
+     path: "/financeiro",
+     name: "Financeiro",
+     icon: "nc-icon nc-bank",
+     component: Finance,
+     layout: "/admin"
+   },
+   {
+    path: "/notifications",
+    name: "Professional",
+    icon: "nc-icon nc-lock-circle-open",
+    component: Professional,
+    layout: "/admin"
+  },
+  {
+    path: "/perfil",
+    name: "Perfil",
+    icon: "nc-icon nc-single-02",
+    component: UserPage,
+    layout: "/admin"
+  },
+  {
+    path: "/contact",
+    name: "Fale com a gente",
+    icon: "nc-icon nc-email-85",
+    component: Contact,
+    layout: "/admin"
+  },
 
-const AppRoutes = () => (
-    <BrowserRouter>
-        <NavBar />
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/redefinir-senha" element={<RequestChangePassword />} />
-            <Route path="/definir-senha" element={<ChangePassword />} />
-            <Route path="/criar-conta" element={<CreateAccount />} />
-            <Route path="/validar-conta" element={<ValidateAccount />} />
-            <Route path="/finalizar-cadastro" element={<Main />} />
 
-            <Route path="/" element={
-                <ProtectedRoute>
-                    <Main />
-                </ProtectedRoute>}
-            />
-
-            <Route path="/pos-cadastro" element={
-                <ProtectedRoute>
-                    <PostAccount />
-                </ProtectedRoute>}
-            />
-
-            <Route path="*" element={<h1>Pagina não encontrada</h1>} />
-        </Routes>
-    </BrowserRouter>
-);
-
-export default AppRoutes;
+  // {
+  //   pro: true,
+  //   path: "/loginIndex",
+  //   name: "Sair",
+  //   icon: "nc-icon nc-button-power",
+  //   component: Login,
+  //   layout: "/admin"
+  // }
+];
+export default routes;

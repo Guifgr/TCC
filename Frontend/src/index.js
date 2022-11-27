@@ -1,15 +1,21 @@
-import { createRoot } from "react-dom/client";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import App from "./App";
+import "bootstrap/dist/css/bootstrap.css";
+import "assets/scss/paper-dashboard.scss?v=1.3.0";
+import "assets/demo/demo.css";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
 
-// 👇️ IMPORTANT: use correct ID of your root element
-// this is the ID of the div in your index.html file
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+import AdminLayout from "layouts/Admin.js";
 
-// 👇️ if you use TypeScript, add non-null (!) assertion operator
-// const root = createRoot(rootElement!);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-    <App />
+  <BrowserRouter>
+    <Switch>
+      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Redirect to="/admin/home" />
+    </Switch>
+  </BrowserRouter>
 );

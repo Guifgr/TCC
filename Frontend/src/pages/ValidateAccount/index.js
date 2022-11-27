@@ -14,9 +14,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Constants from "../../Constants";
 import axios from "axios";
-import Copyright from "../../Components/copyright";
+import Constants from '../../../Constants';
+import Copyright from '../../../Components/copyright';
 
 const theme = createTheme();
 
