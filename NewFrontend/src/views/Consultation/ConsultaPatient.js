@@ -51,7 +51,7 @@ function ConsultaPatient({ translatePaymentStatus, translateConsultStatus  }) {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Agendar Consulta PACIENTE</CardTitle>
+                <CardTitle tag="h4">Agendar Consulta</CardTitle>
               </CardHeader>
               <CardBody>
                 <Form>
