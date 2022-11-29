@@ -38,7 +38,8 @@ function Copyright(props) {
 }
 
 export default function Main() {
-  const [userData] = useContext(UserContext).state;
+  const context = useContext(UserContext);
+  const [userData] = context.state;
   const [queryed, setQueryed] = useState(false);
   const [debts, setDebts] = useState([]);
   const [totalDebts, setTotalDebts] = useState(0);
@@ -47,7 +48,7 @@ export default function Main() {
   const [pendingExams, setPendingExams] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get(`${Constants.url.route}/Dashbard/GetDashboardInfo`, {
+    if (userData.token)axios.get(`${Constants.url.route}/Dashbard/GetDashboardInfo`, {
       headers: {
         'authorization': `Bearer ${userData.token}`
       }
@@ -107,7 +108,10 @@ export default function Main() {
           </p>
         </div>
         <hr />
-        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
           SAIR
         </p>
       </div>

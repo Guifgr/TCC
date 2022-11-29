@@ -37,7 +37,8 @@ function Copyright(props) {
 }
 
 export default function PersonalForm() {
-  const [userInfo, setUserInfo] = useContext(UserContext).state;
+  const context = useContext(UserContext);
+  const [userInfo, setUserInfo] = context.state;
   const [cpf, setCpf] = useState();
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
@@ -177,12 +178,15 @@ export default function PersonalForm() {
           </h1>
         </div >
         <hr />
-        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
           SAIR
         </p>
       </div>
       </div>
-      <Container>
+      <Container style={{ width: "60%", overflowY: 'scroll', height: '90%' }}>
         <Typography variant="body1"
           color="text.warning"
           align="center" gutterBottom>

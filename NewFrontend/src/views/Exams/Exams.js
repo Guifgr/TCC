@@ -20,7 +20,7 @@ import {
 } from "reactstrap";
 
 function Exams() {
-  const [userInfo] = useContext(UserContext).state;
+  const context = useContext(UserContext);
   const navigate = useNavigate();
   const [data, setData] = useState("");
 
@@ -51,7 +51,11 @@ function Exams() {
           </p>
         </div>
         <hr />
-        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+        <hr />
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
           SAIR
         </p>
       </div>

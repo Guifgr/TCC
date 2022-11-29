@@ -28,7 +28,8 @@ const ProtectedRoute = ({ children }) => {
     const userContext = useContext(UserContext);
     const [data] = userContext.state;
     useEffect(() => {
-        // if (!data.token) navigate('/login');
+        console.log(!data.token);
+        if (!data.token) navigate('/login');
     },[data, navigate]);
     window.logout = () => {
         userContext.logout();
