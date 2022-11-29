@@ -18,6 +18,7 @@ public class ConsultGetDto
     public ProcedureGetDto Procedure { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public ClinicDto Clinic { get; set; }
+    public List<ProcedureGetDto> PendingExams { get; set; }
 }
 
 public class ClinicDto
