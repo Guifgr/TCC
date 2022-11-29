@@ -51,22 +51,45 @@ function Professional() {
 
     
       <div className="content">
-      <div className="content" style={{ width: '250%', padding: 10 }}>
+      <div className="content" style={{ width: '390%', padding: 10 }}>
       <div style={{ width: '100%', padding: 20, height: '100%' }}>
         <p style={{ marginBottom: '5%', fontSize: 32 }}>
           Profissional
           <hr></hr>
         </p>
        
+            <Row>
+              <Col md="12">
+                <Card>
+                  <CardHeader>
+                    <CardTitle tag="h4">Agenda Profissional</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <Table responsive>
+                      <thead className="text-primary">
+                        <tr>
+                          <th>Data</th>
+                          <th>Detalhes</th>
+                          <th>Situação</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>18/12/2022</td>
+                          <td>Consulta Aparelho</td>
+                          <td>Em aberto</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
 
-
-
-
-
+          </div>
         </div>
       </div>
-      </div>
-      </div>
+    </div>
   );
 }
 

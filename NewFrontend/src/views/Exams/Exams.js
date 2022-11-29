@@ -80,19 +80,19 @@ function Exams() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
             CONSULTAS
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/exame')}>
-            FINANCEIRO
-          </p>
-          <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
+          <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/exame')}>
             EXAMES
           </h1>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
+            FINANCEIRO
+          </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
             PERFIL
           </p>
-        </div >
+        </div>
         <hr />
         <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
           SAIR
@@ -100,7 +100,11 @@ function Exams() {
       </div>
 
       <div className="content" style={{ width: '80%', padding: 10 }}>
-
+          <div style={{ width: '100%', padding: 20, height: '100%' }}>
+            <p style={{ marginBottom: '5%', fontSize: 32 }}>
+              Exames
+              <hr></hr>
+            </p>
         <Row>
           <Col md="12">
             <Card>
@@ -131,12 +135,13 @@ function Exams() {
                       </FormGroup>
                     </Col>
                     <Col className="px-1" md="4">
-                      <FormGroup>
-                        <label>Data Disponivel</label>
+                    <FormGroup>
+                        <label htmlFor="availableDate">Data Disponivel</label>
                         <Input
-                          id="date"
-                          name="date"
-                          label="date"
+                          id="availableDate"
+                          name="availableDate"
+                          label="Data disponível"
+                          type="date"
                         />
                       </FormGroup>
                     </Col>
@@ -152,7 +157,7 @@ function Exams() {
                     </Col>
                   </Row>
                   <Row>
-                    <div className="update ml-auto mr-auto">
+                    <div className="text-right">
                       <Button
                         type="submit"
                         color="primary"
@@ -167,7 +172,9 @@ function Exams() {
             </Card>
           </Col>
         </Row>
-
+        <div className="stats">
+                          <br></br>
+                        </div>
         <Row style={{ marginTop: 20 }}>
           <Col md="12">
             <Card>
@@ -209,6 +216,7 @@ function Exams() {
             </Card>
           </Col>
         </Row>
+      </div>
       </div>
     </div >
   );
