@@ -75,6 +75,13 @@ public class UserRepository : IUserRepository
         await _tccContext.SaveChangesAsync();
     }
 
+    public async Task<User> GetUserByGuid(Guid userGuid)
+    {
+        var user = await _tccContext.Users.FirstOrDefaultAsync(u => u.Guid == userGuid);
+        if (user == default) throw new BadRequestException("Usuário não encontrado");
+        return user;
+    }
+
     public async Task<User> CreateUser(User user)
     {
         if (await _tccContext.Users.AnyAsync(u => u.Email == user.Email || u.Cpf == user.Cpf))

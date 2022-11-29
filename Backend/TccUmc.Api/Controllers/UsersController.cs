@@ -67,9 +67,20 @@ public class UsersController : Controller
     {
         return await _userService.ContinueAccountRegister(userDto, User.FindFirst(ClaimTypes.Email)?.Value);
     }
-
+    
     /// <summary>
     ///     Update User Information
+    /// </summary>
+    /// <param name="userDto">User Information for the signup</param>
+    /// <returns>User Guid and user email</returns>
+    [HttpPut]
+    public async Task<CreateUserResponseDto> UpdateAccount([Required] [FromBody] UpdateUserDto userDto)
+    {
+        return await _userService.UpdateAccount(userDto, User.FindFirst(ClaimTypes.Email)?.Value);
+    }
+
+    /// <summary>
+    ///     Update User Information first time
     /// </summary>
     /// <returns>User Guid and user email</returns>
     [HttpGet]

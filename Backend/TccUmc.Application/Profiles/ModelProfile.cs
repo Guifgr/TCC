@@ -29,5 +29,7 @@ public class ModelProfile : Profile
         CreateMap<ConsultPostDto, Consult>().ReverseMap();
         CreateMap<ConsultGetDto, Consult>().ReverseMap();
         CreateMap<Dashboard, DashboardGetDto>().ReverseMap();
+        CreateMap<User, UserDTO>().ReverseMap();
+        CreateMap<Clinic, ClinicDto>().ReverseMap();
     }
 }
