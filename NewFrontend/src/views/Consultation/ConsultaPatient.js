@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
+import UserContext from "../../context/userContext";
+import axios from "axios";
+import api from '../../Constants';
+import { toast, ToastContainer } from 'react-toastify';
 
 import {
   Card,
@@ -15,6 +19,29 @@ import {
 } from "reactstrap";
 
 function ConsultaPatient() {
+  const [userState] = useContext(UserContext).state;
+  const [consults, setConsults] = useState([]);
+  useMemo(() => {
+    if (userState.token) axios.get(`${api.url.route}/Consults/GetUserConsults  `, {
+      headers: {
+        'authorization': `Bearer ${userState.token}`
+      }
+    }).then((res) => {
+      const data = res.data;
+      if (!Array.isArray(data)) return;
+      setConsults(data);
+    }).catch(() => {
+      toast.error('Erro ao buscar consultas', {
+        position: "bottom-center",
+        autoClose: 6000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        allowHtml: true
+      })
+    });
+  }, [userState]);
   return (
     <>
       <div className="content">
@@ -119,6 +146,9 @@ function ConsultaPatient() {
                     </tr>
                   </thead>
                   <tbody>
+                    {consults && consults.map({}, key) => (<tr key={key}>
+                      <td></td>
+                    </tr>) }
                     <tr>
                       <td>Maria Silva</td>
                       <td>08869697799</td>
@@ -147,6 +177,7 @@ function ConsultaPatient() {
           </Col>
         </Row>
       </div>
+      <ToastContainer />
     </>
   );
 }

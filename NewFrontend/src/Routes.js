@@ -25,10 +25,15 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const ProtectedRoute = ({ children }) => {
     const navigate = useNavigate();
-    const [userData] = useContext(UserContext).state;
+    const userContext = useContext(UserContext);
+    const [userData] = userContext.state;
     useEffect(() => {
-        if (!userData.token) navigate('/login');
+        if (!userData.token === '') navigate('/login');
     });
+    // window.logout = () => {
+    //     userContext.logout();
+    //     navigate('/login');
+    // }
     return children;
 };
 
@@ -49,7 +54,11 @@ const AppRoutes = () => (
             <Route path="/profissional" element={<Professional />} />
             
             <Route path="/contato" element={<Contact />} />
-            <Route path="/consulta" element={<Consulta />} />
+            <Route path="/consulta" element={
+            <ProtectedRoute>
+            <Consulta />
+            </ProtectedRoute>
+            } />
             <Route path="/exame" element={<Exams />} />
             
 

@@ -15,18 +15,21 @@ export const UserProvider = ({ children }) => {
     });
     const [userState, setUserState] = useState(initialState);
     const setLoginData = (data) => {
-        console.log(data);
         if (!data) return;
         setUserState(data);
         Cookie.set('userData', JSON.stringify(data));
+    }
+
+    const logout = () => {
+        setUserState(initialState);
+        Cookie.set('userData', JSON.stringify(initialState));
     }
 
     useEffect(() => {
       const cookieVal = Cookie.get('userData');
       if (cookieVal) setUserState(JSON.parse(cookieVal));
     }, [Cookie])
-
-    return (<UserContext.Provider value={{ state: [userState, setLoginData], initial: [initialState] }}>
+    return (<UserContext.Provider value={{ state: [userState, setLoginData], initial: [initialState], logout }}>
             {children}
         </UserContext.Provider>)
 }
