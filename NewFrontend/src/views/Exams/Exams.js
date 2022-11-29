@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +18,25 @@ import {
 
 function Exams() {
   const navigate = useNavigate();
+  const [data, setData] = useState();
+
+  const getExams = async () => {
+    const exams = await fetch("https://tccumcnew.azurewebsites.net/Consults/GetClinicConsults", {
+      method: "get",
+      headers: new Headers({
+        "Authorization": '',
+        'Content-Type': 'text/plain'
+      })
+    });
+
+    const final = await exams.json();
+
+    setData(final)
+  }
+
+  useEffect(() => {
+    getExams();
+  }, [])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
@@ -35,15 +54,15 @@ function Exams() {
           <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/exame')}>
             EXAMES
           </h1>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          {/* <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/')}>
             PROFISSIONAL
-          </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          </p> */}
+          {/* <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/')}>
             PERFIL
-          </p>
+          </p> */}
         </div>
         <hr />
         <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
@@ -120,7 +139,7 @@ function Exams() {
           </Col>
         </Row>
 
-        <Row>
+        <Row style={{ marginTop: 20 }}>
           <Col md="12">
             <Card>
               <CardHeader>
@@ -133,40 +152,28 @@ function Exams() {
                       <th>Exames</th>
                       <th>Detalhes</th>
                       <th>Data Exames</th>
-                      <th>Situação Exames</th>
+                      {/* <th>Situação Exames</th> */}
                       <th>Valor</th>
                       <th>Situação pagamento</th>
                       <th className="text-right"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Raiox</td>
-                      <td>Para aparelho odonto</td>
-                      <td>20/11/2022</td>
-                      <td>Em andamento</td>
-                      <td>R$ 60,00</td>
-                      <td>Pago</td>
-                      <td className="text-right">Visualizar | Excluir</td>
-                    </tr>
-                    <tr>
-                      <td>Raiox</td>
-                      <td>Para aparelho odonto</td>
-                      <td>20/11/2022</td>
-                      <td>Em andamento</td>
-                      <td>R$ 60,00</td>
-                      <td>Pago</td>
-                      <td className="text-right">Visualizar | Excluir</td>
-                    </tr>
-                    <tr>
-                      <td>Raiox</td>
-                      <td>Para aparelho odonto</td>
-                      <td>20/11/2022</td>
-                      <td>Em andamento</td>
-                      <td>R$ 60,00</td>
-                      <td>Pago</td>
-                      <td className="text-right">Visualizar | Excluir</td>
-                    </tr>
+                    {data && data.map((item) => (
+                      <>
+                        <tr>
+                          <td>{item.procedure.name}</td>
+                          <td>{item.observations}</td>
+                          <td>{item.consultStart.split('-')[2].split("T")[0]}/{item.consultStart.split('-')[1]}/{item.consultStart.split("-")[0]}</td>
+                          {/* <td></td> */}
+                          <td>R$ {item.procedure.price}</td>
+                          <td>{item.paymentStatus}</td>
+                          <td className="text-right">Visualizar | Excluir</td>
+                        </tr>
+                        {console.log(item)}
+                      </>
+
+                    ))}
                   </tbody>
                 </Table>
               </CardBody>
