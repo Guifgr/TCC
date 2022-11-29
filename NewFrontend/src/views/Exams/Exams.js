@@ -22,13 +22,13 @@ import {
 function Exams() {
   const [userInfo] = useContext(UserContext).state;
   const navigate = useNavigate();
-  const [data, setData] = useState();
+  const [data, setData] = useState("");
 
   const getExams = async () => {
     const exams = await fetch("https://tccumcnew.azurewebsites.net/Consults/GetClinicConsults", {
       method: "get",
       headers: new Headers({
-        "Authorization": '',
+        "Authorization": `Bearer ${localStorage.getItem("@tccToken").split('"')[3]}`,
         'Content-Type': 'text/plain'
       })
     });
@@ -77,14 +77,14 @@ function Exams() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/')}>
             INICIO
           </p>
-          <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
             CONSULTAS
-          </h1>
+          </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/exame')}>
             FINANCEIRO
           </p>
           <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
-            CONSULTAS
+            EXAMES
           </h1>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
             PROFISSIONAL
