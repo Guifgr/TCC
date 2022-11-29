@@ -65,7 +65,7 @@ public class ClinicService : IClinicService
             User = user,
             ConsultStart = consultPost.ConsultStart,
         };
-        
+
         if (consultPost.Professional != Guid.Empty)
         {
             consultEntity.Professional = await _clinicRepository
@@ -74,21 +74,27 @@ public class ClinicService : IClinicService
 
         consultEntity.Procedure = await _clinicRepository.GetClinicProcedureByGuid(consultPost.Procedure);
         consultEntity.ConsultEnd = consultEntity.ConsultStart.AddMinutes(consultEntity.Procedure.Duration);
-        
+
         var consults = await _clinicRepository.GetConsultsByDate(consultPost.ConsultStart.Date);
         var hasAppointment = consults
             .Any(c =>
                 (c.ConsultStart.TimeOfDay >= consultEntity.ConsultStart.TimeOfDay &&
-                c.ConsultStart.TimeOfDay <= consultEntity.ConsultEnd.TimeOfDay) ||
+                 c.ConsultStart.TimeOfDay <= consultEntity.ConsultEnd.TimeOfDay) ||
                 (c.ConsultEnd.TimeOfDay <= consultEntity.ConsultEnd.TimeOfDay &&
-                c.ConsultStart.TimeOfDay >= consultEntity.ConsultEnd.TimeOfDay));
+                 c.ConsultStart.TimeOfDay >= consultEntity.ConsultEnd.TimeOfDay));
 
         if (hasAppointment)
         {
             throw new BadRequestException("Já existe uma consulta marcada para este horário");
         }
-        
-        return _mapper.Map<ConsultPostDto>(await _clinicRepository.CreateConsult(consultEntity));
+
+        var consultCreated = await _clinicRepository.CreateConsult(consultEntity);
+        return new ConsultPostDto
+        {
+            Procedure = consultCreated.Procedure.Guid,
+            ConsultStart = consultCreated.ConsultStart,
+            Professional = consultCreated.Professional.Guid
+        };
     }
 
     public async Task<ProfessionalGetDto> CreateNewProfessional(ProfessionalPostDto professional)
@@ -99,9 +105,10 @@ public class ClinicService : IClinicService
         {
             throw new BadRequestException($"Professional já está cadastrado");
         }
+
         return _mapper.Map<ProfessionalGetDto>(await _clinicRepository.CreateNewClinicProfessional(professionalEntity));
     }
-    
+
     public async Task<List<ProfessionalGetDto>> GetProfessionals()
     {
         return _mapper.Map<List<ProfessionalGetDto>>(await _clinicRepository.GetClinicProfessionals());
@@ -109,13 +116,15 @@ public class ClinicService : IClinicService
 
     public async Task<List<ConsultGetDto>> GetUserConsults(string userId)
     {
-        return  _mapper.Map<List<ConsultGetDto>>(
-            await _clinicRepository.GetConsults(int.Parse(userId), Role.User));
+        var
+            consult = _mapper.Map<List<ConsultGetDto>>(
+                await _clinicRepository.GetConsults(int.Parse(userId), Role.User));
+        return consult;
     }
 
     public async Task<List<ConsultGetDto>> GetClincConsults(string userId)
     {
-        return  _mapper.Map<List<ConsultGetDto>>(
+        return _mapper.Map<List<ConsultGetDto>>(
             await _clinicRepository.GetConsults(int.Parse(userId), Role.User));
     }
 
@@ -123,5 +132,74 @@ public class ClinicService : IClinicService
     {
         return _mapper.Map<List<ProcedureGetDto>>(
             await _clinicRepository.UpdateClinicProcedure(_mapper.Map<Procedure>(procedure)));
+    }
+
+    public async Task<ConsultPostDto> CreateConsultClinic(ConsultPostDto consultPost, Guid userGuid)
+    {
+        var user = await _userRepository.GetUserByGuid(userGuid);
+        var consultEntity = new Consult
+        {
+            User = user,
+            ConsultStart = consultPost.ConsultStart,
+        };
+
+        if (consultPost.Professional != Guid.Empty)
+        {
+            consultEntity.Professional = await _clinicRepository
+                .GetClinicProfessionalByGuid(consultPost.Professional);
+        }
+
+        consultEntity.Procedure = await _clinicRepository.GetClinicProcedureByGuid(consultPost.Procedure);
+        consultEntity.ConsultEnd = consultEntity.ConsultStart.AddMinutes(consultEntity.Procedure.Duration);
+
+        var consults = await _clinicRepository.GetConsultsByDate(consultPost.ConsultStart.Date);
+        var hasAppointment = consults
+            .Any(c =>
+                (c.ConsultStart.TimeOfDay >= consultEntity.ConsultStart.TimeOfDay &&
+                 c.ConsultStart.TimeOfDay <= consultEntity.ConsultEnd.TimeOfDay) ||
+                (c.ConsultEnd.TimeOfDay <= consultEntity.ConsultEnd.TimeOfDay &&
+                 c.ConsultStart.TimeOfDay >= consultEntity.ConsultEnd.TimeOfDay));
+
+        if (hasAppointment)
+        {
+            throw new BadRequestException("Já existe uma consulta marcada para este horário");
+        }
+        var consultCreated = await _clinicRepository.CreateConsult(consultEntity);
+        return new ConsultPostDto
+        {
+            Procedure = consultCreated.Procedure.Guid,
+            ConsultStart = consultCreated.ConsultStart,
+            Professional = consultCreated.Professional.Guid
+        };
+    }
+
+    public async Task<List<UserDTO>> GetUsers()
+    {
+        return _mapper.Map<List<UserDTO>>(await _clinicRepository.GetUsers());
+    }
+
+    public Task DeleteConsult(Guid guid, string userId)
+    {
+        var consult = _clinicRepository.GetConsults(int.Parse(userId), Role.User).Result
+            .FirstOrDefault(c => c.Guid == guid);
+        if (consult == null)
+        {
+            throw new NotFoundException("Consulta não encontrada");
+        }
+
+        _clinicRepository.DeleteConsult(consult);
+        return Task.CompletedTask;
+    }
+
+    public async Task DeleteConsultClinic(Guid consultGuid)
+    {
+        var clinic = await _clinicRepository.GetClinic();
+        var consult = clinic?.Consults?.FirstOrDefault(c=>c.Guid == consultGuid);
+        if (consult == null)
+        {
+            throw new NotFoundException("Consulta não encontrada");
+        }
+
+        _clinicRepository.DeleteConsult(consult);
     }
 }
