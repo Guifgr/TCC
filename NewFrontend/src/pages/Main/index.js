@@ -96,13 +96,13 @@ export default function Main() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/exame')}>
             EXAMES
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
             PROFISSIONAL
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
             PERFIL
           </p>
         </div>
@@ -118,36 +118,6 @@ export default function Main() {
           <hr></hr>
         </p>
 
-        {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
-            <p style={{ color: 'white', fontSize: 24 }}>Débitos Pendentes</p>
-            <p style={{ color: "#FF0000", fontSize: 18 }}>Possui débitos em aberto</p>
-          </div>
-
-
-          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
-            <p style={{ color: 'white', fontSize: 24 }}>Informações Pendentes</p>
-            <p style={{ fontSize: 18 }}>Seu cadastro está OK</p>
-          </div>
-        </div>
-
-        <div style={{ marginTop: 30, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
-            <p style={{ color: 'white', fontSize: 24 }}>Consultas Pendentes</p>
-            <p style={{ fontSize: 18 }}>Não possui consultas</p>
-          </div>
-
-
-          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
-            <p style={{ color: 'white', fontSize: 24 }}>Exames Pendentes</p>
-            <p style={{ color: "#FF0000", fontSize: 18 }}>Possui exames em aberto</p>
-          </div>
-        </div> */}
-
-        {/* <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
-            <p style={{ color: 'white', fontSize: 24 }}>Débitos Pendentes</p>
-            <p style={{ color: "#FF0000", fontSize: 18 }}>Possui débitos em aberto</p>
-          </div> */}
 
         <div className="content">
           <Row>
