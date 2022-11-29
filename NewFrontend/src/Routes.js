@@ -26,10 +26,10 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 const ProtectedRoute = ({ children }) => {
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
-    const [userData] = userContext.state;
+    const [data] = userContext.state;
     useEffect(() => {
-        if (!userData.token === '') navigate('/login');
-    });
+        // if (!data.token) navigate('/login');
+    },[data, navigate]);
     window.logout = () => {
         userContext.logout();
         navigate('/login');
