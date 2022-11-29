@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import ListConsultaPatient from "./ConsultaPatient";
-import ListConsultAdm from "./ConsultaAdm";
+// import ListConsultaPatient from "./ConsultaPatient";
+// import ListConsultAdm from "./ConsultaAdm";
 import UserContext from "../../context/userContext";
 import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
@@ -65,10 +65,10 @@ function Exams() {
           SAIR
         </p>
       </div>
-      <div className="content" style={{ width: '80%', padding: 10 }}>
+      {/* <div className="content" style={{ width: '80%', padding: 10 }}>
         {userInfo.permissionLevel === 'User' ? <ListConsultaPatient translateConsultStatus={translateConsultStatus} translatePaymentStatus={translatePaymentStatus} />
           : <ListConsultAdm translateConsultStatus={translateConsultStatus} translatePaymentStatus={translatePaymentStatus} />}
-      </div>
+      </div> */}
     </div>
   );
 }
