@@ -18,7 +18,7 @@ import {
   Button
 } from "reactstrap";
 
-function ConsultaPatient() {
+function ConsultaPatient({ translatePaymentStatus, translateConsultStatus  }) {
   const [userState] = useContext(UserContext).state;
   const [consults, setConsults] = useState([]);
   useMemo(() => {
@@ -39,9 +39,10 @@ function ConsultaPatient() {
         pauseOnHover: true,
         draggable: true,
         allowHtml: true
-      })
+      });
     });
   }, [userState]);
+
   return (
     <>
       <div className="content">
@@ -135,41 +136,24 @@ function ConsultaPatient() {
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
-                      <th>Paciente</th>
-                      <th>CPF</th>
-                      <th>Consultas</th>
-                      <th>Medico</th>
-                      <th>Unidade</th>
-                      <th>Data Consultas</th>
+                      <th>Consulta</th>
+                      <th>Data/Horário</th>
                       <th>Situação Consultas</th>
+                      <th>Valor</th>
+                      <th>SitPgto</th>
+                      <th>Possui Exame?</th>
                       <th className="text-right"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {consults && consults.map({}, key) => (<tr key={key}>
-                      <td></td>
-                    </tr>) }
-                    <tr>
-                      <td>Maria Silva</td>
-                      <td>08869697799</td>
-                      <td>Orçamento</td>
-                      <td>Drº João</td>
-                      <td>Ferraz - SP</td>
-                      <td>20/11/2022</td>
-                      <td>Em andamento</td>
-                      <td className="text-right">Visualizar | Excluir</td>
-                    </tr>
-                    <tr>
-                      <td>Maria Silva</td>
-                      <td>08869697799</td>
-                      <td>Orçamento</td>
-                      <td>Drº João</td>
-                      <td>Ferraz - SP</td>
-                      <td>20/11/2022</td>
-                      <td>Em andamento</td>
-                      <td className="text-right">Visualizar | Excluir</td>
-                    </tr>
-
+                    {consults && consults.map(({consultStart, procedure: { name: procedureName, price = 0 }, paymentStatus, pendingExams, status  }, key) => (<tr key={key}>
+                      <td>{ procedureName }</td>
+                      <td>{new Date(consultStart).toLocaleDateString('pt-br')}</td>
+                      <td>{ translateConsultStatus(status) }</td> 
+                      <td>{ price.toLocaleString('pt-br') }</td> 
+                      <td>{ translatePaymentStatus(paymentStatus) }</td> 
+                      <td>{ pendingExams ? 'Sim' : 'Não' }</td> 
+                    </tr>)) }
                   </tbody>
                 </Table>
               </CardBody>

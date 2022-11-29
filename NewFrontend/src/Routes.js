@@ -30,10 +30,10 @@ const ProtectedRoute = ({ children }) => {
     useEffect(() => {
         if (!userData.token === '') navigate('/login');
     });
-    // window.logout = () => {
-    //     userContext.logout();
-    //     navigate('/login');
-    // }
+    window.logout = () => {
+        userContext.logout();
+        navigate('/login');
+    }
     return children;
 };
 
@@ -73,36 +73,6 @@ const AppRoutes = () => (
                     <PostAccount />
                 </ProtectedRoute>}
             />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
 
             <Route path="/dashboard" element={
                 <ProtectedRoute>    
