@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
-// import ListConsultaPatient from "./ConsultaPatient";
-// import ListConsultAdm from "./ConsultaAdm";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import UserContext from "../../context/userContext";
 import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
+import api from '../../Constants';
+import axios from "axios";
 import {
   Card,
   CardBody,
@@ -24,49 +24,6 @@ function Exams() {
   const navigate = useNavigate();
   const [data, setData] = useState("");
 
-  const getExams = async () => {
-    const exams = await fetch("https://tccumcnew.azurewebsites.net/Consults/GetClinicConsults", {
-      method: "get",
-      headers: new Headers({
-        "Authorization": `Bearer ${localStorage.getItem("@tccToken").split('"')[3]}`,
-        'Content-Type': 'text/plain'
-      })
-    });
-
-    const final = await exams.json();
-
-    setData(final)
-  }
-
-  useEffect(() => {
-    getExams();
-  }, [])
-
-  const translatePaymentStatus = (status) => {
-    switch (status) {
-      case 'Open':
-        return 'Aberto';
-      case 'Paid':
-        return 'Pago';
-      case 'Pendency':
-        return 'Pendente';
-      default:
-        return '?';
-    }
-  }
-
-  const translateConsultStatus = (status) => {
-    switch (status) {
-      case 'Open':
-        return 'Aberto';
-      case 'Closed':
-        return 'Fechado';
-      case 'Canceled':
-        return 'Cancelado';
-      default:
-        return '?';
-    }
-  }
   return (
     <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
       <div style={{ height: '100%', width: '20%', background: "#04cfd1", borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 25 }}>
@@ -86,7 +43,7 @@ function Exams() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
@@ -138,9 +95,9 @@ function Exams() {
                     <FormGroup>
                         <label htmlFor="availableDate">Data Disponivel</label>
                         <Input
-                          id="availableDate"
-                          name="availableDate"
-                          label="Data disponível"
+                          id="date"
+                          name="date"
+                          label="date"
                           type="date"
                         />
                       </FormGroup>
@@ -159,7 +116,7 @@ function Exams() {
                   <Row>
                     <div className="text-right">
                       <Button
-                        type="submit"
+                        type="button"
                         color="primary"
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}>Salvar Dados

@@ -35,7 +35,7 @@ function Tables() {
           <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </h1>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>

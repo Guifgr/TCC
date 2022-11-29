@@ -53,7 +53,7 @@ function Consulta() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>

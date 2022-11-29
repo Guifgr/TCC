@@ -58,7 +58,7 @@ function Professional() {
           <hr></hr>
         </p>
        
-            <Row>
+            {/* <Row>
               <Col md="12">
                 <Card>
                   <CardHeader>
@@ -84,7 +84,7 @@ function Professional() {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
+            </Row> */}
 
           </div>
         </div>

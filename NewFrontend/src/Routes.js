@@ -70,7 +70,7 @@ const AppRoutes = () => (
                     </ProtectedRoute>}
                 />
 
-                <Route path="/pos-cadastro" element={
+                <Route path="/perfil" element={
                     <ProtectedRoute>
                         <PostAccount />
                     </ProtectedRoute>}
