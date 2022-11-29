@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import UserContext from "../../context/userContext";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import Sidebar from "../../Components/Sidebar/Sidebar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -10,7 +11,7 @@ import { getWasPostRegistered } from '../../services/auth';
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import Constants from '../../Constants';
-
+import Logo from '../../assets/img/logo-c-nome.svg'
 
 import {
   Card,
@@ -45,43 +46,101 @@ export default function Main() {
   const [pendingConsults, setPendingConsults] = useState([]);
   const [pendingExams, setPendingExams] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    axios.get(`${Constants.url.route}/Dashbard/GetDashboardInfo`, {
-      headers: {
-        'authorization': `Bearer ${userData.token}`
-      }
-    }).then(({ data }) => {
-      console.log(data);
-      if (!queryed) {
-        console.log(data.debtsList);
-        setDebts(data.debtsList.debts);
-        setTotalDebts(data.debtsList.total);
-        setPendingPersonalInfo(data.pendingPersonalInfo);
-        setPendingConsults(data.pendingConsults);
-        setPendingExams(data.pendingExams);
-        setQueryed(true);
-      }
-    }).catch((e) => {
-      console.log(e.message);
-      toast.error(`Erro ao consultar dados`, {
-        position: "bottom-center",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        allowHtml: true
-      });
-    });
-  }, [userData]);
-  if (!userData.wasPostRegistered) {
-    navigate('/pos-cadastro');
-  }
+  // useEffect(() => {
+  //   axios.get(`${Constants.url.route}/Dashbard/GetDashboardInfo`, {
+  //     headers: {
+  //       'authorization': `Bearer ${userData.token}`
+  //     }
+  //   }).then(({ data }) => {
+  //     console.log(data);
+  //     if (!queryed) {
+  //       console.log(data.debtsList);
+  //       setDebts(data.debtsList.debts);
+  //       setTotalDebts(data.debtsList.total);
+  //       setPendingPersonalInfo(data.pendingPersonalInfo);
+  //       setPendingConsults(data.pendingConsults);
+  //       setPendingExams(data.pendingExams);
+  //       setQueryed(true);
+  //     }
+  //   }).catch((e) => {
+  //     console.log(e.message);
+  //     toast.error(`Erro ao consultar dados`, {
+  //       position: "bottom-center",
+  //       autoClose: 4000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       allowHtml: true
+  //     });
+  //   });
+  // }, [userData]);
+  // if (!userData.wasPostRegistered) {
+  //   navigate('/pos-cadastro');
+  // }
 
   return (
-    <>
-      <div className="content">
+    <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
+      <div style={{ height: '100%', width: '20%', background: "#03ACAE", borderTopRightRadius: 20, borderBottomRightRadius: 20, padding: 10 }}>
+        <img src={Logo} alt="Logo" style={{ width: '75%' }} />
+        <hr />
+
+        <div style={{ width: "100%", marginLeft: 25, height: '82%' }}>
+          <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/')}>
+            INICIO
+          </h1>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+            CONSULTAS
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+            EXAMES
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+            FINANCEIRO
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+            PROFISSIONAL
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+            PERFIL
+          </p>
+        </div>
+        <hr />
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+          SAIR
+        </p>
+      </div>
+
+      <div style={{ width: '60%', padding: 20, height: '100%' }}>
+        <p style={{ marginBottom: '5%', fontSize: 32 }}>
+          Início
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
+            <p style={{ color: 'white', fontSize: 24 }}>Débitos Pendentes</p>
+            <p style={{ color: "#FF0000", fontSize: 18 }}>Possui débitos em aberto</p>
+          </div>
+          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
+            <p style={{ color: 'white', fontSize: 24 }}>Informações Pendentes</p>
+            <p style={{ fontSize: 18 }}>Seu cadastro está OK</p>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 30, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
+            <p style={{ color: 'white', fontSize: 24 }}>Consultas Pendentes</p>
+            <p style={{ fontSize: 18 }}>Não possui consultas</p>
+          </div>
+          <div style={{ width: '49%', background: "#03ACAE", borderRadius: 20, textAlign: 'center', padding: 5 }}>
+            <p style={{ color: 'white', fontSize: 24 }}>Exames Pendentes</p>
+            <p style={{ color: "#FF0000", fontSize: 18 }}>Possui exames em aberto</p>
+          </div>
+        </div>
+
+      </div>
+      {/* <div className="content">
         <Row>
 
           <Col lg="6" md="8" sm="8">
@@ -215,9 +274,9 @@ export default function Main() {
         </Row>
 
 
-      </div>
+      </div> */}
       <ToastContainer />
-    </>
+    </div>
   );
 
 }

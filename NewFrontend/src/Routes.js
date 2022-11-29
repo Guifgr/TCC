@@ -40,48 +40,50 @@ const ProtectedRoute = ({ children }) => {
 const AppRoutes = () => (
     <BrowserRouter>
         <UserProvider>
-        <NavBar />
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/redefinir-senha" element={<RequestChangePassword />} />
-            <Route path="/definir-senha" element={<ChangePassword />} />
-            <Route path="/criar-conta" element={<CreateAccount />} />
-            <Route path="/validar-conta" element={<ValidateAccount />} />
-            <Route path="/finalizar-cadastro" element={<Main />} />
+            <NavBar />
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/redefinir-senha" element={<RequestChangePassword />} />
+                {/* Não existe */}
+                <Route path="/definir-senha" element={<ChangePassword />} />
+                <Route path="/criar-conta" element={<CreateAccount />} />
+                <Route path="/validar-conta" element={<ValidateAccount />} />
+                {/* Não existe */}
+                <Route path="/finalizar-cadastro" element={<Main />} />
 
-            <Route path="/financeiro" element={<Finance />} />
+                <Route path="/financeiro" element={<Finance />} />
 
-            <Route path="/profissional" element={<Professional />} />
-            
-            <Route path="/contato" element={<Contact />} />
-            <Route path="/consulta" element={
-            <ProtectedRoute>
-            <Consulta />
-            </ProtectedRoute>
-            } />
-            <Route path="/exame" element={<Exams />} />
-            
+                <Route path="/profissional" element={<Professional />} />
 
-            <Route path="/" element={
-                <ProtectedRoute>
-                    <Main />
-                </ProtectedRoute>}
-            />
+                <Route path="/contato" element={<Contact />} />
+                <Route path="/consulta" element={
+                    <ProtectedRoute>
+                        <Consulta />
+                    </ProtectedRoute>
+                } />
+                <Route path="/exame" element={<Exams />} />
 
-            <Route path="/pos-cadastro" element={
-                <ProtectedRoute>
-                    <PostAccount />
-                </ProtectedRoute>}
-            />
 
-            <Route path="/dashboard" element={
-                <ProtectedRoute>    
-                    <Dashboard />
-                </ProtectedRoute>}
-            />
+                <Route path="/" element={
+                    <ProtectedRoute>
+                        <Main />
+                    </ProtectedRoute>}
+                />
 
-            <Route path="*" element={<h1>Pagina não encontrada</h1>} />
-        </Routes>
+                <Route path="/pos-cadastro" element={
+                    <ProtectedRoute>
+                        <PostAccount />
+                    </ProtectedRoute>}
+                />
+
+                <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>}
+                />
+
+                <Route path="*" element={<h1>Pagina não encontrada</h1>} />
+            </Routes>
         </UserProvider>
     </BrowserRouter>
 );

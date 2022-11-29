@@ -165,17 +165,6 @@ export default function SignIn() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="cpf"
-                                    label="CPF:"
-                                    name="cpf"
-                                    autoComplete="cpf"
-                                    autoFocus
-                                /></Grid>
-                            <Grid item xs={10} sm={12}>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
                                     id="email"
                                     label="Email"
                                     name="email"
@@ -183,6 +172,18 @@ export default function SignIn() {
                                     autoFocus
                                 />
                             </Grid>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="cpf"
+                                    label="CPF:"
+                                    name="cpf"
+                                    autoComplete="cpf"
+                                    autoFocus
+                                /></Grid>
+
                             <Grid item xs={10} sm={12}>
                                 <TextField
                                     margin="normal"
