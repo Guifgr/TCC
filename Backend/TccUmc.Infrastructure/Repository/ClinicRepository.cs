@@ -159,6 +159,22 @@ public class ClinicRepository : IClinicRepository
         return procedure;
     }
 
+    public async Task<List<User>> GetUsers()
+    {
+        return await _context.Users.ToListAsync();
+    }
+
+    public void DeleteConsult(Consult consult)
+    {
+        _context.Remove(consult);
+    }
+
+    public async Task<Consult> GetConsult(Guid consultGuid)
+    {
+        return await _context.Clinics.Include(c => c.Consults).SelectMany(c => c.Consults).FirstOrDefaultAsync(c=>c.Guid == consultGuid);
+         
+    }
+
     public async Task<List<Consult>> GetConsults(int userId, Role role)
     {
         var consults = await _context.Clinics

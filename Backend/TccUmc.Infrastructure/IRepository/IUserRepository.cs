@@ -17,4 +17,5 @@ public interface IUserRepository
     Task ChangePasswordUser(string newPassword, User user);
     Task<User> UpdateUser(User user);
     Task ValidateUserEmailAccount(User tokenValidateUser);
+    Task<User> GetUserByGuid(Guid userGuid);
 }
