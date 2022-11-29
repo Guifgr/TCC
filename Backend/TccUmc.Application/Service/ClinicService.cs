@@ -88,7 +88,13 @@ public class ClinicService : IClinicService
             throw new BadRequestException("Já existe uma consulta marcada para este horário");
         }
 
-        return _mapper.Map<ConsultPostDto>(await _clinicRepository.CreateConsult(consultEntity));
+        var consultCreated = await _clinicRepository.CreateConsult(consultEntity);
+        return new ConsultPostDto
+        {
+            Procedure = consultCreated.Procedure.Guid,
+            ConsultStart = consultCreated.ConsultStart,
+            Professional = consultCreated.Professional.Guid
+        };
     }
 
     public async Task<ProfessionalGetDto> CreateNewProfessional(ProfessionalPostDto professional)
@@ -158,8 +164,13 @@ public class ClinicService : IClinicService
         {
             throw new BadRequestException("Já existe uma consulta marcada para este horário");
         }
-
-        return _mapper.Map<ConsultPostDto>(await _clinicRepository.CreateConsult(consultEntity));
+        var consultCreated = await _clinicRepository.CreateConsult(consultEntity);
+        return new ConsultPostDto
+        {
+            Procedure = consultCreated.Procedure.Guid,
+            ConsultStart = consultCreated.ConsultStart,
+            Professional = consultCreated.Professional.Guid
+        };
     }
 
     public async Task<List<UserDTO>> GetUsers()
@@ -167,7 +178,7 @@ public class ClinicService : IClinicService
         return _mapper.Map<List<UserDTO>>(await _clinicRepository.GetUsers());
     }
 
-    public void DeleteConsult(Guid guid, string userId)
+    public Task DeleteConsult(Guid guid, string userId)
     {
         var consult = _clinicRepository.GetConsults(int.Parse(userId), Role.User).Result
             .FirstOrDefault(c => c.Guid == guid);
@@ -177,11 +188,13 @@ public class ClinicService : IClinicService
         }
 
         _clinicRepository.DeleteConsult(consult);
+        return Task.CompletedTask;
     }
 
     public async Task DeleteConsultClinic(Guid consultGuid)
     {
-        var consult = await _clinicRepository.GetConsult(consultGuid);
+        var clinic = await _clinicRepository.GetClinic();
+        var consult = clinic?.Consults?.FirstOrDefault(c=>c.Guid == consultGuid);
         if (consult == null)
         {
             throw new NotFoundException("Consulta não encontrada");

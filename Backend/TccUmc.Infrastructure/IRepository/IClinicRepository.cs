@@ -21,5 +21,4 @@ public interface IClinicRepository
     Task<Procedure> UpdateClinicProcedure(Procedure procedureEntity);
     Task<List<User>> GetUsers();
     void DeleteConsult(Consult consult);
-    Task<Consult> GetConsult(Guid consultGuid);
 }

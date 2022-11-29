@@ -1,14 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Consult;
-using TccUmc.Application.DTO.Users.Request;
-using TccUmc.Application.DTO.Users.Response;
 using TccUmc.Application.IService;
 using TccUmc.Domain.Enums;
 using TccUmc.Domain.Exceptions;
-using TccUmc.Domain.Models;
 using TccUmc.Utility.Extensions;
 
 namespace TccUmc.Api.Controllers;
@@ -96,10 +91,10 @@ public class ConsultsController : Controller
     /// <returns>A list of user consults</returns>
     [Authorize(Role.Clinic)]
     [HttpDelete("{ConsultGuid:guid}")]
-    public IActionResult DeleteConsultClinic(Guid ConsultGuid)
+    public async Task<IActionResult> DeleteConsultClinic(Guid ConsultGuid)
     {
         var userId = HttpContext.GetHttpContextId();
-        _clinicService.DeleteConsultClinic(ConsultGuid);
+        await _clinicService.DeleteConsultClinic(ConsultGuid);
         return Ok("Deletado com sucesso");
     }
 }

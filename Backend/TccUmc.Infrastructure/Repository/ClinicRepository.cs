@@ -19,13 +19,14 @@ public class ClinicRepository : IClinicRepository
 
     public async Task<Clinic> GetClinic()
     {
-        return await _context.Clinics
+        var clinic = await _context.Clinics
             .Include(u => u.Address)
             .Include(u => u.Professionals)
             .Include(u => u.WorkingHours)
             .Include(u => u.Procedures)
-            .Include(u => u.Procedures)
+            .Include(u => u.Consults)
             .FirstAsync();
+        return clinic;
     }
 
     public async Task<Clinic> GetClinicById()
@@ -166,13 +167,8 @@ public class ClinicRepository : IClinicRepository
 
     public void DeleteConsult(Consult consult)
     {
-        _context.Remove(consult);
-    }
-
-    public async Task<Consult> GetConsult(Guid consultGuid)
-    {
-        return await _context.Clinics.Include(c => c.Consults).SelectMany(c => c.Consults).FirstOrDefaultAsync(c=>c.Guid == consultGuid);
-         
+        _context.Entry(consult).State = EntityState.Deleted;
+        _context.SaveChanges();
     }
 
     public async Task<List<Consult>> GetConsults(int userId, Role role)
@@ -180,12 +176,12 @@ public class ClinicRepository : IClinicRepository
         var consults = await _context.Clinics
             .SelectMany(c => c.Consults)
             .Include(c => c.Clinic)
-            .ThenInclude(c=>c.Address)
+            .ThenInclude(c => c.Address)
             .Include(c => c.User)
             .Include(c => c.Procedure)
             .Include(c => c.Professional)
             .ToListAsync();
-        
+
         if (role == Role.User)
         {
             consults = consults.Where(c => c.User.Id == userId).ToList();
