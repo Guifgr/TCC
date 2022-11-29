@@ -164,10 +164,12 @@ public class ClinicRepository : IClinicRepository
         var consults = await _context.Clinics
             .SelectMany(c => c.Consults)
             .Include(c => c.Clinic)
+            .ThenInclude(c=>c.Address)
             .Include(c => c.User)
             .Include(c => c.Procedure)
             .Include(c => c.Professional)
             .ToListAsync();
+        
         if (role == Role.User)
         {
             consults = consults.Where(c => c.User.Id == userId).ToList();

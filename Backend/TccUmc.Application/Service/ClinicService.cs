@@ -109,8 +109,9 @@ public class ClinicService : IClinicService
 
     public async Task<List<ConsultGetDto>> GetUserConsults(string userId)
     {
-        return  _mapper.Map<List<ConsultGetDto>>(
-            await _clinicRepository.GetConsults(int.Parse(userId), Role.User));
+        var 
+        consult =  _mapper.Map<List<ConsultGetDto>>(await _clinicRepository.GetConsults(int.Parse(userId), Role.User));
+        return consult;
     }
 
     public async Task<List<ConsultGetDto>> GetClincConsults(string userId)
