@@ -6,8 +6,8 @@ const prod = {
 };
 const dev = {
     url: {
-        route: "https://localhost:7039",
-        Hub: "https://localhost:7039/hubs/TccHub",
+        route: "https://cyan-dryers-lick-200-171-134-45.loca.lt/",
+        Hub: "https://cyan-dryers-lick-200-171-134-45.loca.lt/hubs/TccHub",
     },
 };
 
