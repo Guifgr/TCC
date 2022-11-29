@@ -16,6 +16,7 @@ public class UpdateUserDto
     }
 
     [Required] [MaxLength(50)] public string Name { get; set; } = string.Empty;
+    public string email { get; set; } = string.Empty;
 
     [MaxLength(14)] [MinLength(14)] public string? Cnpj { get; set; } = string.Empty;
     [Required] public AddressDto Address { get; set; } = new();

@@ -18,16 +18,17 @@ import Copyright from "../../Components/copyright";
 import ValidateCpf from "../../services/validateCpf";
 import Grid from '@mui/material/Grid';
 import api from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function SignIn() {
     const [loading, setLoading] = useState(false);
-
+    const navigate = useNavigate();
     const onReturn = (event) => {
         event.preventDefault();
         localStorage.removeItem("@tccToken");
-        window.location.href = '/'
+        navigate('/login')
     };
 
     const handleSubmit = (event) => {
@@ -38,12 +39,9 @@ export default function SignIn() {
         var passwordConfirmation = data.get("password-confirmation");
         var cpf = data.get("cpf");
 
-        if (email == '' ||
-            password == '' ||
-            passwordConfirmation == '' ||
-            email == null ||
-            password == null ||
-            passwordConfirmation == null) {
+        if (!email || 
+            !password ||
+            !passwordConfirmation) {
             return toast.info('Preencha todos os campos!', {
                 position: "bottom-center",
                 autoClose: 3000,
@@ -95,7 +93,7 @@ export default function SignIn() {
                 notify();
                 setLoading(false);
                 setTimeout(function () {
-                    window.location.href = '/';
+                    navigate('/login');
                 }, 5000);
             })
             .catch((err) => {
@@ -165,17 +163,6 @@ export default function SignIn() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="cpf"
-                                    label="CPF:"
-                                    name="cpf"
-                                    autoComplete="cpf"
-                                    autoFocus
-                                /></Grid>
-                            <Grid item xs={10} sm={12}>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
                                     id="email"
                                     label="Email"
                                     name="email"
@@ -183,6 +170,18 @@ export default function SignIn() {
                                     autoFocus
                                 />
                             </Grid>
+                            <Grid item xs={10} sm={12}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="cpf"
+                                    label="CPF:"
+                                    name="cpf"
+                                    autoComplete="cpf"
+                                    autoFocus
+                                /></Grid>
+
                             <Grid item xs={10} sm={12}>
                                 <TextField
                                     margin="normal"

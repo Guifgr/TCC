@@ -108,4 +108,11 @@ public class UserService : IUserService
             Cpf = user.Cpf
         };
     }
+
+    public async Task<CreateUserResponseDto> UpdateAccount(UpdateUserDto userDto, string? value)
+    {
+        var user = _mapper.Map<User>(userDto);
+        user = await _userRepository.UpdateUser(user);
+        return _mapper.Map<CreateUserResponseDto>(user);
+    }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TccUmc.Application.DTO.Clinic.Request;
 using TccUmc.Application.DTO.Clinic.Response;
+using TccUmc.Application.DTO.Consult;
 using TccUmc.Application.IService;
 using TccUmc.Domain.Enums;
 
@@ -41,5 +42,15 @@ public class ClinicController : Controller
             clinicDto)
     {
         return await _clinicService.UpdateClinicWorkingHours(clinicDto);
+    }
+    
+    /// <summary>
+    ///     Get Users
+    /// </summary>
+    /// <returns>Users</returns>
+    [HttpGet]
+    public async Task<List<UserDTO>> ListUsers()
+    {
+        return await _clinicService.GetUsers();
     }
 }

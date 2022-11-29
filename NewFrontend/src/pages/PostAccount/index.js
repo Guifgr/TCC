@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import Logo from '../../assets/img/logo-c-nome.svg'
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LocationOn from '@mui/icons-material/LocationOn';
@@ -15,15 +14,13 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import Stack from '@mui/material/Stack';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
-import Constants from "../../Constants";
-import api from '../../services/api';
 import { postAccountSet } from '../../services/auth';
+import UserContext from '../../context/userContext';
+import Constants from "../../Constants";
+import { useNavigate } from 'react-router-dom';
 
-const theme = createTheme();
 
 function Copyright(props) {
   return (
@@ -31,7 +28,6 @@ function Copyright(props) {
       variant="body2"
       color="text.secondary"
       align="center"
-      {...props}
     >
       {"TCC UMC © "}
       {new Date().getFullYear()}
@@ -41,10 +37,22 @@ function Copyright(props) {
 }
 
 export default function PersonalForm() {
-
+  const context = useContext(UserContext);
+  const [userInfo, setUserInfo] = context.state;
   const [cpf, setCpf] = useState();
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
+  const [toastConfig] = useState({
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    prog: undefined,
+  });
+
+  const navigate = useNavigate();
 
   const onReturn = (event) => {
     event.preventDefault();
@@ -53,14 +61,18 @@ export default function PersonalForm() {
   };
 
   useEffect(() => {
-    api
-      .get(`${Constants.url.route}/Users/GetUserEmailAndDocument`)
-      .then((res) => {
-        setCpf(res.data.cpf);
-        setEmail(res.data.email);
-        console.log(res.data.email)
+    if (userInfo.token) axios
+      .get(`${Constants.url.route}/Users/GetUserEmailAndDocument`, {
+        headers: {
+          'authorization': `Bearer ${userInfo.token}`
+        }
       })
-  }, []);
+      .then(({ data }) => {
+        if (!data.cpf || !data.email) throw Error;
+        setCpf(data.cpf);
+        setEmail(data.email);
+      }).catch(() => toast.error('Erro ao consultar dados do usuário', toastConfig))
+  }, [userInfo, toastConfig]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -76,30 +88,17 @@ export default function PersonalForm() {
     var zipCode = data.get("zipCode");
     var reference = data.get("reference");
 
-    if (name == '' || street == '' || number == '' || complement == '' || neighborhood == '' ||
-      city == '' || state == '' || country == '' || zipCode == '' ||
-      name == null || street == null || number == null || complement == null || neighborhood == null ||
-      city == null || state == null || country == null || zipCode == null) {
-      return toast.info('Preencha todos os campos do formulário!', {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
+    if (!name || !street || !number || !complement || !neighborhood ||
+      !city || !state || !country || !zipCode) {
+      return toast.info('Preencha todos os campos do formulário!', toastConfig);
     }
 
     setLoading(true);
 
-
-
     var body = {
       name: name,
 
-      address: {
+      add: {
         street: street,
         number: number,
         complement: complement,
@@ -111,27 +110,31 @@ export default function PersonalForm() {
         reference: reference
       }
     }
-    api
-      .put(`${Constants.url.route}/Users/ContinueAccountRegister`, body)
-      .then((res) => {
+    axios
+      .put(`${Constants.url.route}/Users/ContinueAccountRegister`, body, {
+        headers: {
+          'authorization': userInfo.token
+        }
+      })
+      .then(() => {
         notify();
         setLoading(false);
-        postAccountSet()
+        setUserInfo({...userInfo, wasPostRegistered: true});
         setTimeout(function () {
-          window.location.href = '/';
+          navigate('/');
         }, 5000);
       })
       .catch((err) => {
         setLoading(false);
-        var message = JSON.parse(err.request.response).Message;
+        var message = JSON.parse(err.request.onse).Message;
         toast.error(message, {
           position: "bottom-center",
           autoClose: 5000,
-          hideProgressBar: false,
+          hideProgBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          prog: undefined,
         });
       });
 
@@ -140,16 +143,50 @@ export default function PersonalForm() {
   const notify = () => toast.success('Dados cadastrados com sucesso!', {
     position: "bottom-left",
     autoClose: 5000,
-    hideProgressBar: false,
+    hideProgBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
-    progress: undefined,
+    prog: undefined,
   });
 
   return (
     <React.Fragment>
-      <Container>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', position: 'absolute' }}>
+      <div style={{ height: '100%', width: '20%', background: "#04cfd1", borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 25 }}>
+        <img src={Logo} alt="Logo" style={{ width: '75%' }} />
+        <hr />
+
+        <div style={{ width: "100%", marginLeft: 25, height: '82%' }}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/')}>
+            INICIO
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+            CONSULTAS
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/exame')}>
+            EXAMES
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
+            FINANCEIRO
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
+            PROFISSIONAL
+          </p>
+          <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
+            PERFIL
+          </h1>
+        </div >
+        <hr />
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
+          SAIR
+        </p>
+      </div>
+      </div>
+      <Container style={{ width: "60%", overflowY: 'scroll', height: '90%' }}>
         <Typography variant="body1"
           color="text.warning"
           align="center" gutterBottom>
@@ -490,7 +527,7 @@ export default function PersonalForm() {
           <Copyright />
         </Container>
       </Box>
-
+      
     </React.Fragment>
 
   );

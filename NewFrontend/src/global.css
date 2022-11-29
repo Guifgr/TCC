@@ -94,3 +94,11 @@ html,
 .text-center {
   text-align: center;
 }
+
+.consult-clinic-delete {
+  cursor: pointer;
+}
+
+.consult-clinic-delete:hover {
+  color: #608cee;
+}

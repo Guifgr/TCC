@@ -6,8 +6,8 @@ const prod = {
 };
 const dev = {
     url: {
-        route: "https://localhost:7039",
-        Hub: "https://localhost:7039/hubs/TccHub",
+        route: "https://6616-2804-431-cfc3-5e42-a012-2942-34b-f891.sa.ngrok.io",
+        Hub: "https://6616-2804-431-cfc3-5e42-a012-2942-34b-f891.sa.ngrok.io/hubs/TccHub",
     },
 };
 
