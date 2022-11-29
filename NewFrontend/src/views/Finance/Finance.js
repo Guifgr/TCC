@@ -1,5 +1,6 @@
 import React from "react";
-
+import Logo from '../../assets/img/logo-c-nome.svg'
+import { useNavigate } from 'react-router-dom';
 
 import {
   Card,
@@ -12,6 +13,8 @@ import {
 } from "reactstrap";
 
 function Tables() {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="content">

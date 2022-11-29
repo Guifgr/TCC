@@ -47,7 +47,7 @@ function Consulta() {
           <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
             CONSULTAS
           </h1>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/exame')}>
             EXAMES
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/consulta')}>
