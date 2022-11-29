@@ -154,13 +154,17 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
   };
 
   return (
-    <>
+    <div style={{ width: '100%', padding: 20, height: '100%' }}>
+        <p style={{ marginBottom: '5%', fontSize: 32 }}>
+          Consultas
+          <hr></hr>
+        </p>
       <div className="content">
         <Row>
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Agendar Consulta ADM</CardTitle>
+                <CardTitle tag="h4">Agendar Consulta para o paciente</CardTitle>
               </CardHeader>
               <CardBody>
                 <Form onSubmit={handleSubmit}>
@@ -215,7 +219,7 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
                     </Col>
                   </Row>
                   <Row>
-                    <div className="update ml-auto mr-auto">
+                    <div className="text-right">
                       <Button
                         type="submit"
                         color="primary"
@@ -231,12 +235,14 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
             </Card>
           </Col>
         </Row>
-
+        <div className="stats">
+                          <br></br>
+                        </div>
         <Row>
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Histórico de Consultas ADM</CardTitle>
+                <CardTitle tag="h4" >Histórico de Consultas dos pacientes</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -317,7 +323,7 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
         </Row>
       </div>
       <ToastContainer />
-    </>
+      </div>
   );
 }
 
