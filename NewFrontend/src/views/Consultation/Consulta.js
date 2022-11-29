@@ -36,7 +36,7 @@ function Consulta() {
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
-      <div style={{ height: '100%', width: '20%', background: "#03ACAE", borderTopRightRadius: 20, borderBottomRightRadius: 20, padding: 10 }}>
+      <div style={{ height: '100%', width: '20%', background: "#04cfd1", borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 25 }}>
         <img src={Logo} alt="Logo" style={{ width: '75%' }} />
         <hr />
 
@@ -53,12 +53,12 @@ function Consulta() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          {/* <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
             PROFISSIONAL
-          </p> */}
-          {/* <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/')}>
+          </p>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
             PERFIL
-          </p> */}
+          </p>
         </div>
         <hr />
         <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
