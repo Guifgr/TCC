@@ -25,7 +25,7 @@ export default function SignIn() {
     const [loading, setLoading] = useState(false);
     const [userState, setUserState] = useContext(UserContext).state;
     const navigate = useNavigate();
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         var email = data.get("email");
@@ -44,46 +44,31 @@ export default function SignIn() {
             });
         }
 
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        var body = {
-            email: email,
-            password: password
-        };
-        axios
-            .post(`${Constants.url.route}/Auth/Login`, body)
-            .then((res) => {
-                if (!res.data.token) throw Error;
-                setUserState(res.data);
-                setLoading(false);
-                navigate('/');
+            const resp = await axios.post("https://tccumcnew.azurewebsites.net/Auth/Login", {
+                email, password
             })
-            .catch((err) => {
-                var error = JSON.parse(err.request.response).Message
-                setLoading(false);
-                toast.error(error, {
-                    position: "bottom-center",
-                    autoClose: 4000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    allowHtml: true
-                });
-                if (error == 'Usuário ainda não confirmou a conta por email!') {
-                    toast.error('Não se preocupe já enviamos um novo email para você!', {
-                        position: "bottom-center",
-                        autoClose: 6000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        allowHtml: true
-                    });
-                }
+
+            localStorage.setItem('level', resp.data.permissionLevel)
+            localStorage.setItem('token', resp.data.token)
+
+            navigate("/")
+
+            setLoading(false);
+        } catch (err) {
+            toast.error('Não foi possível legal!', {
+                position: "bottom-center",
+                autoClose: 6000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                allowHtml: true
             });
+        }
     };
 
     return (
@@ -141,7 +126,7 @@ export default function SignIn() {
                         <Grid container>
                             <Grid item xs>
                                 <Link href="redefinir-senha" variant="body2">
-                                {"Esqueceu a senha?"}
+                                    {"Esqueceu a senha?"}
                                 </Link>
                             </Grid>
                             <Grid item>
