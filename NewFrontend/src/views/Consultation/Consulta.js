@@ -6,7 +6,8 @@ import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
 
 function Consulta() {
-  const [userInfo] = useContext(UserContext).state;
+  const context = useContext(UserContext);
+  const [userInfo] = context.state;
   const navigate = useNavigate();
 
   const translatePaymentStatus = (status) => {
@@ -53,7 +54,7 @@ function Consulta() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
@@ -61,7 +62,10 @@ function Consulta() {
           </p>
         </div>
         <hr />
-        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
           SAIR
         </p>
       </div>

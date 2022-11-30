@@ -26,10 +26,11 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 const ProtectedRoute = ({ children }) => {
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
-    const [userData] = userContext.state;
+    const [data] = userContext.state;
     useEffect(() => {
-        if (!userData.token === '') navigate('/login');
-    });
+        console.log(!data.token);
+        if (!data.token) navigate('/login');
+    },[data, navigate]);
     window.logout = () => {
         userContext.logout();
         navigate('/login');
@@ -70,7 +71,7 @@ const AppRoutes = () => (
                     </ProtectedRoute>}
                 />
 
-                <Route path="/pos-cadastro" element={
+                <Route path="/perfil" element={
                     <ProtectedRoute>
                         <PostAccount />
                     </ProtectedRoute>}

@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
-// import ListConsultaPatient from "./ConsultaPatient";
-// import ListConsultAdm from "./ConsultaAdm";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import UserContext from "../../context/userContext";
 import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
+import api from '../../Constants';
+import axios from "axios";
 import {
   Card,
   CardBody,
@@ -20,7 +20,7 @@ import {
 } from "reactstrap";
 
 function Exams() {
-  const [userInfo] = useContext(UserContext).state;
+  const context = useContext(UserContext);
   const navigate = useNavigate();
   const [data, setData] = useState("");
   const [exam, setExam] = useState("");
@@ -115,7 +115,7 @@ function Exams() {
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </p>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
@@ -123,7 +123,11 @@ function Exams() {
           </p>
         </div>
         <hr />
-        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+        <hr />
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
           SAIR
         </p>
       </div>
@@ -236,6 +240,123 @@ function Exams() {
             </Col>
           </Row>
         </div>
+          <div style={{ width: '100%', padding: 20, height: '100%' }}>
+            <p style={{ marginBottom: '5%', fontSize: 32 }}>
+              Exames
+              <hr></hr>
+            </p>
+        <Row>
+          <Col md="12">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Agendar Exame</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Form>
+                  <Row>
+                    <Col className="pr-1" md="4">
+                      <FormGroup>
+                        <label>Exame</label>
+                        <Input
+                          id="exame"
+                          name="exame"
+                          label="Email"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="4">
+                      <FormGroup>
+                        <label>Unidade</label>
+                        <Input
+                          id="unidade"
+                          name="unidade"
+                          label="Unidade"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="4">
+                    <FormGroup>
+                        <label htmlFor="availableDate">Data Disponivel</label>
+                        <Input
+                          id="date"
+                          name="date"
+                          label="date"
+                          type="date"
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Observações:</label>
+                        <Input
+                          type="textarea"
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className="text-right">
+                      <Button
+                        type="button"
+                        color="primary"
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}>Salvar Dados
+                      </Button>
+                    </div>
+                  </Row>
+
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <div className="stats">
+                          <br></br>
+                        </div>
+        <Row style={{ marginTop: 20 }}>
+          <Col md="12">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Histórico de Exames</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Table responsive>
+                  <thead className="text-primary">
+                    <tr>
+                      <th>Exames</th>
+                      <th>Detalhes</th>
+                      <th>Data Exames</th>
+                      {/* <th>Situação Exames</th> */}
+                      <th>Valor</th>
+                      <th>Situação pagamento</th>
+                      <th className="text-right"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data && data.map((item) => (
+                      <>
+                        <tr>
+                          <td>{item.procedure.name}</td>
+                          <td>{item.observations}</td>
+                          <td>{item.consultStart.split('-')[2].split("T")[0]}/{item.consultStart.split('-')[1]}/{item.consultStart.split("-")[0]}</td>
+                          {/* <td></td> */}
+                          <td>R$ {item.procedure.price}</td>
+                          <td>{item.paymentStatus}</td>
+                          <td className="text-right">Visualizar | Excluir</td>
+                        </tr>
+                        {console.log(item)}
+                      </>
+
+                    ))}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </div>
       </div>
     </div >
   );

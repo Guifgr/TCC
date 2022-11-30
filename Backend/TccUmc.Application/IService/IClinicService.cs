@@ -19,4 +19,8 @@ public interface IClinicService
     Task<List<ConsultGetDto>> GetUserConsults(string userId);
     Task<List<ConsultGetDto>> GetClincConsults(string userId);
     Task<List<ProcedureGetDto>> PutClinicProcedure(ProcedureGetDto procedure);
+    Task<ConsultPostDto> CreateConsultClinic(ConsultPostDto consultPost, Guid userGuid);
+    Task<List<UserDTO>> GetUsers();
+    Task DeleteConsult(Guid guid, string userId);
+    Task DeleteConsultClinic(Guid consultGuid);
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
 
@@ -11,10 +11,11 @@ import {
   Row,
   Col
 } from "reactstrap";
+import UserContext from "../../context/userContext";
 
 function Tables() {
   const navigate = useNavigate();
-
+  const context = useContext(UserContext);
   return (
     <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
       <div style={{ height: '100%', width: '20%', background: "#04cfd1", borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 25 }}>
@@ -35,7 +36,7 @@ function Tables() {
           <h1 style={{ marginBottom: '5%', cursor: 'pointer' }} onClick={() => navigate('/financeiro')}>
             FINANCEIRO
           </h1>
-          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/profissional')}>
+          <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'not-allowed' }}>
             PROFISSIONAL
           </p>
           <p style={{ marginBottom: '5%', fontSize: 24, cursor: 'pointer' }} onClick={() => navigate('/perfil')}>
@@ -43,15 +44,18 @@ function Tables() {
           </p>
         </div>
         <hr />
-        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
+        <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
           SAIR
         </p>
       </div>
 
 
-      <div className="content">
-        <div className="content" style={{ width: '272%', padding: 10 }}>
-          <div style={{ width: '100%', padding: 20, height: '100%' }}>
+      <div className="content" style={{ width: '100%', padding: 10 }}>
+        <div className="content" style={{ width: '100%', padding: 10 }}>
+          <div style={{ padding: 20, height: '100%' }}>
             <p style={{ marginBottom: '5%', fontSize: 32 }}>
               Financeiro
               <hr></hr>

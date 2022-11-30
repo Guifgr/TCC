@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from "react";
 import UserContext from "../../context/userContext";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import {
   Card,
   CardHeader,
@@ -12,16 +12,24 @@ import {
   Form,
   FormGroup,
   Input,
-  Button
+  Button,
 } from "reactstrap";
 import axios from "axios";
 import Constants from "../../Constants";
 import ReactSelect from "react-select";
 
-function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
+function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
   const [userInfo] = useContext(UserContext).state;
   const [consults, setConsults] = useState([]);
   const [pacients, setPacients] = useState([]);
+  const [professionals, setProfessionals] = useState([]);
+  const [procedures, setProcedures] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    procedure: "",
+    consultStart: "",
+    professional: "",
+  });
   const [selectedPacient, setSelectedPacient] = useState();
   const [toastConfig] = useState({
     position: "bottom-center",
@@ -30,62 +38,131 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
-    allowHtml: true
+    allowHtml: true,
   });
-  useMemo(() => {
-    if (userInfo.token) {
-      axios.get(`${Constants.url.route}/Consults/GetClinicConsults`,{
-        headers: {
-          'authorization': `Bearer ${userInfo.token}`
-        }
+  const getConsults = () => {
+    const headers = {
+      authorization: `Bearer ${userInfo.token}`,
+    };
+    axios
+      .get(`${Constants.url.route}/Consults/GetClinicConsults`, {
+        headers,
       })
       .then(({ data }) => {
-        if (!Array.isArray(data)) throw Error;
-        setConsults(data);
-      }).catch(() => {
-        toast.error('Erro ao buscar consultas', toastConfig)
-      });
-      axios.get(`${Constants.url.route}/Clinic/ListUsers`, {
-        headers: {
-          'authorization': `Bearer ${userInfo.token}`
+        if (!Array.isArray(data)) {
+          setLoading(false);
+          throw Error;
         }
-      })
-      .then(({ data: rawData }) => {
-        if (!Array.isArray(rawData)) throw Error;
-        const data = rawData.map((d) => ({ value: d.guid, label: d.name }));
-        setPacients(data);
+        console.log(data);
+        setConsults(data);
+        setLoading(false);
       })
       .catch(() => {
-        toast.error('Erro ao buscar pacientes', toastConfig);
+        toast.error("Erro ao buscar consultas", toastConfig);
       });
+  };
+  useMemo(() => {
+    if (userInfo.token) {
+      const headers = {
+        authorization: `Bearer ${userInfo.token}`,
+      };
+      setLoading(true);
+      axios
+        .get(`${Constants.url.route}/Consults/GetClinicConsults`, {
+          headers,
+        })
+        .then(({ data }) => {
+          if (!Array.isArray(data)) throw Error;
+          setConsults(data);
+        })
+        .catch(() => {
+          toast.error("Erro ao buscar consultas", toastConfig);
+        });
+      axios
+        .get(`${Constants.url.route}/Clinic/ListUsers`, {
+          headers,
+        })
+        .then(({ data: rawData }) => {
+          if (!Array.isArray(rawData)) throw Error;
+          const data = rawData
+            .filter((d) => d.name !== "")
+            .map((d) => ({ value: d.guid, label: d.name }));
+          setPacients(data);
+        })
+        .catch(() => {
+          toast.error("Erro ao buscar pacientes", toastConfig);
+        });
+      axios
+        .get(`${Constants.url.route}/Professional/GetProfessionals`, {
+          headers,
+        })
+        .then(({ data }) => {
+          if (!Array.isArray(data)) throw Error;
+          setProfessionals(
+            data.map((d) => ({
+              value: d.guid,
+              label: `${d.nome} ${d.sobrenome}`,
+            }))
+          );
+        });
+      axios
+        .get(`${Constants.url.route}/Procedures/GetClinicProcedure`, {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        })
+        .then(({ data }) => {
+          if (!Array.isArray(data)) throw Error;
+          setProcedures(data.map((d) => ({ value: d.guid, label: d.name })));
+        });
+      setLoading(false);
     }
   }, [userInfo, toastConfig]);
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    setLoading(true);
     const form = new FormData(ev.currentTarget);
-    const consult = form.get('consult');
-    const unit = form.get('unidade');
-    const medic = form.get('medic');
-    const availableDate = form.get('availableDate');
-    const observations = form.get('obs'); 
-    if ([
-      consult,
-      unit,
-      medic,
-      availableDate,
-      observations
-    ].some(v => !v)) toast.info('Todos os campos devem ser preenchidos', toastConfig);
-  }
+    const date = form.get("availableDate");
+    const body = { ...formData, consultStart: date };
+    setFormData(body);
+    if (Object.values(body).some((v) => !v) || !selectedPacient) {
+      loading(false);
+      toast.info("Todos os campos devem ser preenchidos", toastConfig);
+      return;
+    }
+    axios
+      .post(
+        `${Constants.url.route}/Consults/ClinicCreateConsult/${selectedPacient}`,
+        body,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      )
+      .then(({ data }) => {
+        if (!data.consultStart) throw Error;
+        toast.success(
+          `Consulta agendada para data ${new Date(
+            data.consultStart
+          ).toLocaleDateString("pt-br")}`,
+          toastConfig
+        );
+      })
+      .then(() => getConsults())
+      .catch(() => {
+        toast.error("Erro ao agendar consulta já existe no mesmo dia", toastConfig);
+      });
+  };
 
   return (
     <div style={{ width: '100%', padding: 20, height: '100%' }}>
-        <p style={{ marginBottom: '5%', fontSize: 32 }}>
-          Consultas
-          <hr></hr>
-        </p>
+      <p style={{ marginBottom: '5%', fontSize: 32 }}>
+        Consultas
+        <hr></hr>
+      </p>
       <div className="content">
-
         <Row>
           <Col md="12">
             <Card>
@@ -98,32 +175,14 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
                     <Col className="pr-1" md="6">
                       <FormGroup>
                         <label htmlFor="consult">Consulta</label>
-                        <Input
+                        <ReactSelect
                           id="consult"
                           name="consult"
                           label="Email"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="6">
-                      <FormGroup>
-                        <label htmlFor="unidade">Unidade</label>
-                        <Input
-                          id="unidade"
-                          name="unidade"
-                          label="Unidade"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="6">
-                      <FormGroup>
-                        <label htmlFor="medic">Médico(a)</label>
-                        <Input
-                          id="medic"
-                          name="medic"
-                          label="Médico(a)</"
+                          onChange={(v) =>
+                            setFormData({ ...formData, procedure: v.value })
+                          }
+                          options={procedures}
                         />
                       </FormGroup>
                     </Col>
@@ -135,29 +194,29 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
                           name="availableDate"
                           label="Data disponível"
                           type="date"
+                          min={Date.now}
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                  <Col className="px-1" md="6">
-                    <label htmlFor="pacient">Paciente</label>
-                    <ReactSelect 
-                      options={pacients}
-                      onChange={(ev) => console.log(ev.target.value)}
-                    />
-                  </Col>
-                    
-                  </Row>
-                  <Row>
-                    <Col md="12">
+                    <Col className="pr-1" md="6">
                       <FormGroup>
-                        <label>Observações:</label>
-                        <Input
-                          type="textarea"
-                          id="obs"
-                          name="obs"
-                          label="Observações"
+                        <label htmlFor="medic">Médico(a)</label>
+                        <ReactSelect
+                          options={professionals}
+                          onChange={(v) =>
+                            setFormData({ ...formData, professional: v.value })
+                          }
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="6">
+                      <FormGroup>
+                        <label htmlFor="pacient">Paciente</label>
+                        <ReactSelect
+                          options={pacients}
+                          onChange={(v) => setSelectedPacient(v.value)}
                         />
                       </FormGroup>
                     </Col>
@@ -168,19 +227,20 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
                         type="submit"
                         color="primary"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}>Salvar Dados
+                        sx={{ mt: 3, mb: 2 }}
+                      >
+                        Salvar Dados
                       </Button>
                     </div>
                   </Row>
-
                 </Form>
               </CardBody>
             </Card>
           </Col>
         </Row>
         <div className="stats">
-                          <br></br>
-                        </div>
+          <br></br>
+        </div>
         <Row>
           <Col md="12">
             <Card>
@@ -203,17 +263,61 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
                     </tr>
                   </thead>
                   <tbody>
-                    { consults && consults.map(({ guid, clinic: { name }, qualifieldProfessionals, procedure: { name: procedureName, price }, observations, consultStart, status, paymentStatus }, key) => <tr key={key}>
-                      <td>{ name }</td>
-                      <td>{ qualifieldProfessionals ? qualifieldProfessionals[0].nome : 'Nenhum médico encontrado' }</td>
-                      <td>{procedureName}</td>
-                      <td>{observations ? observations : 'Nenhum'}</td>
-                      <td>{new Date(consultStart).toLocaleDateString('pt-br')}</td>
-                      <td>{ translateConsultStatus(status) }</td>
-                      <td>{ price?.toLocaleString('pt-br') }</td>
-                      <td>{ translatePaymentStatus(paymentStatus) }</td>
-                      <td className='consult-clinic-delete' onClick={() => toast.info(`isto deveria deletar consulta ${guid}`, toastConfig)}>Excluir</td>
-                    </tr>) }
+                    {consults &&
+                      consults.map(
+                        (
+                          {
+                            guid,
+                            qualifieldProfessionals,
+                            procedure: { name: procedureName, price },
+                            observations,
+                            consultStart,
+                            status,
+                            paymentStatus,
+                          },
+                          key
+                        ) => (
+                          <tr key={key}>
+                            <td>{"Jhon doe ltda"}</td>
+                            <td>
+                              {qualifieldProfessionals
+                                ? qualifieldProfessionals[0].nome
+                                : "Nenhum médico encontrado"}
+                            </td>
+                            <td>{procedureName}</td>
+                            <td>{observations ? observations : "Nenhum"}</td>
+                            <td>
+                              {new Date(consultStart).toLocaleDateString(
+                                "pt-br"
+                              )}
+                            </td>
+                            <td>{translateConsultStatus(status)}</td>
+                            <td>{price?.toLocaleString("pt-br")}</td>
+                            <td>{translatePaymentStatus(paymentStatus)}</td>
+                            <td
+                              className="consult-clinic-delete"
+                              onClick={() => {
+                                axios
+                                  .delete(
+                                    `${Constants.url.route}/Consults/DeleteConsultClinic/${guid}`,
+                                    {
+                                      headers: {
+                                        authorization: `Bearer ${userInfo.token}`,
+                                      },
+                                    }
+                                  )
+                                  .then(() => {
+                                    setConsults(
+                                      consults.filter((c) => c.guid !== guid)
+                                    );
+                                  });
+                              }}
+                            >
+                              Excluir
+                            </td>
+                          </tr>
+                        )
+                      )}
                   </tbody>
                 </Table>
               </CardBody>
@@ -222,7 +326,7 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus  }) {
         </Row>
       </div>
       <ToastContainer />
-      </div>
+    </div>
   );
 }
 

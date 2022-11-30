@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from '../../assets/img/logo-c-nome.svg'
 import { useNavigate } from 'react-router-dom';
 
@@ -11,10 +11,11 @@ import {
   Row,
   Col
 } from "reactstrap";
+import UserContext from "../../context/userContext";
 
 function Professional() {
   const navigate = useNavigate();
-
+  const context = useContext(UserContext);
   return (
     <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
     <div style={{ height: '100%', width: '20%', background: "#04cfd1", borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 25 }}>
@@ -44,9 +45,12 @@ function Professional() {
         </p>
       </div>
       <hr />
-      <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => navigate('/login')}>
-        SAIR
-      </p>
+      <p style={{ marginBottom: '5%', fontSize: 32, marginLeft: 25, cursor: 'pointer' }} onClick={() => {
+          context.logout();
+          navigate('/login')
+          }}>
+          SAIR
+        </p>
     </div>
 
     
@@ -58,7 +62,7 @@ function Professional() {
           <hr></hr>
         </p>
        
-            <Row>
+            {/* <Row>
               <Col md="12">
                 <Card>
                   <CardHeader>
@@ -84,7 +88,7 @@ function Professional() {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
+            </Row> */}
 
           </div>
         </div>
