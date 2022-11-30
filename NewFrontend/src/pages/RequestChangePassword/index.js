@@ -16,11 +16,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from "../../Components/copyright";
 import Grid from '@mui/material/Grid';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function SignIn() {
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const onReturn = (event) => {
         event.preventDefault();
@@ -44,32 +46,41 @@ export default function SignIn() {
             });
         }
 
-        await setLoading(true);
-        var body = {
-            email: data.get("email")
-        }
-        axios
-            .post(`${Constants.url.route}/Users/RequestAccountPasswordChange`, body)
-            .then((res) => {
-                setLoading(false);
-                notify();
-                setTimeout(function () {
-                    window.location.href = '/';
-                }, 3000);
-            })
-            .catch((err) => {
-                var message = JSON.parse(err.request.response).Message;
-                toast.error(message, {
-                    position: "bottom-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                setLoading(false);
+        try {
+
+            setLoading(true);
+
+            const email = data.get("email")
+
+            const resp = await axios.post("https://9d7d-2804-431-cfc3-5e42-3de6-1e68-1f4a-2d38.sa.ngrok.io/Users/RequestAccountPasswordChange", {
+                email
             });
+
+            toast.info(resp.data, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
+            setLoading(false)
+
+            navigate("/definir-senha");
+        } catch (err) {
+            setLoading(false)
+            toast.error("Não foi possível enviar o link", {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
     };
 
     const notify = () => toast.success('Email enviado para sua caixa de entrada com sucesso!', {

@@ -23,15 +23,18 @@ function Exams() {
   const [userInfo] = useContext(UserContext).state;
   const navigate = useNavigate();
   const [data, setData] = useState("");
+  const [exam, setExam] = useState("");
+  const [price, setPrice] = useState("");
 
   const getExams = async () => {
-    const exams = await fetch("https://tccumcnew.azurewebsites.net/Consults/GetClinicConsults", {
+    const exams = await fetch("https://9d7d-2804-431-cfc3-5e42-3de6-1e68-1f4a-2d38.sa.ngrok.io/Procedures/GetClinicProcedure", {
       method: "get",
       headers: new Headers({
-        "Authorization": `Bearer ${localStorage.getItem("@tccToken").split('"')[3]}`,
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
         'Content-Type': 'text/plain'
       })
     });
+
 
     const final = await exams.json();
 
@@ -54,6 +57,32 @@ function Exams() {
         return '?';
     }
   }
+
+  const sendData = async () => {
+    try {
+      if (exam === '' || price === '') {
+
+      } else {
+        fetch('https://9d7d-2804-431-cfc3-5e42-3de6-1e68-1f4a-2d38.sa.ngrok.io/Procedures/CreateClinicProcedure', {
+          method: "post",
+          body: {
+            name: exam,
+            procedureMinutes: 0,
+            price,
+            qualifieldProfessionals: {}
+          },
+          headers: new Headers({
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            'Content-Type': 'text/plain'
+          })
+        })
+      }
+    } catch (err) {
+
+    }
+  };
+
+
 
   const translateConsultStatus = (status) => {
     switch (status) {
@@ -112,31 +141,23 @@ function Exams() {
                   <Row>
                     <Col className="pr-1" md="4">
                       <FormGroup>
-                        <label>Exame</label>
+                        <label>Nome do exame</label>
                         <Input
+                          onChange={(e) => setExam(e.target.value)}
                           id="exame"
                           name="exame"
-                          label="Email"
+                          label="exame"
                         />
                       </FormGroup>
                     </Col>
                     <Col className="px-1" md="4">
                       <FormGroup>
-                        <label>Unidade</label>
+                        <label>Preço</label>
                         <Input
-                          id="unidade"
-                          name="unidade"
-                          label="Unidade"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="4">
-                      <FormGroup>
-                        <label>Data Disponivel</label>
-                        <Input
-                          id="date"
-                          name="date"
-                          label="date"
+                          onChange={(e) => setPrice(e.target.value)}
+                          id="preco"
+                          name="preco"
+                          label="preco"
                         />
                       </FormGroup>
                     </Col>
@@ -144,7 +165,7 @@ function Exams() {
                   <Row>
                     <Col md="12">
                       <FormGroup>
-                        <label>Observações:</label>
+                        <label>Médico:</label>
                         <Input
                           type="textarea"
                         />
@@ -154,7 +175,7 @@ function Exams() {
                   <Row>
                     <div className="update ml-auto mr-auto">
                       <Button
-                        type="submit"
+                        onClick={() => sendData()}
                         color="primary"
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}>Salvar Dados
@@ -178,12 +199,12 @@ function Exams() {
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
-                      <th>Exames</th>
-                      <th>Detalhes</th>
-                      <th>Data Exames</th>
-                      {/* <th>Situação Exames</th> */}
+                      <th>Médico</th>
+                      <th>Exame</th>
                       <th>Valor</th>
-                      <th>Situação pagamento</th>
+                      {/* <th>Situação Exames</th> */}
+                      {/* <th>Valor</th>
+                      <th>Situação pagamento</th> */}
                       <th className="text-right"></th>
                     </tr>
                   </thead>
@@ -191,15 +212,14 @@ function Exams() {
                     {data && data.map((item) => (
                       <>
                         <tr>
-                          <td>{item.procedure.name}</td>
-                          <td>{item.observations}</td>
-                          <td>{item.consultStart.split('-')[2].split("T")[0]}/{item.consultStart.split('-')[1]}/{item.consultStart.split("-")[0]}</td>
+                          <td>{item.qualifieldProfessionals.name}</td>
+                          <td>{item.name}</td>
+                          <td>R$ {item.price}</td>
                           {/* <td></td> */}
-                          <td>R$ {item.procedure.price}</td>
-                          <td>{item.paymentStatus}</td>
+                          {/* <td>R$ {item.procedure.price}</td>
+                          <td>{item.paymentStatus}</td> */}
                           <td className="text-right">Visualizar | Excluir</td>
                         </tr>
-                        {console.log(item)}
                       </>
 
                     ))}
