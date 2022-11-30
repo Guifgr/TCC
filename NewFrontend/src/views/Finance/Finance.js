@@ -50,7 +50,7 @@ function Tables() {
 
 
       <div className="content">
-        <div className="content" style={{ width: '250%', padding: 10 }}>
+        <div className="content" style={{ width: '272%', padding: 10 }}>
           <div style={{ width: '100%', padding: 20, height: '100%' }}>
             <p style={{ marginBottom: '5%', fontSize: 32 }}>
               Financeiro
@@ -79,20 +79,6 @@ function Tables() {
                           <td>Consulta Aparelho</td>
                           <td>R$ 59,00</td>
                           <td>Pago</td>
-                          <td className="text-right">R$ 59,00</td>
-                        </tr>
-                        <tr>
-                          <td>Mensalidade 02</td>
-                          <td>Limpeza</td>
-                          <td>R$ 198,00</td>
-                          <td>Atraso</td>
-                          <td className="text-right">R$ 100,00</td>
-                        </tr>
-                        <tr>
-                          <td>Mensalidade 03</td>
-                          <td>Consulta Aparelho</td>
-                          <td>R$ 59,00</td>
-                          <td>Em Aberto</td>
                           <td className="text-right">R$ 59,00</td>
                         </tr>
                       </tbody>
