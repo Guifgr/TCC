@@ -150,15 +150,18 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
           toastConfig
         );
       })
-      .then(() => getConsults());
+      .then(() => getConsults())
+      .catch(() => {
+        toast.error("Erro ao agendar consulta já existe no mesmo dia", toastConfig);
+      });
   };
 
   return (
     <div style={{ width: '100%', padding: 20, height: '100%' }}>
-        <p style={{ marginBottom: '5%', fontSize: 32 }}>
-          Consultas
-          <hr></hr>
-        </p>
+      <p style={{ marginBottom: '5%', fontSize: 32 }}>
+        Consultas
+        <hr></hr>
+      </p>
       <div className="content">
         <Row>
           <Col md="12">
@@ -236,8 +239,8 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
           </Col>
         </Row>
         <div className="stats">
-                          <br></br>
-                        </div>
+          <br></br>
+        </div>
         <Row>
           <Col md="12">
             <Card>
@@ -323,7 +326,7 @@ function ConsultaAdm({ translatePaymentStatus, translateConsultStatus }) {
         </Row>
       </div>
       <ToastContainer />
-      </div>
+    </div>
   );
 }
 
